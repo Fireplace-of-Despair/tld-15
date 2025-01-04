@@ -23,7 +23,7 @@ public class LoginFeature(IMediator mediator): PageModel
 {
     public static string PageName => "Login";
 
-    public sealed class RequestModel : IRequest<ResponseCreated<Guid>>
+    public sealed class LoginRequest : IRequest<ResponseCreated<Guid>>
     {
         [BindProperty]
         public string Login { get; set; } = string.Empty;
@@ -37,11 +37,11 @@ public class LoginFeature(IMediator mediator): PageModel
         public string ReturnUrl { get; set; } = string.Empty;
     }
 
-    public sealed class Handler(
+    public sealed class LoginHandler(
         IHashingService hashingService,
-        IMongoDatabase database) : IRequestHandler<RequestModel, ResponseCreated<Guid>>
+        IMongoDatabase database) : IRequestHandler<LoginRequest, ResponseCreated<Guid>>
     {
-        public async Task<ResponseCreated<Guid>> Handle(RequestModel request, CancellationToken cancellationToken)
+        public async Task<ResponseCreated<Guid>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
             await Task.Delay(new Random().Next(0, 500), cancellationToken);
 
@@ -67,7 +67,7 @@ public class LoginFeature(IMediator mediator): PageModel
     }
 
     [BindProperty]
-    public RequestModel Model { get; set; } = new RequestModel();
+    public LoginRequest Model { get; set; } = new LoginRequest();
 
     public IActionResult OnGet(string? returnUrl = null)
     {
@@ -96,7 +96,7 @@ public class LoginFeature(IMediator mediator): PageModel
             var result = await FeatureRunner.Run(async() =>
             {
                 await mediator.Send(new AccountInit.Request { Login = Model.Login, Password = Model.Password });
-                await mediator.Send(new RequestModel { Login = Model.Login, Password = Model.Password });
+                await mediator.Send(new LoginRequest { Login = Model.Login, Password = Model.Password });
 
                 return true;
             });

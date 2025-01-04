@@ -1,11 +1,14 @@
 ﻿<footer>
     <div class="itemcenter">@DateTime.UtcNow.Year © @Common.Composition.Globals.Brand.Title</div>
-
+    
     <div>
-        <a href="\Account\Login" class="footer-image-link">
-            <img class="footer-image-link"
-                 src="\images\icons\key-icon.svg"
-                 alt="Login">
-        </a>
+        @if (User?.Identity?.IsAuthenticated == false)
+        {
+            <a href="\Account\Login" class="footer-image-link">
+                <img class="footer-image-link"
+                     src="\images\icons\key-icon.svg"
+                     alt="Login">
+            </a>
+        }
     </div>
 </footer>
