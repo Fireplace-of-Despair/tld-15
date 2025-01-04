@@ -29,10 +29,7 @@ public static class Program
 
         // Add services to the container.
         builder.Services.AddRazorPages();
-        //builder.Services.AddRazorPages(options =>
-        //{
-        //    options.Conventions.AuthorizePage("/Privacy");
-        //});
+
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.LoginPath = "/Login";
