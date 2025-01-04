@@ -1,0 +1,25 @@
+﻿@page "{idFriendly}"
+@using Common.Composition
+@model TLD15.Pages.Articles.ReadFeature
+@{
+    ViewData[Globals.Page.Title] = $"{Model.Model.Title} | {Globals.Brand.Title}";
+    ViewData[Globals.OpenGraph.Url] =
+    $"https://{ViewContext.HttpContext.Request.Host}" +
+            $"{ViewContext.HttpContext.Request.Path}";
+}
+<div class="articles-container">
+    <div class="container">
+        <img src="/images/placeholder/article.png" alt="Background Image">
+        <div class="text-overlay">
+            <h1>@Model.Model.Title</h1>
+            <h2>@Model.Model.SubTitle</h2>
+        </div>
+    </div>
+</div>
+
+@foreach (var item in ReadFeature.SplitHtmlByHR(Model.Model.ContentHtml))
+{
+    <div class="articles-container">
+        @Html.Raw(item)
+    </div>
+}

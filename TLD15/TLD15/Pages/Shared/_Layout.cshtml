@@ -2,6 +2,7 @@
 @using TLD15.Pages.Shared.Components.BrandFooter
 @using TLD15.Pages.Shared.Components.BrandHeader
 @using TLD15.Pages.Shared.Components.CommonScrollToTop
+@using TLD15.Pages.Shared.Components.NavigationHeader
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,10 +49,12 @@
 <body>
     <header>
         @await Component.InvokeAsync(nameof(BrandHeader))
-
-        <a href="\Articles\Edit">Edit</a>
     </header>
-    
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        @await Component.InvokeAsync(nameof(NavigationHeader))
+    }
+
     <main role="main" class="container">
         @RenderBody()
     </main>

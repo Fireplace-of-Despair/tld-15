@@ -1,0 +1,10 @@
+﻿@using TLD15.Pages.Articles
+
+<nav class="brand-navigation-container" lang="en">
+
+    <a class="@(ViewContext.RouteData.Values["page"]?.ToString() == "/Articles/Edit" ? 
+        "brand-navigation-active" : "brand-navigation")" asp-page="/Articles/Edit" asp-page="/Articles/Edit" rel="canonical">
+        @EditFeature.FeatureName
+    </a>
+
+</nav>

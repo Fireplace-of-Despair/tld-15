@@ -1,4 +1,4 @@
-﻿.projects-container {
+﻿.articles-container {
     margin-left: 5%;
     margin-right: 5%;
     padding: 15px;
@@ -9,11 +9,7 @@
     padding-bottom: 20px;
 }
 
-::deep .projects-container-slogan {
-    font-style: italic;
-}
-
-.projects-content {
+.articles-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

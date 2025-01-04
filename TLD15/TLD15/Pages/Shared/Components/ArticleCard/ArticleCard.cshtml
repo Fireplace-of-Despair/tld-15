@@ -1,0 +1,34 @@
+﻿@using Common.Composition
+@using TLD15.Pages.Shared.Components.ArticleCard
+@model ArticleCard.Article
+
+<div id="@Model.Id" class="article" lang="en">
+    <div class="article-image-container">
+        <a asp-page="/Articles/Read" asp-route-idFriendly="@Model.IdFriendly" rel="canonical">
+            @if (string.IsNullOrEmpty(Model.PosterUrl))
+            {
+                <img class="article-image" src="/images/placeholder/article.png" alt="@Model.PosterAlt">
+            }
+            else
+            {
+                <img class="article-image" src="@Model.PosterUrl" alt="@Model.PosterAlt">
+            }
+        </a>
+        <div class="article-image-overlay-division"
+             data-tooltip="@Globals.Brand.Divisions[Model.Division]">
+            @Model.Division.ToUpper()
+        </div>
+
+        <div class="article-image-overlay-date">
+            @Model.CreatedAt.ToString(Globals.Settings.DateFormat)
+        </div>
+    </div>
+
+    <a asp-page="/Articles/Read" asp-route-idFriendly="@Model.IdFriendly" class="article-title" rel="canonical">
+        <b>@Model.Title</b>
+    </a>
+
+    <div class="article-description">
+        @Model.Subtitle
+    </div>
+</div>

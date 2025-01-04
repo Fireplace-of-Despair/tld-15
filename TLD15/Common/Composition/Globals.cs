@@ -7,7 +7,7 @@ public static class Globals
     public static class Brand
     {
         public static string Title => "Fireplace Of Despair";
-        public static string Slogan => "Publications";
+        public static string Slogan => "Articles";
 
         public static Dictionary<string, string> Divisions => new()
         {
@@ -50,4 +50,8 @@ public static class Globals
         public static string Image => "og:image";
     }
 
+    public static class Settings
+    {
+        public static string DateFormat => "yyyy/MM/dd";
+    }
 }

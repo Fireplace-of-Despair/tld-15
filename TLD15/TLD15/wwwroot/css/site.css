@@ -13,20 +13,6 @@ html {
     margin: 0;
 }
 
-h1 {
-    font-family: "Park Lane NF";
-    font-size: 40px;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-h2 {
-    font-family: "Park Lane NF";
-    font-size: 35px;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
 .content-contaiter-centered {
     margin: 10px;
     padding-top: 10px;

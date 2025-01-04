@@ -1,6 +1,6 @@
 ﻿@page
 @using Common.Composition
-
+@using TLD15.Pages.Shared.Components.ArticleCard
 @model IndexModel;
 
 @{
@@ -10,15 +10,14 @@
             $"{ViewContext.HttpContext.Request.Path}";
 }
 
-@* @if (Model.Publications.Count > 0)
+@if (Model.Articles.Count > 0)
 {
-     <div id="@Features.Publication.Publication.Collection" class="projects-container">
-        <h1>@Globals.Brand.Slogan</h1>
-        <div class="projects-content">
-            @foreach (var item in Model.Publications)
+    <div class="articles-container">
+        <div class="articles-content">
+            @foreach (var item in Model.Articles)
             {
-                @await Component.InvokeAsync(nameof(CardPublication), new { publication = item })
+                @await Component.InvokeAsync(nameof(ArticleCard), new { article = item })
             }
         </div>
     </div> 
-} *@
+}
