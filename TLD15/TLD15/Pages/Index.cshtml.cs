@@ -1,18 +1,20 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 
 namespace TLD15.Pages;
-public class IndexModel : PageModel
+
+public class IndexModel(IMediator mediator) : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    //public List<GetPublicationsLatest.Response> Publications { get; set; } = [];
 
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        _logger = logger;
-    }
-
-    public void OnGet()
-    {
-
-    }
+    //public async Task OnGet()
+    //{
+    //    var ss = await mediator.Send(new GetPublicationsLatest.Request());
+    //    Publications = ss;
+    //}
 }

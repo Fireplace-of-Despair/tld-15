@@ -1,10 +1,24 @@
 ﻿@page
-@model IndexModel
+@using Common.Composition
+
+@model IndexModel;
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Slogan} | {Globals.Brand.Title}";
+    ViewData[Globals.OpenGraph.Url] =
+    $"https://{ViewContext.HttpContext.Request.Host}" +
+            $"{ViewContext.HttpContext.Request.Path}";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@* @if (Model.Publications.Count > 0)
+{
+     <div id="@Features.Publication.Publication.Collection" class="projects-container">
+        <h1>@Globals.Brand.Slogan</h1>
+        <div class="projects-content">
+            @foreach (var item in Model.Publications)
+            {
+                @await Component.InvokeAsync(nameof(CardPublication), new { publication = item })
+            }
+        </div>
+    </div> 
+} *@

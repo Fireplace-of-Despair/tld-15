@@ -1,50 +1,66 @@
-﻿<!DOCTYPE html>
+﻿@using Common.Composition
+@using TLD15.Pages.Shared.Components.BrandFooter
+@using TLD15.Pages.Shared.Components.BrandHeader
+@using TLD15.Pages.Shared.Components.CommonScrollToTop
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TLD15</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TLD15.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+
+    <!-- Meta Tags -->
+    <meta name="author" content="Stan &ldquo;Chief&rdquo; Shevtsov">
+    <meta name="designer" content="Stan &ldquo;Chief&rdquo; Shevtsov">
+    <meta name="publisher" content="Stan &ldquo;Chief&rdquo; Shevtsov">
+    <meta name="subtitle" content="Suffering builds">
+
+    <!-- Search Engine Optimization Meta Tags -->
+    <meta name="description" content="&ldquo;Fireplace of Despair&rdquo; is a creation of Stan &ldquo;Chief&rdquo; Shevtsov. The place where suffering builds. You know where I am going with it.">
+    <meta name="keywords" content="Stan, Master Stan, Stan Shevtsov, Chief, Fireplace of Despair, スタン">
+    <meta name="copyright" content="Fireplace of Despair">
+    <meta name="revisit-after" content="7 days">
+    <meta name="distribution" content="web">
+    <meta name="robots" content="index,follow">
+    <meta name="coverage" content='Worldwide'>
+    <meta name="distribution" content="Global">
+    <meta name="rating" content="General">
+
+    <!-- Open Graph-->
+    <meta property="og:title" content="@ViewData[Globals.Page.Title]">
+    <meta property="og:description" content="@ViewData[Globals.OpenGraph.Description]">
+    <meta property="og:url" content="@ViewData[Globals.OpenGraph.Url]">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="@ViewData[Globals.OpenGraph.Image]">
+
+    <!-- mobile meta tags -->
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title -->
+    <title>@ViewData[Globals.Page.Title]</title>
+
+    <!-- System -->
+    <link rel="stylesheet" href="~/css/brand.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/TLD15.styles.css" asp-append-version="true">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">TLD15</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        @await Component.InvokeAsync(nameof(BrandHeader))
+
+        <a href="\Articles\Edit">Edit</a>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - TLD15 - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+@*     <script src="~/js/site.js" asp-append-version="true"></script> *@
+
+    @await Component.InvokeAsync(nameof(CommonScrollToTop))
+    @await Component.InvokeAsync(nameof(BrandFooter))
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

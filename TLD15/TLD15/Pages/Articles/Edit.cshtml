@@ -1,0 +1,81 @@
+﻿@page "{id?}"
+@using Common.Composition
+@model TLD15.Pages.Articles.EditFeature
+@{
+    ViewData[Globals.Page.Title] = $"{EditFeature.FeatureName} | {Globals.Brand.Title}";
+}
+
+<script src="~/js/showdown/showdown-2.1.0.min.js"></script>
+
+<div class="content-contaiter-centered">
+
+
+    <div class="tabs">
+        <button class="tab-button tab-active" id="tab1" onclick="switchTab('tab1', 'content-tab1')">Edit</button>
+        <button class="tab-button" id="tab2" onclick="switchTab('tab2', 'content-tab2')">Preview</button>
+    </div>
+    <form id="#main-form" method="post">
+        <div class="tab-panel tab-panel-active" id="content-tab1">
+            <input type="hidden" asp-for="@Model.Model.Id" />
+            <input type="hidden" asp-for="@Model.Model.Version" />
+            <input id="preview-ContentHtml" type="hidden" asp-for="@Model.Model.ContentHtml" />
+
+            <input id="#idFriendly" type="text" asp-for="@Model.Model.IdFriendly" placeholder="Friendly Id">
+
+            <input type="text" id="#Title" onchange="onTitleChange(event)" asp-for="@Model.Model.Title" placeholder="Title">
+            <input type="text" id="#SubTitle" asp-for="@Model.Model.SubTitle" placeholder="SubTitle">
+            <select asp-for="@Model.Model.DivisionCode" asp-items="@Model.Divisions"></select>
+
+            <textarea id="Publication" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
+        </div>
+
+        <div class="tab-panel" id="content-tab2">
+            <article>
+                <h2 id="#preview-ModelTitle">@Model.Model.Title</h2>
+                <div class="subtitle" id="#preview-ModelSubTitle">@Model.Model.SubTitle</div>
+                <div id="preview">@Model.Model.ContentHtml</div>
+            </article>
+        </div>
+    </form>
+
+    <span asp-validation-for="Model" class="text-danger"></span>
+    <button onclick="submitForm()">Create</button>
+</div>
+
+
+<script>
+    const converter = new showdown.Converter();
+
+    function onTitleChange(e)
+    {
+        document.getElementById('#idFriendly').value = e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s]/g, '-');
+    }
+
+    function submitForm() {
+        createHtml();
+        document.getElementById('#main-form').submit();
+    }
+
+    function createHtml() {
+        var html = converter.makeHtml(document.getElementById('Publication').value);
+        document.getElementById('preview').innerHTML = html;
+        document.getElementById('preview-ContentHtml').value = html;
+
+        document.getElementById('#preview-ModelTitle').innerHTML = document.getElementById('#Title').value;
+        document.getElementById('#preview-ModelSubTitle').innerHTML = document.getElementById('#SubTitle').value;
+    }
+
+    function switchTab(tabId, tabContentId) {
+        document.querySelectorAll('.tab-button').forEach(tab => tab.classList.remove('tab-active'));
+        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('tab-panel-active'));
+
+        document.getElementById(tabId).classList.add('tab-active');
+        document.getElementById(tabContentId).classList.add('tab-panel-active');
+
+        if(tabId == 'tab2') {
+            createHtml();
+        }
+    }
+
+    switchTab('tab1', 'content-tab1');
+</script>

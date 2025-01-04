@@ -1,0 +1,19 @@
+﻿@page
+@using Common.Composition
+@model TLD15.Pages.Account.LoginFeature
+@{
+    ViewData[Globals.Page.Title] = $"{LoginFeature.PageName} | {Globals.Brand.Title}";
+    ViewData[Globals.OpenGraph.Url] =
+        $"https://{ViewContext.HttpContext.Request.Host}" +
+        $"{ViewContext.HttpContext.Request.Path}";
+}
+
+<form id="loginForm" method="post">
+    <div class="content-contaiter-centered">
+        <input asp-for="Model.Login" placeholder="Login" autocomplete="off" />
+        <input asp-for="Model.Password" placeholder="Password" autocomplete="off" />
+
+        <span asp-validation-for="Model.Login" class="text-danger"></span>
+        <button type="submit">Log in</button>
+    </div>
+</form>

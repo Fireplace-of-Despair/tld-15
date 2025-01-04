@@ -1,0 +1,16 @@
+:root {
+    --color-background: #08131a; /* rich black */
+    --brand-color-first: #112632; /* gun metal */
+    --brand-color-second: #e83835; /* vermilion */
+    --brand-color-third: #ffeeee; /* lavender blush */
+    --brand-color-accent-first: #ffffff; /*white*/
+    --brand-color-accent-second: #000000; /*black*/
+}
+
+@font-face {
+    font-family: "Park Lane NF";
+    src: url(../fonts/park_lane_nf.woff2) format("woff2"), url(../fonts/park_lane_nf.woff) format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

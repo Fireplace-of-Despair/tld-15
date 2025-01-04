@@ -1,0 +1,20 @@
+﻿<button id="scrollToTopBtn" onclick="scrollToTop()">
+    &#11205;
+</button>
+
+<script>
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 88 || document.documentElement.scrollTop > 88) {
+            document.getElementById("scrollToTopBtn").classList.add("show");
+        } else {
+            document.getElementById("scrollToTopBtn").classList.remove("show");
+        }
+    }
+
+    function scrollToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>

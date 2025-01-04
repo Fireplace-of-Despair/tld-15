@@ -1,13 +1,47 @@
+using Common.Composition;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using System.Threading.Tasks;
+using TLD15.Composition;
+
 namespace TLD15;
 
-public class Program
+public static class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+        builder.Services.AddAuthentication(
+            CookieAuthenticationDefaults.AuthenticationScheme
+            ).AddCookie();
+
+        builder.Services.AddAuthorization();
+
         // Add services to the container.
         builder.Services.AddRazorPages();
+        //builder.Services.AddRazorPages(options =>
+        //{
+        //    options.Conventions.AuthorizePage("/Privacy");
+        //});
+        builder.Services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = "/Login";
+            options.LogoutPath = "/Logout";
+        });
+
+        var connectionString = builder.Configuration.GetSection(Globals.Storage.ConnectionString).Get<string>()!;
+        builder.ConfigureServices(connectionString);
+        await builder.ConfigureStorage(connectionString);
 
         var app = builder.Build();
 
@@ -20,10 +54,14 @@ public class Program
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
-
+        
         app.MapRazorPages();
 
-        app.Run();
+
+        //Migrator.Up(connectionString);
+
+        await app.RunAsync();
     }
 }

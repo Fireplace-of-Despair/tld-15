@@ -1,0 +1,25 @@
+﻿#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    background-color: var(--brand-color-second);
+    color: var(--brand-color-third);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+}
+
+    #scrollToTopBtn:hover {
+        background-color: var(--brand-color-second);
+    }
+
+    #scrollToTopBtn.show {
+        display: block;
+    }
