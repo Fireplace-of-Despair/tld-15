@@ -8,8 +8,15 @@
             $"{ViewContext.HttpContext.Request.Path}";
 }
 <div class="articles-container">
-    <div class="container">
+    <div class="poster-container">
         <img src="/images/placeholder/article.png" alt="Background Image">
+        <div class="article-image-overlay-division"
+             data-tooltip="@Globals.Brand.Divisions[Model.Model.DivisionCode]">
+            @Model.Model.DivisionCode.ToUpper()
+        </div>
+        <div class="article-image-overlay-date">
+            @Model.Model.CreatedAt.ToString(Globals.Settings.DateFormat)
+        </div>
         <div class="text-overlay">
             <h1>@Model.Model.Title</h1>
             <h2>@Model.Model.SubTitle</h2>

@@ -4,14 +4,45 @@
     padding: 15px;
     margin-top: 15px;
     text-align: center;
-    align-content:center;
+    align-content: center;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);
     padding-bottom: 20px;
 }
 
+::deep .article-image-overlay-division {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background-color: var(--color-background);
+    color: var(--brand-color-third);
+    border: 1px solid var(--brand-color-third);
+    width: 70px;
+    padding: 5px;
+    height: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+::deep .article-image-overlay-date {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background-color: var(--color-background);
+    color: var(--brand-color-third);
+    border: 1px solid var(--brand-color-third);
+    width: 115px;
+    padding: 5px;
+    height: 20px;
+    font-size: 17px;
+    text-align: center;
+}
+
+
 /* Container for the div with image */
-.container {
+.poster-container {
+    border: 1px solid var(--brand-color-third);
     position: relative;
     width: 100%;
     height: 500px;
@@ -22,13 +53,13 @@
 }
 
     /* Image styles */
-    .container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: grayscale(100%);
-        transition: filter 0.3s ease;
-    }
+        .poster-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
 
 /* Title and Subtitle styling */
 .text-overlay {
@@ -53,7 +84,7 @@ h2 {
 }
 
 /* Hover effect on image */
-.container img:hover {
+.poster-container img:hover {
     filter: grayscale(0%);
 }
 

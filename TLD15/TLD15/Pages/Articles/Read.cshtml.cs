@@ -11,13 +11,14 @@ public sealed class ReadFeature(IMongoDatabase database) : PageModel
 {
     public sealed class ReadResponse
     {
-        public string Title { get; set; } = string.Empty;
-        public string SubTitle { get; set; } = string.Empty;
-        public string PosterUrl { get; set; } = string.Empty;
-        public string PosterAlt { get; set; } = string.Empty;
-        public string DivisionCode { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
-        public string ContentHtml { get; set; } = string.Empty;
+        public required string Title { get; set; } = string.Empty;
+        public required string SubTitle { get; set; } = string.Empty;
+        public required string PosterUrl { get; set; } = string.Empty;
+        public required string PosterAlt { get; set; } = string.Empty;
+        public required string DivisionCode { get; set; } = string.Empty;
+        public required string Content { get; set; } = string.Empty;
+        public required string ContentHtml { get; set; } = string.Empty;
+        public required DateTime CreatedAt { get; set; }
     }
     
     public sealed class ReadRequest : IRequest<ReadResponse>
@@ -26,7 +27,7 @@ public sealed class ReadFeature(IMongoDatabase database) : PageModel
     }
 
     [BindProperty]
-    public ReadResponse Model { get; set; } = new ReadResponse();
+    public required ReadResponse Model { get; set; }
 
 
     public async Task<IActionResult> OnGetAsync(string idFriendly)
@@ -44,6 +45,7 @@ public sealed class ReadFeature(IMongoDatabase database) : PageModel
             DivisionCode = document.DivisionCode,
             Content = document.Content,
             ContentHtml = document.ContentHtml,
+            CreatedAt = document.CreatedAt
         };
 
         return Page();
