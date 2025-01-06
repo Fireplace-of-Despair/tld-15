@@ -1,4 +1,5 @@
 ﻿@page "{id?}"
+@Html.AntiForgeryToken()
 @using Common.Composition
 @model TLD15.Pages.Articles.EditFeature
 @{
@@ -6,6 +7,14 @@
 }
 
 <script src="~/js/showdown/showdown-2.1.0.min.js"></script>
+<script src="~/js/jquery/jquery-3.7.1.min.js"></script>
+
+<style>
+    p {
+        color: red;
+    }
+
+</style>
 
 <div class="content-contaiter-centered">
 
@@ -38,11 +47,53 @@
         </div>
     </form>
 
+
+    <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
+        <div class="buttons">
+            <div class="upload-button">
+                <div class="label">Click me!</div>
+                <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
+            </div>
+        </div>
+    </form>
+
+    <div class="image-container">
+    </div>
+
     <span asp-validation-for="Model" class="text-danger"></span>
     <button onclick="submitForm()">Create</button>
 </div>
 
+<script>
+        function uploadFiles(inputId) {
+      var input = document.getElementById(inputId);
+      var files = input.files;
+      var formData = new FormData();
 
+      for (var i = 0; i != files.length; i++) {
+        formData.append("files", files[i]);
+      }
+
+      $.ajax(
+        {
+          url: "/Articles/Edit?handler=Images",
+          data: formData,
+          beforeSend: function (xhr) {
+       xhr.setRequestHeader("XSRF-TOKEN",
+           $('input:hidden[name="__RequestVerificationToken"]').val());
+                        },
+          processData: false,
+          contentType: false,
+          type: "POST",
+          success: function (data) {
+                data.forEach(function(item){
+                    $(".image-container").append("<div class=\"image-container-content\"> <img src='" + item + "' /> <i>"+item+"<i/></div>");
+                });
+          }
+        }
+      );
+    }
+</script>
 <script>
     const converter = new showdown.Converter();
 

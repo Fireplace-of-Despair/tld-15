@@ -1,7 +1,26 @@
 ﻿
-.tabs {
+.image-container {
     display: flex;
+    flex-direction: column;
 }
+
+::deep .image-container img {
+    width: auto;
+    height: 150px;
+}
+
+::deep .image-container-content {
+    display: flex;
+    align-items: stretch;
+}
+    ::deep .image-container-content i {
+        vertical-align: middle;
+        line-height: 150px;
+    }
+
+    .tabs {
+        display: flex;
+    }
 
 /* Individual tab buttons */
 .tab-button {

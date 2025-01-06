@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,6 +24,8 @@ public interface IHashingService
     /// <param name="hexSalt"> Salt as hex <seealso cref="string"/>. If hexSalt is null, the new salt will be created</param>
     /// <returns> <seealso cref="HashResult"/> </returns>
     HashResult Hash(string plainText, string? hexSalt = null);
+
+    string Hash(IFormFile formFile);
 }
 
 public sealed class HashingService(IConfiguration configuration) : IHashingService
@@ -63,6 +66,21 @@ public sealed class HashingService(IConfiguration configuration) : IHashingServi
             HexHash = Convert.ToHexString(result),
             HexSalt = hexSalt ?? Convert.ToHexString(salt)
         };
+    }
+
+    public string Hash(IFormFile formFile)
+    {
+        var result = string.Empty;
+
+        using (var md5 = MD5.Create())
+        {
+            using (var fileStream = formFile.OpenReadStream())
+            {
+                result = Convert.ToHexStringLower(md5.ComputeHash(fileStream));
+            }
+        }
+
+        return result;
     }
 
     /// <summary> Calculate hash of the plain text with salt</summary>

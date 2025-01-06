@@ -1,14 +1,22 @@
 using ACherryPie.Feature;
 using ACherryPie.Incidents;
 using ACherryPie.Responses;
+using ACherryPie.Security;
 using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
+using SharpCompress.Common;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TLD15.Infrastructure;
@@ -16,7 +24,7 @@ using TLD15.Infrastructure;
 namespace TLD15.Pages.Articles;
 
 [Authorize]
-public class EditFeature(IMediator mediator) : PageModel
+public class EditFeature(IMediator mediator, IWebHostEnvironment webHostEnvironment, IHashingService hashingService, IConfiguration configuration) : PageModel
 {
     public static string FeatureName => "Edit Article";
 
@@ -136,5 +144,32 @@ public class EditFeature(IMediator mediator) : PageModel
         }
 
         return RedirectToPage(@"/Articles/Edit", new { id = result.Data!.Id });
+    }
+
+    readonly string _host = configuration.GetSection("Application:Host").Get<string>()!;
+
+    public async Task<IActionResult> OnPostImages(IList<IFormFile> files)
+    {
+        List<string> urls = [];
+
+        if (files?.Any() != false)
+        {
+            return new ObjectResult(urls);
+        }
+        
+        foreach (var file in files)
+        {
+            var hash = hashingService.Hash(file);
+            var extension = Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(webHostEnvironment.WebRootPath, "files", hash + extension);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            urls.Add($"{_host}/files/{hash}{extension}");
+        }
+
+        return new ObjectResult(urls);
     }
 }
