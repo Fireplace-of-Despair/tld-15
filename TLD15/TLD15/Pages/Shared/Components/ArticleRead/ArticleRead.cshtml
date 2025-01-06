@@ -1,4 +1,5 @@
 ﻿@using Common.Composition
+@using System.Globalization
 @model ArticleRead.Model
 
 <style>
@@ -11,7 +12,6 @@
         align-content: center;
         background-color: var(--brand-color-first);
         color: var(--brand-color-third);
-        padding-bottom: 20px;
     }
 
     .article-container-poster-division {
@@ -43,6 +43,19 @@
         text-align: center;
     }
 
+    .article-container-poster-version {
+        position: absolute;
+        top: 30px;
+        right: -1px;
+        background-color: var(--color-background);
+        color: var(--brand-color-third);
+        border: 1px solid var(--brand-color-third);
+        width: 115px;
+        padding: 5px;
+        height: 20px;
+        font-size: 17px;
+        text-align: center;
+    }
 
     .article-container-poster-container {
         border: 1px solid var(--brand-color-third);
@@ -63,15 +76,29 @@
         transition: filter 0.3s ease;
     }
 
-    .article-container img:hover {
-        filter: grayscale(0%);
-    }
+        .article-container img:hover {
+            filter: grayscale(0%);
+        }
 
     .article-container-poster-text-overlay {
         position: absolute;
         text-align: center;
         color: var(--brand-color-third);
         z-index: 1;
+    }
+
+    .article-container-poster-text-overlay h1 {
+        font-size: 50px !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        background: var(--brand-color-first) !important;
+    }
+
+    .article-container-poster-text-overlay h2 {
+        font-size: 30px !important;
+        margin: 10px !important;
+        padding: 10px !important;
+        background: var(--brand-color-first) !important;
     }
 
     .article-container h1 {
@@ -83,32 +110,36 @@
 
     .article-container h2 {
         font-size: 30px;
-        padding: 10px;
+        margin-top: 0;
         background: var(--brand-color-first);
-        margin-top: 10px;
     }
 </style>
 
-<div class="article-container">
-    <div class="article-container-poster-container">
-        <img src="/images/placeholder/article.png" alt="Background Image">
-        <div class="article-container-poster-division"
-             data-tooltip="@Globals.Brand.Divisions[Model.DivisionCode]">
-            @Model.DivisionCode.ToUpper()
-        </div>
-        <div class="article-container-poster-date">
-            @Model.CreatedAt.ToString(Globals.Settings.DateFormat)
-        </div>
-        <div class="article-container-poster-text-overlay">
-            <h1>@Model.Title</h1>
-            <h2>@Model.SubTitle</h2>
-        </div>
-    </div>
-</div>
-
-@foreach (var item in Model.GetContentHtmlSplitByHR())
-{
+<article>
     <div class="article-container">
-        @Html.Raw(item)
+        <div class="article-container-poster-container">
+            <img src="/images/placeholder/article.png" alt="Background Image">
+            <div class="article-container-poster-division"
+                 data-tooltip="@Globals.Brand.Divisions[Model.DivisionCode]">
+                @Model.DivisionCode.ToUpper()
+            </div>
+            <div class="article-container-poster-date">
+                <time datetime="@Model.CreatedAt">@Model.CreatedAt.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)</time>
+            </div>
+            <div class="article-container-poster-version">
+                <div>Version: @Model.Version</div>
+            </div>
+            <div class="article-container-poster-text-overlay">
+                <h1>@Model.Title</h1>
+                <h2>@Model.SubTitle</h2>
+            </div>
+        </div>
     </div>
-}
+
+    @foreach (var item in Model.GetContentHtmlSplitByHR())
+    {
+        <section class="article-container">
+            @Html.Raw(item)
+        </section>
+    }
+</article>

@@ -19,6 +19,7 @@ public sealed class ReadFeature(IMongoDatabase database) : PageModel
         public required string Content { get; set; } = string.Empty;
         public required string ContentHtml { get; set; } = string.Empty;
         public required DateTime CreatedAt { get; set; }
+        public required long Version { get; set; }
     }
     
     public sealed class ReadRequest : IRequest<ReadResponse>
@@ -45,14 +46,10 @@ public sealed class ReadFeature(IMongoDatabase database) : PageModel
             DivisionCode = document.DivisionCode,
             Content = document.Content,
             ContentHtml = document.ContentHtml,
-            CreatedAt = document.CreatedAt
+            CreatedAt = document.CreatedAt,
+            Version = document.Version
         };
 
         return Page();
     }
-
-    //public static string[] SplitHtmlByHR(string html)
-    //{
-    //    return html.Split(["<hr>", "<hr/>", "<hr />"], StringSplitOptions.RemoveEmptyEntries);
-    //}
 }

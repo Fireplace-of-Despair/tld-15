@@ -14,6 +14,7 @@ public sealed class ArticleRead : ViewComponent
         public required string DivisionCode { get; set; } = string.Empty;
         public required string Content { get; set; } = string.Empty;
         public required string ContentHtml { get; set; } = string.Empty;
+        public required long Version { get; set; }
         public required DateTime CreatedAt { get; set; }
 
         public string[] GetContentHtmlSplitByHR()

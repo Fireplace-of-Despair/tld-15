@@ -1,6 +1,7 @@
 ﻿@page "{id?}"
 @Html.AntiForgeryToken()
 @using Common.Composition
+@using System.Globalization
 @using TLD15.Pages.Shared.Components.ArticleRead
 @model TLD15.Pages.Articles.EditFeature
 @{
@@ -137,7 +138,9 @@
             <div class="article-container-poster-container">
                 <img src="/images/placeholder/article.png" alt="Background Image">
                 <div id="preview-division-code" class="article-container-poster-division"></div>
-                <div class="article-container-poster-date">@DateTime.UtcNow.ToString(Globals.Settings.DateFormat)</div>
+                <div class="article-container-poster-date">
+                    @DateTime.UtcNow.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
+                </div>
                 <div class="article-container-poster-text-overlay">
                     <h1 id="preview-title">Placeholder</h1>
                     <h2 id="preview-subtitle">Placeholder</h2>
