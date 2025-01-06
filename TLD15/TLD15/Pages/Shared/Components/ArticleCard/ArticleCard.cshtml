@@ -1,4 +1,5 @@
 ﻿@using Common.Composition
+@using System.Globalization
 @using TLD15.Pages.Shared.Components.ArticleCard
 @model ArticleCard.Article
 
@@ -20,7 +21,7 @@
         </div>
 
         <div class="article-image-overlay-date">
-            @Model.CreatedAt.ToString(Globals.Settings.DateFormat)
+            @Model.CreatedAt.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
         </div>
     </div>
 
