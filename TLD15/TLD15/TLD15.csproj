@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="Pages\Shared\Components\ArticleRead\" />
     <Folder Include="wwwroot\js\jquery\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>

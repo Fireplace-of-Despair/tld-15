@@ -1,6 +1,7 @@
 ﻿@page "{id?}"
 @Html.AntiForgeryToken()
 @using Common.Composition
+@using TLD15.Pages.Shared.Components.ArticleRead
 @model TLD15.Pages.Articles.EditFeature
 @{
     ViewData[Globals.Page.Title] = $"{EditFeature.FeatureName} | {Globals.Brand.Title}";
@@ -9,55 +10,142 @@
 <script src="~/js/showdown/showdown-2.1.0.min.js"></script>
 <script src="~/js/jquery/jquery-3.7.1.min.js"></script>
 
-<style>
-    p {
-        color: red;
-    }
-
-</style>
-
 <div class="content-contaiter-centered">
-
-
     <div class="tabs">
         <button class="tab-button tab-active" id="tab1" onclick="switchTab('tab1', 'content-tab1')">Edit</button>
         <button class="tab-button" id="tab2" onclick="switchTab('tab2', 'content-tab2')">Preview</button>
     </div>
-    <form id="#main-form" method="post">
-        <div class="tab-panel tab-panel-active" id="content-tab1">
+
+    <div class="tab-panel tab-panel-active" id="content-tab1">
+        <form id="#main-form" method="post">
             <input type="hidden" asp-for="@Model.Model.Id" />
             <input type="hidden" asp-for="@Model.Model.Version" />
-            <input id="preview-ContentHtml" type="hidden" asp-for="@Model.Model.ContentHtml" />
 
             <input id="#idFriendly" type="text" asp-for="@Model.Model.IdFriendly" placeholder="Friendly Id">
+            <input id="title" type="text" onchange="onTitleChange(event)" asp-for="@Model.Model.Title" placeholder="Title">
+            <input id="subtitle" type="text" asp-for="@Model.Model.SubTitle" placeholder="SubTitle">
 
-            <input type="text" id="#Title" onchange="onTitleChange(event)" asp-for="@Model.Model.Title" placeholder="Title">
-            <input type="text" id="#SubTitle" asp-for="@Model.Model.SubTitle" placeholder="SubTitle">
-            <select asp-for="@Model.Model.DivisionCode" asp-items="@Model.Divisions"></select>
+            <select id="division-code" asp-for="@Model.Model.DivisionCode" asp-items="@Model.Divisions"></select>
 
-            <textarea id="Publication" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
+            <input id="content-html" type="hidden" asp-for="@Model.Model.ContentHtml" />
+            <textarea id="content" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
+        </form>
+
+
+        <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
+            <div class="buttons">
+                <div class="upload-button">
+                    <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
+                </div>
+            </div>
+        </form>
+
+        <div class="image-container">
         </div>
+    </div>
 
-        <div class="tab-panel" id="content-tab2">
-            <article>
-                <h2 id="#preview-ModelTitle">@Model.Model.Title</h2>
-                <div class="subtitle" id="#preview-ModelSubTitle">@Model.Model.SubTitle</div>
-                <div id="preview">@Model.Model.ContentHtml</div>
-            </article>
-        </div>
-    </form>
+    <div class="tab-panel" id="content-tab2">
+        <style>
+            .article-container {
+                margin-left: 5%;
+                margin-right: 5%;
+                padding: 15px;
+                margin-top: 15px;
+                text-align: center;
+                align-content: center;
+                background-color: var(--brand-color-first);
+                color: var(--brand-color-third);
+                padding-bottom: 20px;
+            }
+
+            .article-container-poster-division {
+                position: absolute;
+                top: -1px;
+                left: -1px;
+                background-color: var(--color-background);
+                color: var(--brand-color-third);
+                border: 1px solid var(--brand-color-third);
+                width: 70px;
+                padding: 5px;
+                height: 20px;
+                font-size: 20px;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            .article-container-poster-date {
+                position: absolute;
+                top: -1px;
+                right: -1px;
+                background-color: var(--color-background);
+                color: var(--brand-color-third);
+                border: 1px solid var(--brand-color-third);
+                width: 115px;
+                padding: 5px;
+                height: 20px;
+                font-size: 17px;
+                text-align: center;
+            }
 
 
-    <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-        <div class="buttons">
-            <div class="upload-button">
-                <div class="label">Click me!</div>
-                <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
+            .article-container-poster-container {
+                border: 1px solid var(--brand-color-third);
+                position: relative;
+                width: 100%;
+                height: 500px;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .article-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: grayscale(100%);
+                transition: filter 0.3s ease;
+            }
+
+                .article-container img:hover {
+                    filter: grayscale(0%);
+                }
+
+            .article-container-poster-text-overlay {
+                position: absolute;
+                text-align: center;
+                color: var(--brand-color-third);
+                z-index: 1;
+            }
+
+            .article-container h1 {
+                font-size: 50px;
+                margin: 0;
+                padding: 10px;
+                background: var(--brand-color-first);
+            }
+
+            .article-container h2 {
+                font-size: 30px;
+                padding: 10px;
+                background: var(--brand-color-first);
+                margin-top: 10px;
+            }
+        </style>
+
+        <div class="article-container">
+            <div class="article-container-poster-container">
+                <img src="/images/placeholder/article.png" alt="Background Image">
+                <div id="preview-division-code" class="article-container-poster-division"></div>
+                <div class="article-container-poster-date">@DateTime.UtcNow.ToString(Globals.Settings.DateFormat)</div>
+                <div class="article-container-poster-text-overlay">
+                    <h1 id="preview-title">Placeholder</h1>
+                    <h2 id="preview-subtitle">Placeholder</h2>
+                </div>
             </div>
         </div>
-    </form>
 
-    <div class="image-container">
+        <div id="preview-content-html"></div>
     </div>
 
     <span asp-validation-for="Model" class="text-danger"></span>
@@ -65,33 +153,32 @@
 </div>
 
 <script>
-        function uploadFiles(inputId) {
-      var input = document.getElementById(inputId);
-      var files = input.files;
-      var formData = new FormData();
-
-      for (var i = 0; i != files.length; i++) {
-        formData.append("files", files[i]);
-      }
-
-      $.ajax(
-        {
-          url: "/Articles/Edit?handler=Images",
-          data: formData,
-          beforeSend: function (xhr) {
-       xhr.setRequestHeader("XSRF-TOKEN",
-           $('input:hidden[name="__RequestVerificationToken"]').val());
-                        },
-          processData: false,
-          contentType: false,
-          type: "POST",
-          success: function (data) {
-                data.forEach(function(item){
-                    $(".image-container").append("<div class=\"image-container-content\"> <img src='" + item + "' /> <i>"+item+"<i/></div>");
-                });
-          }
+    function uploadFiles(inputId) {
+        var input = document.getElementById(inputId);
+        var files = input.files;
+        var formData = new FormData();
+        
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
         }
-      );
+        
+        $.ajax(
+            {
+                url: "/Articles/Edit?handler=Images",
+                data: formData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    data.forEach(function(item){
+                        $(".image-container").append("<div class=\"image-container-content\"> <img src='" + item + "' /> <i>"+item+"<i/></div>");
+                });
+                }
+            });
     }
 </script>
 <script>
@@ -108,12 +195,18 @@
     }
 
     function createHtml() {
-        var html = converter.makeHtml(document.getElementById('Publication').value);
-        document.getElementById('preview').innerHTML = html;
-        document.getElementById('preview-ContentHtml').value = html;
+        var html = converter.makeHtml($("#content").val());
 
-        document.getElementById('#preview-ModelTitle').innerHTML = document.getElementById('#Title').value;
-        document.getElementById('#preview-ModelSubTitle').innerHTML = document.getElementById('#SubTitle').value;
+        $("#preview-title").html($("#title").val());
+        $("#preview-subtitle").html($("#subtitle").val());
+        $("#preview-division-code").html($("#division-code").val());
+        $("#content-html").val(html);
+
+        let things = "";
+        html.split(/<hr\s*\/?>/).forEach(function (item) {
+            things += "<div class=\"article-container\">" + item +"</div>";
+        });
+        $("#preview-content-html").html(things);
     }
 
     function switchTab(tabId, tabContentId) {

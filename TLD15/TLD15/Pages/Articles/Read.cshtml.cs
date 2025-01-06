@@ -51,8 +51,8 @@ public sealed class ReadFeature(IMongoDatabase database) : PageModel
         return Page();
     }
 
-    public static string[] SplitHtmlByHR(string html)
-    {
-        return html.Split(["<hr>", "<hr/>", "<hr />"], StringSplitOptions.RemoveEmptyEntries);
-    }
+    //public static string[] SplitHtmlByHR(string html)
+    //{
+    //    return html.Split(["<hr>", "<hr/>", "<hr />"], StringSplitOptions.RemoveEmptyEntries);
+    //}
 }
