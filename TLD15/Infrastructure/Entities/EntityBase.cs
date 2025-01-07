@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Entities;
 
@@ -16,6 +17,9 @@ public abstract class EntityBase<T>
 
     [BsonId, BsonElement("_id")]
     public required T Id { get; set; }
+
+    [BsonElement("language"), MaxLength(3)]
+    public string Language { get; set; } = string.Empty;
 
     [BsonElement("created_at")]
     public DateTime CreatedAt { get; set; }
