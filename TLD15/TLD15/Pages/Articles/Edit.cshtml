@@ -22,7 +22,7 @@
             <input type="hidden" asp-for="@Model.Model.Id" />
             <input type="hidden" asp-for="@Model.Model.Version" />
 
-            <input id="#idFriendly" type="text" asp-for="@Model.Model.IdFriendly" placeholder="Friendly Id">
+            <input id="id-friendly" type="text" asp-for="@Model.Model.IdFriendly" placeholder="Friendly Id">
             <input id="title" type="text" onchange="onTitleChange(event)" asp-for="@Model.Model.Title" placeholder="Title">
             <input id="subtitle" type="text" asp-for="@Model.Model.SubTitle" placeholder="SubTitle">
 
@@ -171,14 +171,14 @@
                 data: formData,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN",
-                    $('input:hidden[name="__RequestVerificationToken"]').val());
+                    $("input:hidden[name="__RequestVerificationToken"]").val());
                 },
                 processData: false,
                 contentType: false,
                 type: "POST",
                 success: function (data) {
                     data.forEach(function(item){
-                        $(".image-container").append("<div class=\"image-container-content\"> <img src='" + item + "' /> <i>"+item+"<i/></div>");
+                        $(".image-container").append("<div class=\"image-container-content\"> <img src="" + item + "" /> <i>"+item+"<i/></div>");
                 });
                 }
             });
@@ -189,12 +189,12 @@
 
     function onTitleChange(e)
     {
-        document.getElementById('#idFriendly').value = e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s]/g, '-');
+        $("#id-friendly").val(e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\s]/g, "-"));
     }
 
     function submitForm() {
         createHtml();
-        document.getElementById('#main-form').submit();
+        document.getElementById("#main-form").submit();
     }
 
     function createHtml() {
@@ -205,24 +205,29 @@
         $("#preview-division-code").html($("#division-code").val());
         $("#content-html").val(html);
 
-        let things = "";
-        html.split(/<hr\s*\/?>/).forEach(function (item) {
-            things += "<div class=\"article-container\">" + item +"</div>";
+        // Optimize string concatenation by using an array
+        var things = [];
+        var articles = html.split(/<hr\s*\/?>/);
+
+        articles.forEach(function(item) {
+            things.push("<div class=\"article-container\">" + item + "</div>");
         });
-        $("#preview-content-html").html(things);
+
+
+        $("#preview-content-html").html(things.join(""));
     }
 
     function switchTab(tabId, tabContentId) {
-        document.querySelectorAll('.tab-button').forEach(tab => tab.classList.remove('tab-active'));
-        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('tab-panel-active'));
+        $(".tab-button").removeClass("tab-active");
+        $(".tab-panel").removeClass("tab-panel-active");
 
-        document.getElementById(tabId).classList.add('tab-active');
-        document.getElementById(tabContentId).classList.add('tab-panel-active');
+        $("#" + tabId).addClass("tab-active");
+        $("#" + tabContentId).addClass("tab-panel-active");
 
-        if(tabId == 'tab2') {
+        if(tabId == "tab2") {
             createHtml();
         }
     }
 
-    switchTab('tab1', 'content-tab1');
+    switchTab("tab1", "content-tab1");
 </script>

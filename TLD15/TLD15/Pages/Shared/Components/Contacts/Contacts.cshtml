@@ -1,0 +1,16 @@
+﻿@using TLD15.Utils
+@model Contacts.Model
+
+<h2>@Model.Title</h2>
+<p class="subtitle">@Model.Description</p>
+
+<div class="contact-content">
+    @foreach (var link in @Model.Contacts)
+    {
+        <a href="@link.Value">
+            <img class="contact-button"
+                 src="@IconHelper.GetIcon(@link.Key)"
+                 alt="@link.Key">
+        </a>
+    }
+</div>

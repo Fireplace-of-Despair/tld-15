@@ -1,9 +1,10 @@
 ﻿@page
 @using Common.Composition
 @using TLD15.Pages.Shared.Components.ArticleCard
+@using TLD15.Pages.Shared.Components.Contacts
 @model IndexModel;
 
-@{
+@* @{
     ViewData[Globals.Page.Title] = $"{Globals.Brand.Slogan} | {Globals.Brand.Title}";
     ViewData[Globals.OpenGraph.Url] =
     $"https://{ViewContext.HttpContext.Request.Host}" +
@@ -20,4 +21,32 @@
             }
         </div>
     </div> 
-}
+} *@
+
+@await Html.PartialAsync("/Pages/Lore/ReadLore.cshtml", new TLD15.Pages.Lore.ReadLoreModel { Data = this.Model.Lore })
+
+<div class="articles-container">
+    @await Component.InvokeAsync(nameof(Contacts), new
+        {
+            model = new Contacts.Model
+            {
+                Title = "Contacts",
+                Description = "Contact us for more information",
+                Contacts = new Dictionary<string, string> {
+                    { "amazon", "https://www.twitter.com/"},
+                    { "email", "mailto: test@test"},
+                    { "facebook", "https://www.facebook.com/"},
+                    { "github", "https://wwww.github.com/"},
+                    { "instagram", "https://www.instagram.com/"},
+                    { "itch", "https://www.linkedin.com/"},
+                    { "linkedin", "https://www.linkedin.com/"},
+                    { "pirate", "https://www.linkedin.com/"},
+                    { "pixiv", "https://www.linkedin.com/"},
+                    { "royalroad", "https://www.linkedin.com/"},
+                    { "steam", "https://www.linkedin.com/"},
+                    { "telegram", "https://www.linkedin.com/"},
+                    { "youtube", "https://www.youtube.com/"},                    
+                }
+            }
+        })
+</div>

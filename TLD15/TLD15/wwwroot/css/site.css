@@ -6,7 +6,6 @@ body {
     margin: 0;
 }
 
-
 html {
     font-size: 23px;
     height: 100%;
@@ -25,8 +24,22 @@ html {
     gap: 5px;
     align-items: center;
 }
-
-
+/* ----------------- */
+h2 {
+    font-family: "Park Lane NF";
+    font-size: 30px;
+    padding: 0;
+    background: var(--brand-color-first);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.subtitle {
+    font-size: 20px;
+    padding: 0;
+    background: var(--brand-color-first);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
 /* --------------- */
 input {
     font-size: 16px;
