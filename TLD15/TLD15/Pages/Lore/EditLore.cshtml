@@ -1,0 +1,13 @@
+﻿@page "{id?}"
+@Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
+@using Common.Composition
+@using System.Globalization
+@using TLD15.Pages.Shared.Components.ArticleRead
+@model TLD15.Pages.Lore.EditLoreModel
+@{
+    ViewData[Globals.Page.Title] = $"EditFeature.FeatureName | {Globals.Brand.Title}";
+}
+
+<script src="~/js/showdown/showdown-2.1.0.min.js"></script>
+<script src="~/js/jquery/jquery-3.7.1.min.js"></script>

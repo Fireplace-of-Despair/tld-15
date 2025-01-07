@@ -1,0 +1,15 @@
+﻿@model TLD15.Pages.Lore.ReadLoreModel
+
+<div class="content-contaiter-centered">
+    <h2>@Model.Data?.Title</h2>
+    <p class="subtitle">@Model.Data?.SubTitle</p>
+
+    <div class="lore-content">
+        <div class="lore-content-image">
+            <img src="@Model.Data?.PosterUrl" alt="@Model.Data?.PosterAlt">
+        </div>
+        <div class="lore-content-text">
+            @Html.Raw(@Model.Data?.ContentHtml)
+        </div>
+    </div>
+</div>
