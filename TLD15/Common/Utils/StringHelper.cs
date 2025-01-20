@@ -34,10 +34,10 @@ public static class StringHelper
             }
         }
 
-        // If the truncated string is exactly the maxLength, remove the last word and append "..."
+        // If truncation is happening mid-word, adjust the output
         if (currentLength == maxLength && lastSpaceIndex > -1)
         {
-            truncatedText.Remove(lastSpaceIndex, currentLength - lastSpaceIndex);
+            truncatedText.Length = lastSpaceIndex;
         }
 
         truncatedText.Append("...");
