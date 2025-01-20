@@ -1,17 +1,10 @@
-using Common.Composition;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using System.Globalization;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using TLD15.Composition;
 
@@ -19,8 +12,6 @@ namespace TLD15;
 
 public static class Program
 {
-    
-
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -60,11 +51,8 @@ public static class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
-        
+
         app.MapRazorPages();
-
-
-        //Migrator.Up(connectionString);
 
         await app.RunAsync();
     }
