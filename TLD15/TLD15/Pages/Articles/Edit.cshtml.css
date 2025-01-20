@@ -1,10 +1,4 @@
-﻿
-.image-container {
-    display: flex;
-    flex-direction: column;
-}
-
-::deep .image-container img {
+﻿::deep .image-container img {
     width: auto;
     height: 150px;
 }
@@ -48,19 +42,22 @@
 .tab-button:hover {
     background-color: var(--brand-color-third);
 }
-
+::deep .article-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+}
 /* Hide inactive tab panels */
 .tab-panel {
     display: none;
-    flex-direction: column;
-    align-items: stretch;
-    padding-left: 5%;
-    padding-right: 5%
 }
 
 /* Show active tab panel */
 .tab-panel-active {
     display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 article {

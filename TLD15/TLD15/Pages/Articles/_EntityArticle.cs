@@ -10,6 +10,7 @@ namespace TLD15.Pages.Articles;
 public sealed class EntityArticle : EntityBase<Guid>, IEntityStored
 {
     public static string Collection => "articles";
+    public static string Database => "blog";
 
     [BsonElement("id_friendly"), MaxLength(140)]
     public string IdFriendly { get; set; } = string.Empty;
@@ -35,8 +36,9 @@ public sealed class EntityArticle : EntityBase<Guid>, IEntityStored
     [BsonElement("content_html")]
     public string ContentHtml { get; set; } = string.Empty;
 
-    public static async Task CreateIndexesAsync(IMongoDatabase database)
+    public static async Task CreateIndexesAsync(IMongoClient client)
     {
+        var database = client.GetDatabase(Database);
         var collection = database.GetCollection<EntityArticle>(Collection);
 
         var fieldIdFriendly = new StringFieldDefinition<EntityArticle>("id_friendly");

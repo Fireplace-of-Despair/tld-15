@@ -1,7 +1,7 @@
 body {
     background-color: var(--color-background);
     color: var(--brand-color-third);
-    font-family: 'Roboto', sans-serif;
+    font-family: Georgia, serif;
     height: 100%;
     margin: 0;
 }
@@ -11,6 +11,29 @@ html {
     height: 100%;
     margin: 0;
 }
+
+.component-container {
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 15px;
+    margin-top: 15px;
+    text-align: center;
+    background-color: var(--brand-color-first);
+    color: var(--brand-color-third);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .content-contaiter-centered {
     margin: 10px;
@@ -25,6 +48,15 @@ html {
     align-items: center;
 }
 /* ----------------- */
+.component-title {
+    font-family: "Park Lane NF";
+    font-size: 40px;
+    padding: 0;
+    background: var(--brand-color-first);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
 h2 {
     font-family: "Park Lane NF";
     font-size: 30px;

@@ -2,48 +2,46 @@
 using Common.Composition;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 
 namespace TLD15.Composition;
 
 public static class DependencyInjection
 {
-    public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder, string connectionString)
+    public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IHashingService, HashingService>();
 
         return builder;
     }
 
-    public static async Task<WebApplicationBuilder> ConfigureStorage(this WebApplicationBuilder builder, string connectionString)
+    public static async Task<WebApplicationBuilder> ConfigureStorage(this WebApplicationBuilder builder, ConfigurationManager configuration)
     {
-        builder.Services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
-        builder.Services.AddScoped(sp => sp.GetRequiredService<IMongoClient>().GetDatabase(Globals.Storage.Name));
+        var connectionMongo = builder.Configuration.GetSection(Globals.Storage.Mongo).Get<string>()!;
+
+        builder.Services.AddSingleton<IMongoClient>(new MongoClient(connectionMongo));
 
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
-            .Where(p => 
+            .Where(p =>
                 typeof(IEntityStored).IsAssignableFrom(p)
                 && p.IsClass);
 
-        using (var client = new MongoClient(connectionString))
+        using (var client = new MongoClient(connectionMongo))
         {
-            var database = client.GetDatabase(Globals.Storage.Name);
-
             foreach (var type in types)
             {
                 var method = type.GetMethod("CreateIndexesAsync", BindingFlags.Public | BindingFlags.Static);
 
                 if (method != null)
-                {
-                    await (Task)method.Invoke(null, [database])!;
+                {;
+                    await (Task)method.Invoke(null, [client])!;
                 }
                 else
                 {

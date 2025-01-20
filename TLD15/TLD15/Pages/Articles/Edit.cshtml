@@ -2,7 +2,6 @@
 @Html.AntiForgeryToken()
 @using Common.Composition
 @using System.Globalization
-@using TLD15.Pages.Shared.Components.ArticleRead
 @model TLD15.Pages.Articles.EditFeature
 @{
     ViewData[Globals.Page.Title] = $"{EditFeature.FeatureName} | {Globals.Brand.Title}";
@@ -18,7 +17,7 @@
     </div>
 
     <div class="tab-panel tab-panel-active" id="content-tab1">
-        <form id="#main-form" method="post">
+        <form class="article-edit" id="#main-form" method="post">
             <input type="hidden" asp-for="@Model.Model.Id" />
             <input type="hidden" asp-for="@Model.Model.Version" />
 
@@ -26,19 +25,18 @@
             <input id="title" type="text" onchange="onTitleChange(event)" asp-for="@Model.Model.Title" placeholder="Title">
             <input id="subtitle" type="text" asp-for="@Model.Model.SubTitle" placeholder="SubTitle">
 
+            <input id="posterUrl" type="text" asp-for="@Model.Model.PosterUrl" placeholder="PosterUrl">
+            <input id="posterAlt" type="text" asp-for="@Model.Model.PosterAlt" placeholder="PosterAlt">
+
             <select id="division-code" asp-for="@Model.Model.DivisionCode" asp-items="@Model.Divisions"></select>
 
             <input id="content-html" type="hidden" asp-for="@Model.Model.ContentHtml" />
             <textarea id="content" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
         </form>
 
-
-        <form id="form" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-            <div class="buttons">
-                <div class="upload-button">
-                    <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
-                </div>
-            </div>
+        <form id="form" class="article-edit" name="form" action="/uploader" enctype="multipart/form-data" method="post">
+            <h2>Uploads</h2>
+            <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
         </form>
 
         <div class="image-container">
@@ -136,7 +134,7 @@
 
         <div class="article-container">
             <div class="article-container-poster-container">
-                <img src="/images/placeholder/article.png" alt="Background Image">
+                <img id="preview-poster">
                 <div id="preview-division-code" class="article-container-poster-division"></div>
                 <div class="article-container-poster-date">
                     @DateTime.UtcNow.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
@@ -171,20 +169,19 @@
                 data: formData,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN",
-                    $("input:hidden[name="__RequestVerificationToken"]").val());
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
                 },
                 processData: false,
                 contentType: false,
                 type: "POST",
                 success: function (data) {
                     data.forEach(function(item){
-                        $(".image-container").append("<div class=\"image-container-content\"> <img src="" + item + "" /> <i>"+item+"<i/></div>");
+                        $(".image-container").append("<div class=\"image-container-content\"> <img src=\"" + item + "\"/> <i>"+item+"<i/></div>");
                 });
                 }
             });
     }
-</script>
-<script>
+
     const converter = new showdown.Converter();
 
     function onTitleChange(e)
@@ -200,6 +197,7 @@
     function createHtml() {
         var html = converter.makeHtml($("#content").val());
 
+        $("#preview-poster").attr("src", $("#posterUrl").val() || "/images/placeholder/article.png");
         $("#preview-title").html($("#title").val());
         $("#preview-subtitle").html($("#subtitle").val());
         $("#preview-division-code").html($("#division-code").val());

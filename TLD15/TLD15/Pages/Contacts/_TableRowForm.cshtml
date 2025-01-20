@@ -1,0 +1,23 @@
+﻿@using TLD15.TagHelpers
+@model TLD15.Pages.Contacts.AFeatureContacts.EditRequest
+
+<tr>
+    <td>
+        <input hidden type="text" asp-for="@Model.Id" />
+        <input hidden type="text" asp-for="@Model.Version" />
+        <input hidden type="text" asp-for="@Model.CreatedAt" />
+        <input hidden type="text" asp-for="@Model.UpdatedAt" />
+        <input type="text" asp-for="@Model.Name" />
+    </td>
+    <td>
+        <input type="email" asp-for="@Model.Url" />
+    </td>
+    <td>
+        <button hx-get="@Url.Handler("Item", new { id = Model.Id })" class="secondary" style="margin-bottom: 6px;">
+            Cancel
+        </button>
+        <button hx-put="@Url.Handler("Item", new { id = Model.Id })" hx-include="closest tr" antiforgery="true">
+            Save
+        </button>
+    </td>
+</tr>

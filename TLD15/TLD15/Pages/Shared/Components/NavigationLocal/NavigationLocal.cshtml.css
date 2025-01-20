@@ -1,0 +1,50 @@
+﻿.navigation-local-container {
+    font-weight: 80;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: var(--brand-color-first);
+    color: var(--brand-color-third);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    .navigation-local-container a {
+        padding: 5px 10px 5px 10px;
+        font-weight: 80;
+        background: transparent;
+        text-decoration: none;
+        outline: none !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        border: 1px solid var(--brand-color-third);
+        z-index: 1;
+        color: var(--brand-color-third);
+    }
+
+        .navigation-local-container a:after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            color: var(--brand-color-first);
+            background: var(--brand-color-third);
+            transition: all 0.3s ease;
+        }
+
+        .navigation-local-container a:hover {
+            color: var(--brand-color-first);
+        }
+
+            .navigation-local-container a:hover:after {
+                top: 0;
+                height: 100%;
+            }

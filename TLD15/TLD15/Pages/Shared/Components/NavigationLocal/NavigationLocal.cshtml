@@ -1,0 +1,10 @@
+﻿@model NavigationLocal
+
+<div class="navigation-local-container">
+    @foreach (var item in Model.Anchors ?? [])
+    {
+        <a href="#@item.Key">
+            @item.Value
+        </a>
+    }
+</div>

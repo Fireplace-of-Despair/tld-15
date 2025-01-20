@@ -1,0 +1,18 @@
+﻿@model TLD15.Pages.Contacts.AFeatureContacts.EditRequest
+
+<header>
+    
+</header>
+<div>
+    <form>
+        <input type="text" asp-for="@Model.Name" />
+        <input type="email" asp-for="@Model.Url" />
+
+        <button onclick="closeDialog(); return false;" class="secondary" style="margin-bottom: 6px;">
+            Cancel
+        </button>
+        <button hx-post="@Url.Handler("Item")" antiforgery="true">
+            Save
+        </button>
+    </form>
+</div>

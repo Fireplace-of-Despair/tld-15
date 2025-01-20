@@ -1,0 +1,45 @@
+﻿@using Common.Composition
+@using System.Globalization
+@model TLD15.Pages.Articles.PreviewArticlesPartialModel
+
+@if (Model.Data.Count > 0)
+{
+    <div class="component-container">
+    <h1 id="@TLD15.Pages.Articles.PreviewArticlesPartialModel.Id" class="component-title">@Model.Title</h1>
+    <div class="articles-container">
+        @foreach (var article in Model.Data)
+        {
+            <div id="@article.Id" class="article" lang="en">
+                <div class="article-image-container">
+                    <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly" rel="canonical">
+                        @if (string.IsNullOrEmpty(article.PosterUrl))
+                        {
+                            <img class="article-image" src="/images/placeholder/article.png" alt="@article.PosterAlt">
+                        }
+                        else
+                        {
+                            <img class="article-image" src="@article.PosterUrl" alt="@article.PosterAlt">
+                        }
+                    </a>
+                    <div class="article-image-overlay-division"
+                         data-tooltip="@Globals.Brand.Divisions[article.Division]">
+                        @article.Division.ToUpper()
+                    </div>
+
+                    <div class="article-image-overlay-date">
+                        @article.CreatedAt.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
+                    </div>
+                </div>
+
+                <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly" class="article-title" rel="canonical">
+                    <b>@article.Title</b>
+                </a>
+
+                <div class="article-description">
+                    @article.Subtitle
+                </div>
+            </div>
+        }
+    </div>
+    </div>
+}

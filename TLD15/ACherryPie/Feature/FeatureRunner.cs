@@ -23,14 +23,18 @@ public static class FeatureRunner
         }
         catch (IncidentException ex)
         {
+            Console.WriteLine(ex);
+
             return new Result<T>
             {
                 Data = default,
                 Incident = new Incident(ex.Code)
             };
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex);
+
             return new Result<T>
             {
                 Data = default,

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TLD15.Pages.Shared.Components.BrandHeader;
 
-public class BrandHeader : ViewComponent
+public sealed class BrandHeader : ViewComponent
 {
     public IViewComponentResult Invoke()
     {

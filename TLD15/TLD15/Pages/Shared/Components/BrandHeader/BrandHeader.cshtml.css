@@ -1,31 +1,24 @@
-﻿.brand-header-container {
-    margin-top: 0;
+﻿.component-container {
     margin-left: 5%;
     margin-right: 5%;
+    padding: 15px;
+    margin-top: 15px;
     text-align: center;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);
-    padding-bottom: 10px;
-}
-
-::deep a h1 {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: 70px;
 }
 
 ::deep .brand-header-link {
     font-family: "Park Lane NF";
-    font-size: 60px;
-    text-decoration: none;
+    font-size: 70px;
+    font-weight: 800;
+    text-decoration: none !important;
     color: inherit;
 }
 
-    ::deep .brand-header-link:hover {
-        color: var(--brand-color-second);
-    }
+::deep .brand-header-link:hover {
+    color: var(--brand-color-second);
+}
 
 .brand-header-slogan {
     font-family: "Park Lane NF";

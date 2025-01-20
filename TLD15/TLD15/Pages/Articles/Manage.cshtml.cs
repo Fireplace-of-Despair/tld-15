@@ -1,12 +1,45 @@
+using ACherryPie.Pages;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace TLD15.Pages.Articles
+namespace TLD15.Pages.Articles;
+
+[Authorize]
+public class ManageModel(IMediator mediator) : PageModel, IPageAdmin
 {
-    public class ManageModel : PageModel
+    public static MetaData MetaData => new()
     {
-        public void OnGet()
+        Id = "ManageArticles",
+        LocalUrl = "/Articles/Manage"
+    };
+
+    public IMediator Mediator => mediator;
+
+    public List<AFeatureArticle.ResponsePreview> Data { get; set; } = [];
+
+    public async Task<IActionResult> OnGetAsync()
+    {
+        var result = await mediator.Send(new AFeatureArticle.RequestPreview());
+
+        result.Add(new AFeatureArticle.ResponsePreview
         {
-        }
+            Id = null,
+            Title = "NEW",
+        });
+
+        Data = result;
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostDelete(Guid id)
+    {
+        await mediator.Send(new AFeatureArticle.RequestDelete { Id = id });
+
+        return RedirectToPage();
     }
 }

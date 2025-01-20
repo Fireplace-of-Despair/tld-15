@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TLD15.Features.Accounts;
+
 
 namespace TLD15.Pages.Account;
 
@@ -23,51 +23,8 @@ public class LoginFeature(IMediator mediator): PageModel
 {
     public static string PageName => "Login";
 
-    public sealed class LoginRequest : IRequest<ResponseCreated<Guid>>
-    {
-        [BindProperty]
-        public string Login { get; set; } = string.Empty;
-
-        [BindProperty, DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-
-        [TempData]
-        public string ErrorMessage { get; set; } = string.Empty;
-
-        public string ReturnUrl { get; set; } = string.Empty;
-    }
-
-    public sealed class LoginHandler(
-        IHashingService hashingService,
-        IMongoDatabase database) : IRequestHandler<LoginRequest, ResponseCreated<Guid>>
-    {
-        public async Task<ResponseCreated<Guid>> Handle(LoginRequest request, CancellationToken cancellationToken)
-        {
-            await Task.Delay(new Random().Next(0, 500), cancellationToken);
-
-            var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection, new MongoCollectionSettings
-            {
-                ReadEncoding = new UTF8Encoding(),
-            });
-            var document = await collection.Find(x => x.Login == request.Login)
-                .FirstOrDefaultAsync(cancellationToken)
-                ?? throw new IncidentException(IncidentCode.LoginFailed);
-
-            var incode = hashingService.Hash(request.Password, document.Salt);
-            if (incode.HexHash != document.Password)
-            {
-                throw new IncidentException(IncidentCode.LoginFailed);
-            }
-
-            return new ResponseCreated<Guid>
-            {
-                Id = document.Id,
-            };
-        }
-    }
-
     [BindProperty]
-    public LoginRequest Model { get; set; } = new LoginRequest();
+    public AFeatureAccount.RequestLogin Model { get; set; } = new AFeatureAccount.RequestLogin();
 
     public IActionResult OnGet(string? returnUrl = null)
     {
@@ -95,8 +52,8 @@ public class LoginFeature(IMediator mediator): PageModel
         {
             var result = await FeatureRunner.Run(async() =>
             {
-                await mediator.Send(new AccountInit.Request { Login = Model.Login, Password = Model.Password });
-                await mediator.Send(new LoginRequest { Login = Model.Login, Password = Model.Password });
+                //await mediator.Send(new AccountInit.Request { Login = Model.Login, Password = Model.Password });
+                await mediator.Send(Model);
 
                 return true;
             });

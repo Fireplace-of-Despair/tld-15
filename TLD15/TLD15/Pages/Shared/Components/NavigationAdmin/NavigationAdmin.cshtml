@@ -1,0 +1,14 @@
+﻿@using TLD15.Pages.Shared.Components.NavigationAdmin
+@model NavigationAdmin
+
+@if (User?.Identity?.IsAuthenticated == true)
+{
+    <div class="navigation-admin-container">
+        @foreach (var item in Model.Urls ?? [])
+        {
+            <a class="" href="@item.Value">
+                @item.Key
+            </a>
+        }
+    </div>
+}

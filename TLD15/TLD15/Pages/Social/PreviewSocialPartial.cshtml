@@ -1,0 +1,21 @@
+﻿@using Common.Composition
+@using System.Globalization
+@model TLD15.Pages.Social.PreviewSocialPartialModel
+
+@if(Model.Data.Any())
+{
+    <div class="component-container">
+        <h2 class="component-title" id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Id">@Model.Title</h2>
+
+        <div class="contact-content">
+            @foreach (var link in @Model.Data)
+            {
+                <a href="@link.Url">
+                    <img class="contact-button"
+                         src="@link.Image"
+                         alt="@link.Name">
+                </a>
+            }
+        </div>
+    </div>
+}

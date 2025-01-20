@@ -3,35 +3,39 @@
 @using TLD15.Pages.Shared.Components.BrandHeader
 @using TLD15.Pages.Shared.Components.CommonScrollToTop
 @using TLD15.Pages.Shared.Components.NavigationHeader
+@using TLD15.Pages.Shared.Components.NavigationAdmin
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="utf-8">
 
     <!-- Meta Tags -->
-    <meta name="author" content="Stan &ldquo;Chief&rdquo; Shevtsov">
-    <meta name="designer" content="Stan &ldquo;Chief&rdquo; Shevtsov">
-    <meta name="publisher" content="Stan &ldquo;Chief&rdquo; Shevtsov">
-    <meta name="subtitle" content="Suffering builds">
+    <meta name="author" content="@Globals.Brand.Author">
+    <meta name="designer" content="@Globals.Brand.Designer">
+    <meta name="publisher" content="@Globals.Brand.Title">
+    <meta name="subtitle" content="@Globals.Brand.Slogan">
 
     <!-- Search Engine Optimization Meta Tags -->
     <meta name="description" content="&ldquo;Fireplace of Despair&rdquo; is a creation of Stan &ldquo;Chief&rdquo; Shevtsov. The place where suffering builds. You know where I am going with it.">
-    <meta name="keywords" content="Stan, Master Stan, Stan Shevtsov, Chief, Fireplace of Despair, スタン">
-    <meta name="copyright" content="Fireplace of Despair">
+    <meta name="keywords" content="Fireplace of Despair, Shevtsov Stan, Stan Shevtsov, Master Stan, Chief, スタン">
+    <meta name="copyright" content="@Globals.Brand.Title">
     <meta name="revisit-after" content="7 days">
     <meta name="distribution" content="web">
     <meta name="robots" content="index,follow">
-    <meta name="coverage" content='Worldwide'>
+    <meta name="coverage" content="Worldwide">
     <meta name="distribution" content="Global">
     <meta name="rating" content="General">
 
-    <!-- Open Graph-->
-    <meta property="og:title" content="@ViewData[Globals.Page.Title]">
-    <meta property="og:description" content="@ViewData[Globals.OpenGraph.Description]">
-    <meta property="og:url" content="@ViewData[Globals.OpenGraph.Url]">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="@ViewData[Globals.OpenGraph.Image]">
+    <!-- Open Graph -->
+    <meta property="@Globals.OpenGraph.Title" content="@ViewData[Globals.Page.Title]">
+    <meta property="@Globals.OpenGraph.Description" content="@ViewData[Globals.OpenGraph.Description]">
+    <meta property="@Globals.OpenGraph.Url" content="@ViewData[Globals.OpenGraph.Url]">
+    <meta property="@Globals.OpenGraph.Image" content="@ViewData[Globals.OpenGraph.Image]">
+    <meta property="@Globals.OpenGraph.Locale" content="@Globals.Settings.Locale">
+    <meta property="@Globals.OpenGraph.SiteName" content="@Globals.Brand.Title | @Globals.Brand.Type">
+    <meta property="@Globals.OpenGraph.Type" content="website">
+    <meta property="@Globals.OpenGraph.ArticleAuthor" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
 
     <!-- mobile meta tags -->
     <meta name="format-detection" content="telephone=yes">
@@ -47,20 +51,13 @@
     <link rel="stylesheet" href="~/TLD15.styles.css" asp-append-version="true">
 </head>
 <body>
-    <header>
-        @await Component.InvokeAsync(nameof(BrandHeader))
-    </header>
-    @if (User?.Identity?.IsAuthenticated == true)
-    {
-        @await Component.InvokeAsync(nameof(NavigationHeader))
-    }
+    
+    @await Component.InvokeAsync(nameof(BrandHeader))
+    @await Component.InvokeAsync(nameof(NavigationAdmin))
 
     <main role="main" class="container">
         @RenderBody()
     </main>
-
-
-@*     <script src="~/js/site.js" asp-append-version="true"></script> *@
 
     @await Component.InvokeAsync(nameof(CommonScrollToTop))
     @await Component.InvokeAsync(nameof(BrandFooter))

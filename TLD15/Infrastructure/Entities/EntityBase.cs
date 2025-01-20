@@ -32,12 +32,12 @@ public abstract class EntityBase<T>
 
     public virtual void Bump(long version)
     {
-        UpdatedAt = DateTime.UtcNow;
-
-        if(version != Version)
+        if (version != Version)
         {
             throw new IncidentException(IncidentCode.VersionMismatch);
         }
+
+        UpdatedAt = DateTime.UtcNow;
         Version++;
     }
 }

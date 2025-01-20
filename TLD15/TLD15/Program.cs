@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -18,8 +19,7 @@ namespace TLD15;
 
 public static class Program
 {
-    const string StorageName = "Storage:Files:Path";
-    const string StorageRequest = "Application:HostFiles";
+    
 
     public static async Task Main(string[] args)
     {
@@ -44,9 +44,8 @@ public static class Program
             options.LogoutPath = "/Logout";
         });
 
-        var connectionString = builder.Configuration.GetSection(Globals.Storage.ConnectionString).Get<string>()!;
-        builder.ConfigureServices(connectionString);
-        await builder.ConfigureStorage(connectionString);
+        builder.ConfigureServices();
+        await builder.ConfigureStorage(builder.Configuration);
 
         var app = builder.Build();
 

@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
+    <Folder Include="Features\" />
+    <Folder Include="wwwroot\js\htmx\" />
     <Folder Include="wwwroot\js\jquery\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
