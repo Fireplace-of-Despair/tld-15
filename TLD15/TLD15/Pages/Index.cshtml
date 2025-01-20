@@ -5,10 +5,17 @@
 @model IndexModel;
 
 @{
-    ViewData[Globals.Page.Title] = $"{Globals.Brand.Slogan} | {Globals.Brand.Title}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
+
+    ViewData[Globals.OpenGraph.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
+    ViewData[Globals.OpenGraph.Description] = $"{Globals.Brand.Author} {Globals.Brand.Type}";
     ViewData[Globals.OpenGraph.Url] =
     $"https://{ViewContext.HttpContext.Request.Host}" +
             $"{ViewContext.HttpContext.Request.Path}";
+    ViewData[Globals.OpenGraph.Image] = $"";
+    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
+    ViewData[Globals.OpenGraph.SiteName] = Globals.Brand.Title;
+    ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 }
 
 <div class="component-container">
