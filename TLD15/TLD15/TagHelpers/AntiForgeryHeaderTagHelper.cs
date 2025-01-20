@@ -11,7 +11,7 @@ public class AntiForgeryHeaderTagHelper(IAntiforgery antiforgery) : TagHelper
 {
     [HtmlAttributeNotBound]
     [ViewContext]
-    public ViewContext ViewContext { get; set; }
+    public ViewContext? ViewContext { get; set; }
 
     [HtmlAttributeName(AntiForgeryAttributeName)]
     public bool AntiForgery { get; set; }
@@ -24,7 +24,7 @@ public class AntiForgeryHeaderTagHelper(IAntiforgery antiforgery) : TagHelper
         {
             //X-Requested-With XMLHttpRequest
             
-            var token = antiforgery.GetAndStoreTokens(ViewContext.HttpContext).RequestToken;
+            var token = antiforgery.GetAndStoreTokens(ViewContext!.HttpContext).RequestToken;
             var currentHeaderValue = output.Attributes["hx-headers"]?.Value.ToString();
             var newHeaderValue = $"\"XSRF-TOKEN\": \"{token}\"";
 
