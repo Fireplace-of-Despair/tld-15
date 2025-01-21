@@ -1,19 +1,49 @@
-﻿using ACherryPie.Responses;
+﻿using ACherryPie.Incidents;
+using ACherryPie.Responses;
 using MediatR;
 using MongoDB.Driver;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
-using ACherryPie.Incidents;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using TLD15.Infrastructure;
 using TLD15.Utils;
-using TLD15.Pages.Contacts;
 
 namespace TLD15.Pages.Social;
 
 public sealed class ASocialFeature
 {
+    public sealed class ResponsePreview
+    {
+        public required string Url { get; set; }
+        public required string Name { get; set; }
+    }
+
+    public sealed class RequestPreview : IRequest<List<ResponsePreview>>
+    {
+    }
+
+    public sealed class HandlerPreview(IMongoClient client) : IRequestHandler<RequestPreview, List<ResponsePreview>>
+    {
+        public async Task<List<ResponsePreview>> Handle(RequestPreview request, CancellationToken cancellationToken)
+        {
+            var database = client.GetDatabase(EntitySocial.Database);
+            var collection = database.GetCollection<EntitySocial>(EntitySocial.Collection);
+
+            var documents = await collection.Find(FilterDefinition<EntitySocial>.Empty)
+                .SortByDescending(x => x.CreatedAt)
+                .ToListAsync(cancellationToken);
+
+            return documents.ConvertAll(x => new ResponsePreview
+            {
+                Name = x.Name,
+                Url = x.Url,
+            });
+        }
+    }
+
+
+
     public sealed class RequestEdit : IRequest<ResponseId<Guid>>
     {
         public required Guid? Id { get; set; }
@@ -56,7 +86,7 @@ public sealed class ASocialFeature
         }
     }
 
-    public sealed class HandlerEdit(IMongoClient client) : IRequestHandler<RequestEdit, ResponseId<Guid>>
+    public sealed class HandlerSave(IMongoClient client) : IRequestHandler<RequestEdit, ResponseId<Guid>>
     {
         public async Task<ResponseId<Guid>> Handle(RequestEdit request, CancellationToken cancellationToken)
         {
@@ -85,11 +115,12 @@ public sealed class ASocialFeature
         }
     }
 
+
+
     public sealed class RequestDelete : IRequest<ResponseId<Guid>>
     {
         public required Guid Id { get; set; }
     }
-
 
     public sealed class HandlerDelete(IMongoClient client) : IRequestHandler<RequestDelete, ResponseId<Guid>>
     {
@@ -103,40 +134,4 @@ public sealed class ASocialFeature
             return new ResponseId<Guid> { Id = request.Id };
         }
     }
-
-    public sealed class ResponsePreview
-    {
-        public required string Url { get; set; }
-        public required string Name { get; set; }
-
-        public string Image
-        {
-            get
-            {
-                return IconHelper.GetIcon(Name);
-            }
-        }
-    }
-
-    public sealed class RequestPreview : IRequest<List<ResponsePreview>> { }
-
-    public sealed class HandlerPreview(IMongoClient client) : IRequestHandler<RequestPreview, List<ResponsePreview>>
-    {
-        public async Task<List<ResponsePreview>> Handle(RequestPreview request, CancellationToken cancellationToken)
-        {
-            var database = client.GetDatabase(EntitySocial.Database);
-            var collection = database.GetCollection<EntitySocial>(EntitySocial.Collection);
-
-            var documents = await collection.Find(FilterDefinition<EntitySocial>.Empty)
-                .SortByDescending(x => x.CreatedAt)
-                .ToListAsync(cancellationToken);
-
-            return documents.ConvertAll(x => new ResponsePreview
-            {
-                Name = x.Name,
-                Url = x.Url,
-            });
-        }
-    }
-
 }

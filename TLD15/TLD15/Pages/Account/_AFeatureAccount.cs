@@ -30,7 +30,7 @@ public sealed class AFeatureAccount
         public string ReturnUrl { get; set; } = string.Empty;
     }
 
-    public sealed class HandlerEmpty(
+    public sealed class HandlerEmpty (
         IConfiguration configuration,
         IHashingService hashingService,
         IMongoClient client) : IRequestHandler<RequestLogin, ResponseId<Guid>>
@@ -63,7 +63,7 @@ public sealed class AFeatureAccount
         }
     }
 
-    public sealed class HandlerLogin(
+    public sealed class HandlerLogin (
         IHashingService hashingService,
         IMongoClient client)
         : IRequestHandler<RequestLogin, ResponseId<Guid>>

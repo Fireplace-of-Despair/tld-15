@@ -33,7 +33,6 @@ public sealed class AFeatureArticle
 
     public sealed class RequestPreview : IRequest<List<ResponsePreview>>
     {
-
     }
 
     public sealed class HandlerPreview(IMongoClient client)
@@ -62,7 +61,7 @@ public sealed class AFeatureArticle
         }
     }
 
-    // --------------------------------------
+
 
     public sealed class ResponseRead : IRequest<ResponseId<Guid>>
     {
@@ -90,7 +89,7 @@ public sealed class AFeatureArticle
         public required string? IdFriendly { get; set; }
     }
 
-    public sealed class HandlerRead(IMongoClient client)
+    public sealed class HandlerRead (IMongoClient client)
         : IRequestHandler<RequestRead, ResponseRead>
     {
         public async Task<ResponseRead> Handle(RequestRead request, CancellationToken cancellationToken)
@@ -116,28 +115,7 @@ public sealed class AFeatureArticle
             };
         }
     }
-
-    // ------------------
-
-    public sealed class RequestDelete : RequestId<Guid>, IRequest<ResponseId<Guid>> { }
-
-    public sealed class HandlerDelete(IMongoClient client) : IRequestHandler<RequestDelete, ResponseId<Guid>>
-    {
-        public async Task<ResponseId<Guid>> Handle(RequestDelete request, CancellationToken cancellationToken)
-        {
-            var database = client.GetDatabase(EntityArticle.Database);
-            var collection = database.GetCollection<EntityArticle>(EntityArticle.Collection);
-            await collection.DeleteManyAsync(x => x.Id == request.Id, cancellationToken);
-
-            return new ResponseId<Guid>
-            {
-                Id = request.Id
-            };
-        }
-    }
-
-    //-------------------------------------
-
+    
     public sealed class HandlerSave(IMongoClient client) : IRequestHandler<ResponseRead, ResponseId<Guid>>
     {
         public async Task<ResponseId<Guid>> Handle(ResponseRead request, CancellationToken cancellationToken)
@@ -170,6 +148,26 @@ public sealed class AFeatureArticle
             await collection.ReplaceOneAsync(x => x.Id == item.Id, item, cancellationToken: cancellationToken);
 
             return new ResponseId<Guid> { Id = item.Id };
+        }
+    }
+
+
+    public sealed class RequestDelete : RequestId<Guid>, IRequest<ResponseId<Guid>>
+    {
+    }
+
+    public sealed class HandlerDelete(IMongoClient client) : IRequestHandler<RequestDelete, ResponseId<Guid>>
+    {
+        public async Task<ResponseId<Guid>> Handle(RequestDelete request, CancellationToken cancellationToken)
+        {
+            var database = client.GetDatabase(EntityArticle.Database);
+            var collection = database.GetCollection<EntityArticle>(EntityArticle.Collection);
+            await collection.DeleteManyAsync(x => x.Id == request.Id, cancellationToken);
+
+            return new ResponseId<Guid>
+            {
+                Id = request.Id
+            };
         }
     }
 }

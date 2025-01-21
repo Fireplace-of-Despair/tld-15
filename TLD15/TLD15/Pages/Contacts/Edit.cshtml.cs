@@ -12,7 +12,7 @@ namespace TLD15.Pages.Contacts;
 [Authorize]
 public class EditContactsModel(IMediator mediator) : PageModel, IPageAdmin
 {
-    public List<AFeatureContacts.EditRequest> Data { get; set; } = [];
+    public List<AFeatureContacts.RequestEdit> Data { get; set; } = [];
 
     public static MetaData MetaData => new()
     {
@@ -22,24 +22,24 @@ public class EditContactsModel(IMediator mediator) : PageModel, IPageAdmin
 
     public async Task OnGet()
     {
-        Data = await mediator.Send(new AFeatureContacts.ViewRequest { Id = null });
+        Data = await mediator.Send(new AFeatureContacts.RequestView { Id = null });
     }
 
     public async Task<IActionResult> OnGetItem(Guid id)
     {
-        var result = await mediator.Send(new AFeatureContacts.ViewRequest { Id = id });
+        var result = await mediator.Send(new AFeatureContacts.RequestView { Id = id });
         var item = result[0];
         
         return Partial("_TableRow", item);
     }
     public async Task<IActionResult> OnGetEditItem(Guid id)
     {
-        var result = await mediator.Send(new AFeatureContacts.ViewRequest { Id = id });
+        var result = await mediator.Send(new AFeatureContacts.RequestView { Id = id });
         var item = result[0];
         return Partial("_TableRowForm", item);
     }
 
-    public async Task<IActionResult> OnPutItem(AFeatureContacts.EditRequest contact)
+    public async Task<IActionResult> OnPutItem(AFeatureContacts.RequestEdit contact)
     {
         await mediator.Send(contact);
 
@@ -48,12 +48,12 @@ public class EditContactsModel(IMediator mediator) : PageModel, IPageAdmin
 
     public async Task<IActionResult> OnDeleteItem(Guid id)
     {
-        await mediator.Send(new AFeatureContacts.DeleteRequest { Id = id } );
+        await mediator.Send(new AFeatureContacts.RequestDelete { Id = id } );
 
         return new OkResult();
     }
 
-    public async Task<IActionResult> OnPostItem(AFeatureContacts.EditRequest contact)
+    public async Task<IActionResult> OnPostItem(AFeatureContacts.RequestEdit contact)
     {
         await mediator.Send(contact);
 
@@ -62,7 +62,7 @@ public class EditContactsModel(IMediator mediator) : PageModel, IPageAdmin
 
     public IActionResult OnGetModal()
     {
-        return Partial("_ModalPartial", new AFeatureContacts.EditRequest()
+        return Partial("_ModalPartial", new AFeatureContacts.RequestEdit()
         {
             Id = null,
             Name = "NEW",

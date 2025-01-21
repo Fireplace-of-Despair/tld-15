@@ -12,11 +12,11 @@ namespace TLD15.Pages.Lore;
 public class EditLoreModel(IMediator mediator) : PageModel
 {
     [BindProperty]
-    public AFeatureLore.Response? Model { get; set; }
+    public AFeatureLore.ResponseRead? Model { get; set; }
 
     public async Task OnGetAsync()
     {
-        Model = await mediator.Send(new AFeatureLore.Request());
+        Model = await mediator.Send(new AFeatureLore.RequestRead());
     }
 
     public async Task<IActionResult> OnPostAsync()

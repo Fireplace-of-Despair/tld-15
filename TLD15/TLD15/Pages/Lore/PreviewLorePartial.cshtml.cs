@@ -17,7 +17,7 @@ public sealed class PreviewLoreModel() : PageModel, IPartial
     {
         var lore = await FeatureRunner.Run(async () =>
         {
-            return await mediator.Send(new AFeatureLore.Request());
+            return await mediator.Send(new AFeatureLore.RequestRead());
         });
 
         var result = new PreviewLoreModel();
@@ -35,5 +35,5 @@ public sealed class PreviewLoreModel() : PageModel, IPartial
     }
 
 
-    public AFeatureLore.Response? Data { get; set; }
+    public AFeatureLore.ResponseRead? Data { get; set; }
 }

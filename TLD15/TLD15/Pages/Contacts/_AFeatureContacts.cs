@@ -17,14 +17,6 @@ public sealed class AFeatureContacts
     {
         public required string Url { get; set; }
         public required string Name { get; set; }
-
-        public string Image
-        {
-            get
-            {
-                return IconHelper.GetIcon(Name);
-            }
-        }
     }
 
     public sealed class RequestPreview : IRequest<List<ResponsePreview>> { }
@@ -48,7 +40,9 @@ public sealed class AFeatureContacts
         }
     }
 
-    public sealed class EditRequest : IRequest<ResponseId<Guid>>
+
+
+    public sealed class RequestEdit : IRequest<ResponseId<Guid>>
     {
         public required Guid? Id { get; set; }
         public required string Name { get; set; }
@@ -59,14 +53,14 @@ public sealed class AFeatureContacts
         public required long Version { get; set; }
     }
 
-    public sealed class ViewRequest : IRequest<List<EditRequest>>
+    public sealed class RequestView : IRequest<List<RequestEdit>>
     {
         public required Guid? Id { get; set; }
     }
 
-    public sealed class HandlerView(IMongoClient client) : IRequestHandler<ViewRequest, List<EditRequest>>
+    public sealed class HandlerView(IMongoClient client) : IRequestHandler<RequestView, List<RequestEdit>>
     {
-        public async Task<List<EditRequest>> Handle(ViewRequest request, CancellationToken cancellationToken)
+        public async Task<List<RequestEdit>> Handle(RequestView request, CancellationToken cancellationToken)
         {
             var database = client.GetDatabase(EntityContact.Database);
             var collection = database.GetCollection<EntityContact>(EntityContact.Collection);
@@ -78,7 +72,7 @@ public sealed class AFeatureContacts
             var documents = await collection.FindAsync(filter, cancellationToken: cancellationToken);
             var document = await documents.ToListAsync(cancellationToken);
 
-            return document.ConvertAll(x => new EditRequest
+            return document.ConvertAll(x => new RequestEdit
             {
                 Id = x.Id,
                 Name = x.Name.ToLowerInvariant(),
@@ -90,9 +84,9 @@ public sealed class AFeatureContacts
         }
     }
 
-    public sealed class HandlerEdit(IMongoClient client) : IRequestHandler<EditRequest, ResponseId<Guid>>
+    public sealed class HandlerSave(IMongoClient client) : IRequestHandler<RequestEdit, ResponseId<Guid>>
     {
-        public async Task<ResponseId<Guid>> Handle(EditRequest request, CancellationToken cancellationToken)
+        public async Task<ResponseId<Guid>> Handle(RequestEdit request, CancellationToken cancellationToken)
         {
             var database = client.GetDatabase(EntityContact.Database);
             var collection = database.GetCollection<EntityContact>(EntityContact.Collection);
@@ -119,15 +113,16 @@ public sealed class AFeatureContacts
         }
     }
 
-    public sealed class DeleteRequest : IRequest<ResponseId<Guid>>
+
+
+    public sealed class RequestDelete : IRequest<ResponseId<Guid>>
     {
         public required Guid Id { get; set; }
     }
 
-
-    public sealed class HandlerDelete(IMongoClient client) : IRequestHandler<DeleteRequest, ResponseId<Guid>>
+    public sealed class HandlerDelete(IMongoClient client) : IRequestHandler<RequestDelete, ResponseId<Guid>>
     {
-        public async Task<ResponseId<Guid>> Handle(DeleteRequest request, CancellationToken cancellationToken)
+        public async Task<ResponseId<Guid>> Handle(RequestDelete request, CancellationToken cancellationToken)
         {
             var database = client.GetDatabase(EntityContact.Database);
             var collection = database.GetCollection<EntityContact>(EntityContact.Collection);

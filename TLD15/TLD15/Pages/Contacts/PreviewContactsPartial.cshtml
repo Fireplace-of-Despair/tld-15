@@ -1,5 +1,6 @@
 ﻿@using Common.Composition
 @using System.Globalization
+@using TLD15.Utils
 @model TLD15.Pages.Contacts.PreviewContactsPartialModel
 
 @if(Model.Data.Any())
@@ -12,7 +13,7 @@
             {
                 <a href="@link.Url">
                     <img class="contact-button"
-                         src="@link.Image"
+                         src="@IconHelper.GetIcon(link.Name)"
                          alt="@link.Name">
                 </a>
             }

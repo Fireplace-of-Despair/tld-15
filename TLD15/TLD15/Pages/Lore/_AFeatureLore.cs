@@ -10,9 +10,9 @@ namespace TLD15.Pages.Lore;
 
 public sealed class AFeatureLore
 {
-    public sealed class Response
+    public sealed class ResponseRead : IRequest<ResponseId<Guid>>
     {
-        public required Guid Id { get; set; }
+        public required Guid? Id { get; set; }
 
         public required string Title { get; set; } = string.Empty;
         public required string PosterUrl { get; set; } = string.Empty;
@@ -20,17 +20,18 @@ public sealed class AFeatureLore
         public required string Content { get; set; } = string.Empty;
         public required string ContentHtml { get; set; } = string.Empty;
 
-        public required string Language { get; set; } = string.Empty;
         public required DateTime CreatedAt { get; set; }
         public required DateTime UpdatedAt { get; set; }
         public required long Version { get; set; }
     }
 
-    public sealed class Request : IRequest<Response> { }
-
-    public sealed class Handler(IMongoClient client) : IRequestHandler<Request, Response>
+    public sealed class RequestRead : IRequest<ResponseRead>
     {
-        public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
+    }
+
+    public sealed class HandlerRead(IMongoClient client) : IRequestHandler<RequestRead, ResponseRead>
+    {
+        public async Task<ResponseRead> Handle(RequestRead request, CancellationToken cancellationToken)
         {
             var database = client.GetDatabase(EntityLore.Database);
             var collection = database.GetCollection<EntityLore>(EntityLore.Collection);
@@ -64,10 +65,9 @@ Yet beneath the cloak of enigma, there is a man with a soft smile, a soul steepe
                     Version = 0,
                 };
 
-            return new Response
+            return new ResponseRead
             {
                 Id = document.Id,
-                Language = document.Language,
                 Title = document.Title,
                 PosterUrl = document.PosterUrl,
                 PosterAlt = document.PosterAlt,
@@ -80,23 +80,9 @@ Yet beneath the cloak of enigma, there is a man with a soft smile, a soul steepe
         }
     }
 
-    public sealed class EditRequest : IRequest<ResponseId<Guid>>
+    public sealed class HandlerSave(IMongoClient client) : IRequestHandler<ResponseRead, ResponseId<Guid>>
     {
-        public required Guid? Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string PosterUrl { get; set; } = string.Empty;
-        public required string PosterAlt { get; set; } = string.Empty;
-        public required string Content { get; set; } = string.Empty;
-        public required string ContentHtml { get; set; } = string.Empty;
-
-        public required DateTime CreatedAt { get; set; }
-        public required DateTime UpdatedAt { get; set; }
-        public required long Version { get; set; }
-    }
-
-    public sealed class HandlerSave(IMongoClient client) : IRequestHandler<EditRequest, ResponseId<Guid>>
-    {
-        public async Task<ResponseId<Guid>> Handle(EditRequest request, CancellationToken cancellationToken)
+        public async Task<ResponseId<Guid>> Handle(ResponseRead request, CancellationToken cancellationToken)
         {
             var database = client.GetDatabase(EntityLore.Database);
             var collection = database.GetCollection<EntityLore>(EntityLore.Collection);
