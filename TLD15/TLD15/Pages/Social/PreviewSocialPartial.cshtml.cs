@@ -10,7 +10,7 @@ namespace TLD15.Pages.Social;
 
 public class PreviewSocialPartialModel : PageModel, IPartial
 {
-    public static string Id => "PreviewContactsPartial";
+    public static string Id => "PreviewSocialPartialModel";
 
     public static async Task<PreviewSocialPartialModel> InitializeAsync(IMediator mediator)
     {

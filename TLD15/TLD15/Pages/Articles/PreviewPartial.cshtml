@@ -4,12 +4,11 @@
 
 @if (Model.Data.Count > 0)
 {
-    <div class="component-container">
     <h1 id="@TLD15.Pages.Articles.PreviewArticlesPartialModel.Id" class="component-title">@Model.Title</h1>
     <div class="articles-container">
         @foreach (var article in Model.Data)
         {
-            <div id="@article.Id" class="article" lang="en">
+            <div id="@article.Id" class="article-card">
                 <div class="article-image-container">
                     <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))
@@ -40,6 +39,5 @@
                 </div>
             </div>
         }
-    </div>
     </div>
 }

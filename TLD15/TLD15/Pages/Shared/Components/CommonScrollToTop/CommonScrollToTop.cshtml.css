@@ -1,4 +1,4 @@
-﻿#scrollToTopBtn {
+﻿#btnScrollToTop {
     display: none;
     position: fixed;
     bottom: 20px;
@@ -7,19 +7,20 @@
     background-color: var(--brand-color-second);
     color: var(--brand-color-third);
     border: none;
-    border-radius: 50%;
     cursor: pointer;
     width: 50px;
     height: 50px;
-    font-size: 18px;
+    font-size: 30px;
     line-height: 50px;
     text-align: center;
+    padding-top: 10px;
+    transition: all 0.3s ease;
 }
 
-    #scrollToTopBtn:hover {
-        background-color: var(--brand-color-second);
+    #btnScrollToTop:hover {
+        padding-top: 0px;
     }
 
-    #scrollToTopBtn.show {
+    #btnScrollToTop.show {
         display: block;
     }

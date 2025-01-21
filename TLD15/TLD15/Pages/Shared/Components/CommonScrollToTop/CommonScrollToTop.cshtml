@@ -1,4 +1,4 @@
-﻿<button id="scrollToTopBtn" onclick="scrollToTop()">
+﻿<button id="btnScrollToTop" onclick="scrollToTop()">
     &#11205;
 </button>
 
@@ -7,9 +7,9 @@
 
     function scrollFunction() {
         if (document.body.scrollTop > 88 || document.documentElement.scrollTop > 88) {
-            document.getElementById("scrollToTopBtn").classList.add("show");
+            document.getElementById("btnScrollToTop").classList.add("show");
         } else {
-            document.getElementById("scrollToTopBtn").classList.remove("show");
+            document.getElementById("btnScrollToTop").classList.remove("show");
         }
     }
 

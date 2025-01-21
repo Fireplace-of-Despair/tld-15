@@ -3,20 +3,20 @@
 @using TLD15.Utils
 @model TLD15.Pages.Social.PreviewSocialPartialModel
 
-@if(Model.Data.Any())
+@if (Model.Data.Any())
 {
-    <div class="component-container">
-        <h2 class="component-title" id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Id">@Model.Title</h2>
+    <h2 class="component-title" id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Id">
+        @Model.Title
+    </h2>
 
-        <div class="contact-content">
-            @foreach (var link in @Model.Data)
-            {
-                <a href="@link.Url">
-                    <img class="contact-button"
-                         src="@IconHelper.GetIcon(link.Name)"
-                         alt="@link.Name">
-                </a>
-            }
-        </div>
+    <div class="social-container">
+        @foreach (var link in @Model.Data)
+        {
+            <a href="@link.Url">
+                <img class="social-button"
+                     src="@IconHelper.GetIcon(link.Name)"
+                     alt="@link.Name">
+            </a>
+        }
     </div>
 }

@@ -9,8 +9,6 @@ public class NavigationLocal : ViewComponent
 
     public IViewComponentResult Invoke(Dictionary<string, string> anchors)
     {
-        Anchors = anchors;
-
         return View(GetType().Name, new NavigationLocal
         {
             Anchors = anchors

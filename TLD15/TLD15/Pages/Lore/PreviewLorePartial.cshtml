@@ -1,7 +1,8 @@
 ﻿@model TLD15.Pages.Lore.PreviewLoreModel
 
-<div class="component-container">
-    <h2 class="component-title" id="@TLD15.Pages.Lore.PreviewLoreModel.Id">@Model.Data!.Title</h2>
+<h2 class="component-title" id="@TLD15.Pages.Lore.PreviewLoreModel.Id">
+    @Model.Data!.Title
+</h2>
 
 <div class="lore-content">
     <div class="lore-content-image">
@@ -10,5 +11,4 @@
     <div class="lore-content-text">
         @Html.Raw(@Model.Data!.ContentHtml)
     </div>
-</div>
 </div>

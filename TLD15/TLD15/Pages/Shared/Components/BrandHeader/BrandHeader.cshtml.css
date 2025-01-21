@@ -1,14 +1,4 @@
-﻿.component-container {
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: 15px;
-    margin-top: 15px;
-    text-align: center;
-    background-color: var(--brand-color-first);
-    color: var(--brand-color-third);
-}
-
-::deep .brand-header-link {
+﻿::deep .brand-header-name {
     font-family: "Park Lane NF";
     font-size: 70px;
     font-weight: 800;
@@ -16,9 +6,9 @@
     color: inherit;
 }
 
-::deep .brand-header-link:hover {
-    color: var(--brand-color-second);
-}
+    ::deep .brand-header-name:hover {
+        color: var(--brand-color-second);
+    }
 
 .brand-header-slogan {
     font-family: "Park Lane NF";

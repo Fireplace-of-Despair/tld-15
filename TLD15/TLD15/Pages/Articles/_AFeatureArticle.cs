@@ -150,6 +150,7 @@ public sealed class AFeatureArticle
     }
 
 
+
     public sealed class RequestDelete : RequestId<Guid>, IRequest<ResponseId<Guid>>
     {
     }
