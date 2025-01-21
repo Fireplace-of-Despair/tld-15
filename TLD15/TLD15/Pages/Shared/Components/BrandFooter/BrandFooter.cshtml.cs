@@ -4,8 +4,5 @@ namespace TLD15.Pages.Shared.Components.BrandFooter;
 
 public class BrandFooter : ViewComponent
 {
-    public IViewComponentResult Invoke()
-    {
-        return View(GetType().Name);
-    }
+    public IViewComponentResult Invoke() => View(GetType().Name);
 }

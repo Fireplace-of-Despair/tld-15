@@ -2,13 +2,9 @@ using ACherryPie.Feature;
 using ACherryPie.Pages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using TLD15.Utils;
 
 namespace TLD15.Pages.Social;
 
@@ -20,7 +16,7 @@ public class PreviewSocialPartialModel : PageModel, IPartial
     {
         var socials = await FeatureRunner.Run(async () =>
         {
-            return await mediator.Send(new ASocialFeature.RequestPreview() );
+            return await mediator.Send(new ASocialFeature.RequestPreview());
         });
 
         var result = new PreviewSocialPartialModel();
