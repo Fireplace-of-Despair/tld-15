@@ -10,7 +10,11 @@ namespace TLD15.Pages.Social;
 
 public class PreviewSocialPartialModel : PageModel, IPartial
 {
-    public static string Id => "PreviewSocialPartialModel";
+    public static string Anchor => "preview_social";
+
+    public List<ASocialFeature.ResponsePreview> Data { get; set; } = [];
+    public string Title => "Social";
+
 
     public static async Task<PreviewSocialPartialModel> InitializeAsync(IMediator mediator)
     {
@@ -32,9 +36,6 @@ public class PreviewSocialPartialModel : PageModel, IPartial
 
         return result;
     }
-
-    public List<ASocialFeature.ResponsePreview> Data { get; set; } = [];
-    public string Title => "Social";
 
 
     public void OnGet()

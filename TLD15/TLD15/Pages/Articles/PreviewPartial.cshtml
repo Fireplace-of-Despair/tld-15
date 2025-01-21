@@ -4,7 +4,9 @@
 
 @if (Model.Data.Count > 0)
 {
-    <h1 id="@TLD15.Pages.Articles.PreviewArticlesPartialModel.Id" class="component-title">@Model.Title</h1>
+    <h2 id="@TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor" class="component-title">
+        @Model.Title
+    </h2>
     <div class="articles-container">
         @foreach (var article in Model.Data)
         {

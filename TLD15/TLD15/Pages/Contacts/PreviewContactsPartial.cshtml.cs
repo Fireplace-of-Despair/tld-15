@@ -10,7 +10,7 @@ namespace TLD15.Pages.Contacts;
 
 public class PreviewContactsPartialModel : PageModel, IPartial
 {
-    public static string Id => "PreviewContactsPartial";
+    public static string Anchor => "preview_contacts";
 
     public static async Task<PreviewContactsPartialModel> InitializeAsync(IMediator mediator)
     {

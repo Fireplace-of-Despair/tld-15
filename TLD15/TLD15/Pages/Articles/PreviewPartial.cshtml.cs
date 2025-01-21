@@ -9,7 +9,7 @@ namespace TLD15.Pages.Articles;
 
 public class PreviewArticlesPartialModel() : PageModel, IPartial
 {
-    public static string Id => "preview_articles";
+    public static string Anchor => "preview_articles";
     public List<AFeatureArticle.ResponsePreview> Data { get; set; } = [];
     public string Title => "Articles";
 

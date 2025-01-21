@@ -8,7 +8,9 @@ namespace TLD15.Pages.Lore;
 
 public sealed class PreviewLoreModel() : PageModel, IPartial
 {
-    public static string Id => "PreviewLore";
+    public static string Anchor => "preview_lore";
+
+    public AFeatureLore.ResponseRead? Data { get; set; }
 
     public static async Task<PreviewLoreModel> InitializeAsync(IMediator mediator)
     {
@@ -31,6 +33,4 @@ public sealed class PreviewLoreModel() : PageModel, IPartial
         return result;
     }
 
-
-    public AFeatureLore.ResponseRead? Data { get; set; }
 }
