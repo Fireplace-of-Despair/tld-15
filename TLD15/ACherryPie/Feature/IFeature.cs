@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ACherryPie.Feature;
+﻿namespace ACherryPie.Feature;
 
 /// <summary> Application feature </summary>
 public interface IFeature
