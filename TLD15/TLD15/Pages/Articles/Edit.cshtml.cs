@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace TLD15.Pages.Articles;
 
 [Authorize]
-public class EditFeature(IMediator mediator,
+public class EditArticleModel(IMediator mediator,
     IWebHostEnvironment webHostEnvironment,
     IHashingService hashingService,
     IConfiguration configuration) : PageModel

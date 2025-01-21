@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace TLD15.Pages.Articles;
 
 [Authorize]
-public class ManageModel(IMediator mediator) : PageModel, IPageAdmin
+public class ManageArticlesModel(IMediator mediator) : PageModel, IPageAdmin
 {
     public static MetaData MetaData => new()
     {
@@ -30,6 +30,8 @@ public class ManageModel(IMediator mediator) : PageModel, IPageAdmin
         {
             Id = null,
             Title = "NEW",
+            Division = "FOD",
+            CreatedAt = DateTime.UtcNow,
         });
 
         Data = result;

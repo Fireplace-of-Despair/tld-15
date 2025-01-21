@@ -1,16 +1,10 @@
 using ACherryPie.Feature;
 using ACherryPie.Incidents;
-using ACherryPie.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MongoDB.Driver;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
-using TLD15.Infrastructure;
-using TLD15.Pages.Articles;
 
 namespace TLD15.Pages.Lore;
 

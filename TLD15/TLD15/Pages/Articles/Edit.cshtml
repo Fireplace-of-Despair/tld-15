@@ -2,9 +2,9 @@
 @Html.AntiForgeryToken()
 @using Common.Composition
 @using System.Globalization
-@model TLD15.Pages.Articles.EditFeature
+@model TLD15.Pages.Articles.EditArticleModel
 @{
-    ViewData[Globals.Page.Title] = $"{EditFeature.FeatureName} | {Globals.Brand.Title}";
+    ViewData[Globals.Page.Title] = $"{EditArticleModel.FeatureName} | {Globals.Brand.Title}";
 }
 
 <script src="~/js/showdown/showdown-2.1.0.min.js"></script>

@@ -1,22 +1,16 @@
-using ACherryPie.Feature;
-using ACherryPie.Incidents;
 using ACherryPie.Pages;
-using ACherryPie.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using TLD15.Infrastructure;
 
 namespace TLD15.Pages.Contacts;
 
 [Authorize]
-public class EditModel(IMediator mediator) : PageModel, IPageAdmin
+public class EditContactsModel(IMediator mediator) : PageModel, IPageAdmin
 {
     public List<AFeatureContacts.EditRequest> Data { get; set; } = [];
 
