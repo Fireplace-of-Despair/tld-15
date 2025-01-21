@@ -70,6 +70,9 @@ public sealed class AFeatureAccount
     {
         public async Task<ResponseId<Guid>> Handle(RequestLogin request, CancellationToken cancellationToken)
         {
+            var rnd = new Random();
+            await Task.Delay(rnd.Next(2000, 3000), cancellationToken);
+
             var database = client.GetDatabase(EntityAccount.Database);
             var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
             var document = await collection.Find(x => x.Login == request.Login)
