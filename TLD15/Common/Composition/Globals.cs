@@ -44,6 +44,11 @@ public static class Globals
     {
         public static string Title => "Title";
     }
+    public static class Controls
+    {
+        public static string ScrollToTheTop => "Scroll to the top";
+        public static string Login => "Login";
+    }
 
     public static class OpenGraph
     {

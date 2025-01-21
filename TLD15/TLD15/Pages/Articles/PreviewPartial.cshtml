@@ -15,11 +15,17 @@
                     <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))
                         {
-                            <img class="article-image" src="/images/placeholder/article.png" alt="@article.PosterAlt">
+                            <img class="article-image"
+                                src="/images/placeholder/article.png"
+                                alt="@article.PosterAlt"
+                                 aria-labelledby="@article.PosterAlt">
                         }
                         else
                         {
-                            <img class="article-image" src="@article.PosterUrl" alt="@article.PosterAlt">
+                            <img class="article-image"
+                                src="@article.PosterUrl"
+                                alt="@article.PosterAlt"
+                                aria-labelledby="@article.PosterAlt">
                         }
                     </a>
                     <div class="article-image-overlay-division"

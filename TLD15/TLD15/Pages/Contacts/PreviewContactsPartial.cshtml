@@ -12,12 +12,12 @@
     <div class="contact-container">
         @foreach (var link in @Model.Data)
         {
-            <a href="@link.Url">
+            <a role="button" href="@link.Url">
                 <img class="contact-button"
                      src="@IconHelper.GetIcon(link.Name)"
-                     alt="@link.Name">
+                     alt="@link.Name"
+                     aria-labelledby="@link.Name">
             </a>
         }
     </div>
-
 }

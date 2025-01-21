@@ -12,10 +12,11 @@
     <div class="social-container">
         @foreach (var link in @Model.Data)
         {
-            <a href="@link.Url">
+            <a role="button" href="@link.Url">
                 <img class="social-button"
                      src="@IconHelper.GetIcon(link.Name)"
-                     alt="@link.Name">
+                     alt="@link.Name"
+                     aria-labelledby="@link.Name">
             </a>
         }
     </div>
