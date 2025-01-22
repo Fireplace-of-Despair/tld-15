@@ -30,6 +30,7 @@ public static class DependencyInjection
             pipeline.MinifyHtmlFiles();
         });
 
+        builder.Services.AddMemoryCache();
         builder.Services.AddScoped<IHashingService, HashingService>();
 
         return builder;

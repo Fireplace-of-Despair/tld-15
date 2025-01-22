@@ -4,6 +4,7 @@ using ACherryPie.Security;
 using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using System;
@@ -16,6 +17,14 @@ namespace TLD15.Pages.Account;
 
 public sealed class AFeatureAccount
 {
+    public static class CacheKey
+    {
+        public static string LoginAttempt => "account-failed-{0}";
+        public static int LoginAttemptMax => 5;
+    }
+
+
+
     public sealed class RequestEmptyLogin : IRequest<ResponseId<Guid>>
     {
         [BindProperty, MaxLength(140)]
@@ -79,13 +88,26 @@ public sealed class AFeatureAccount
 
     public sealed class HandlerLogin (
         IHashingService hashingService,
-        IMongoClient client)
+        IMongoClient client,
+        IMemoryCache memoryCache)
         : IRequestHandler<RequestLogin, ResponseId<Guid>>
     {
         public async Task<ResponseId<Guid>> Handle(RequestLogin request, CancellationToken cancellationToken)
         {
-            var rnd = new Random();
-            await Task.Delay(rnd.Next(2000, 3000), cancellationToken);
+            if (!memoryCache.TryGetValue(string.Format(CacheKey.LoginAttempt, request.Login), out int loginFailedAttempts))
+            {
+                memoryCache.Set(
+                    string.Format(CacheKey.LoginAttempt, request.Login),
+                    1,
+                    TimeSpan.FromMinutes(30));
+            }
+
+            await Task.Delay(new Random().Next(1000, 3000), cancellationToken);
+
+            if (loginFailedAttempts >= CacheKey.LoginAttemptMax)
+            {
+                throw new IncidentException(IncidentCode.LoginFailed);
+            }
 
             var database = client.GetDatabase(EntityAccount.Database);
             var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
@@ -93,12 +115,14 @@ public sealed class AFeatureAccount
                 .FirstOrDefaultAsync(cancellationToken);
             if (document == null)
             {
+                memoryCache.Set(string.Format(CacheKey.LoginAttempt, request.Login), loginFailedAttempts + 1);
                 throw new IncidentException(IncidentCode.LoginFailed);
             }
 
             var incode = hashingService.Hash(request.Password, document.Salt);
             if (incode.HexHash != document.Password)
             {
+                memoryCache.Set(string.Format(CacheKey.LoginAttempt, request.Login), loginFailedAttempts + 1);
                 throw new IncidentException(IncidentCode.LoginFailed);
             }
 
