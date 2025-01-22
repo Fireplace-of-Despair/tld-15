@@ -2,7 +2,7 @@
 
 @foreach (var item in Model.Anchors ?? [])
 {
-    <a class="navigation-local-link" href="#@item.Key">
+    <a class="navigation-link" href="#@item.Key">
         @item.Value
     </a>
 }

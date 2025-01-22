@@ -19,15 +19,15 @@
     <div class="tab-panel tab-panel-active" id="content-tab1">
         <form id="#main-form" class="article-edit" method="post">
             <input type="hidden" asp-for="@Model.Model!.Id" />
-            <input type="hidden" asp-for="@Model.Model.Version" />
+            <input type="hidden" asp-for="@Model.Model!.Version" />
 
-            <input type="text" asp-for="@Model.Model.Title" placeholder="Title">
+            <input type="text" asp-for="@Model.Model!.Title" placeholder="Title">
 
-            <input id="posterUrl" type="text" asp-for="@Model.Model.PosterUrl" placeholder="PosterUrl">
-            <input id="posterAlt" type="text" asp-for="@Model.Model.PosterAlt" placeholder="PosterAlt">
+            <input id="posterUrl" type="text" asp-for="@Model.Model!.PosterUrl" placeholder="PosterUrl">
+            <input id="posterAlt" type="text" asp-for="@Model.Model!.PosterAlt" placeholder="PosterAlt">
 
-            <input id="content-html" type="hidden" asp-for="@Model.Model.ContentHtml" />
-            <textarea id="content" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
+            <input id="content-html" type="hidden" asp-for="@Model.Model!.ContentHtml" />
+            <textarea id="content" asp-for="@Model.Model!.Content" placeholder="Content" cols="40" rows="5"></textarea>
         </form>
 
         <form id="form" class="article-edit" name="form" action="/uploader" enctype="multipart/form-data" method="post">

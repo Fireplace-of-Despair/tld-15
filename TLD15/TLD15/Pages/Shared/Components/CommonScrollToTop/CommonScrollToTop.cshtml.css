@@ -21,6 +21,6 @@
         padding-top: 0px;
     }
 
-    #btnScrollToTop.show {
+    #btnScrollToTop.visible {
         display: block;
     }

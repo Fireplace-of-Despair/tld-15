@@ -19,11 +19,10 @@ public class NavigationAdmin : ViewComponent
 
         foreach (var item in types)
         {
-            var metaData =
-            item.GetProperty(nameof(IPageAdmin.MetaData), BindingFlags.Public | BindingFlags.Static)?
+            var metaData = item.GetProperty(nameof(IPageAdmin.MetaData), BindingFlags.Public | BindingFlags.Static)!
                     .GetValue(null) as MetaData;
 
-            Urls.Add(metaData.Id, metaData.LocalUrl);
+            Urls.Add(metaData!.Id, metaData.LocalUrl);
         }
     }
 

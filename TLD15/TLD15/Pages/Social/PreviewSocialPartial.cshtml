@@ -5,7 +5,7 @@
 
 @if (Model.Data.Any())
 {
-    <h2 class="component-title" id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor">
+    <h2 class="component-title" id="@TLD15.Pages.Social.PreviewSocialPartialModel.Anchor">
         @Model.Title
     </h2>
 
@@ -13,11 +13,9 @@
         @foreach (var link in @Model.Data)
         {
             <a role="button" href="@link.Url">
-                <img class="social-button"
-                    loading="lazy"
+                <img class="social-button" loading="lazy"
                      src="@IconHelper.GetIcon(link.Name)"
-                     alt="@link.Name"
-                     aria-labelledby="@link.Name">
+                     alt="@link.Name" aria-labelledby="@link.Name">
             </a>
         }
     </div>

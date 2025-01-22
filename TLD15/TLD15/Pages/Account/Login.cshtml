@@ -8,8 +8,8 @@
         $"{ViewContext.HttpContext.Request.Path}";
 }
 
-<form id="loginForm" method="post">
-    <div class="content-contaiter-centered">
+<form id="loginForm" method="post" class="component-container">
+    <div class="login-container">
         <input asp-for="Model.Login" placeholder="Login" autocomplete="off" />
         <input asp-for="Model.Password" placeholder="Password" autocomplete="off" />
 

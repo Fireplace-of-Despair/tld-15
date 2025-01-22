@@ -4,9 +4,8 @@
 
 @if (Model.Data.Count > 0)
 {
-    <h2 id="@TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor" class="component-title">
-        @Model.Title
-    </h2>
+    <h2 id="@TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor"
+        class="component-title">@Model.Title</h2>
     <div class="articles-container">
         @foreach (var article in Model.Data)
         {
@@ -15,15 +14,14 @@
                     <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))
                         {
-                            <img class="article-image"
-                                 loading="lazy"
-                                src="/images/placeholder/article.png"
-                                alt="@article.PosterAlt"
+                            <img class="article-image" loading="lazy"
+                                 src="@article.Poster"
+                                 alt="@article.PosterAlt"
                                  aria-labelledby="@article.PosterAlt">
                         }
                         else
                         {
-                            <img class="article-image"
+                            <img class="article-image" loading="lazy"
                                 src="@article.PosterUrl"
                                 alt="@article.PosterAlt"
                                 aria-labelledby="@article.PosterAlt">
@@ -39,7 +37,8 @@
                     </div>
                 </div>
 
-                <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly" class="article-title" rel="canonical">
+                <a asp-page="/Articles/Read" asp-route-idFriendly="@article.IdFriendly"
+                   class="article-title" rel="canonical">
                     <b>@article.Title</b>
                 </a>
 

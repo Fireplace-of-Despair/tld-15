@@ -13,7 +13,7 @@
         @foreach (var link in @Model.Data)
         {
             <a role="button" href="@link.Url">
-                <img class="contact-button"
+                <img class="contact-button" loading="lazy"
                      src="@IconHelper.GetIcon(link.Name)"
                      alt="@link.Name"
                      aria-labelledby="@link.Name">
