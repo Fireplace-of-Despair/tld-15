@@ -35,16 +35,19 @@ public static class Program
             options.LogoutPath = "/Logout";
         });
 
+
         builder.ConfigureServices();
         await builder.ConfigureStorage(builder.Configuration);
 
         var app = builder.Build();
+        app.UseWebOptimizer();
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
         }
+
         app.UseStaticFiles();
 
         app.UseRouting();

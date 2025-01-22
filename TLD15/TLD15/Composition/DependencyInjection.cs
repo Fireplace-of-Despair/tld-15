@@ -16,6 +16,20 @@ public static class DependencyInjection
 {
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddWebOptimizer(pipeline =>
+        {
+            pipeline.AddCssBundle("/css/site.css", "css/**/*css");
+            pipeline.AddJavaScriptBundle("/js/site.js", "js/**/*.js");
+
+            pipeline.MinifyCssFiles();
+            pipeline.MinifyJsFiles();
+
+
+            //TODO: add css bundle later
+            //pipeline.AddCssBundle("css/brand.css", "css/site.css");
+            pipeline.MinifyHtmlFiles();
+        });
+
         builder.Services.AddScoped<IHashingService, HashingService>();
 
         return builder;

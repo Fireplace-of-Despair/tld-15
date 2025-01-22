@@ -82,7 +82,6 @@ input {
     padding: 10px 10px;
     font-family: 'Roboto', sans-serif;
     margin: 5px 0;
-    border: 1px solid rgb(from var(--brand-color-third) r g b / 50%);
     border-radius: 0;
     background-color: var(--color-background);
     color: var(--brand-color-third);
@@ -95,7 +94,7 @@ input {
     }
 
     input::placeholder {
-        color: rgb(from var(--brand-color-third) r g b / 50%);
+        color: var(--brand-color-third);
         opacity: 1;
     }
 
@@ -116,7 +115,7 @@ select {
     font-size: 16px;
     padding: 10px 10px;
     margin: 5px 0;
-    border: 1px solid rgb(from var(--brand-color-third) r g b / 50%);
+    border: 1px solid var(--brand-color-third);
     border-radius: 0;
     background-color: var(--color-background);
     color: var(--brand-color-third);
@@ -128,7 +127,7 @@ select {
     }
 
     select::placeholder {
-        color: rgb(from var(--brand-color-third) r g b / 50%);
+        color: var(--brand-color-third);
         opacity: 1;
     }
 
@@ -150,7 +149,7 @@ textarea {
     font-size: 16px;
     padding: 10px 10px;
     margin: 5px 0;
-    border: 1px solid rgb(from var(--brand-color-third) r g b / 50%);
+    border: 1px solid var(--brand-color-third);
     border-radius: 0;
     background-color: var(--color-background);
     color: var(--brand-color-third);
@@ -162,7 +161,7 @@ textarea {
     }
 
     textarea::placeholder {
-        color: rgb(from var(--brand-color-third) r g b / 50%);
+        color: var(--brand-color-third);
         opacity: 1;
     }
 
