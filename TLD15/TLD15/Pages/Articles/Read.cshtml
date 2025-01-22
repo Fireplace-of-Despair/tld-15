@@ -135,9 +135,20 @@
 <article>
     <div class="article-container">
         <div class="article-container-poster-container">
-            <img loading="lazy"
-                 aria-labelledby="@Model.Model.PosterAlt"
-                 src="@Model.Model.PosterUrl" alt="@Model.Model.PosterAlt">
+            @if (string.IsNullOrEmpty(Model.Model.PosterUrl))
+            {
+                <img class="article-image" loading="lazy"
+                     src="/images/placeholder/article.png"
+                     alt="@Model.Model.PosterAlt"
+                     aria-labelledby="@Model.Model.PosterAlt">
+            }
+            else
+            {
+                <img class="article-image" loading="lazy"
+                     src="@Model.Model.PosterUrl"
+                     alt="@Model.Model.PosterAlt"
+                     aria-labelledby="@Model.Model.PosterAlt">
+            }
             <div class="article-container-poster-division"
                  data-tooltip="@Globals.Brand.Divisions[Model.Model.DivisionCode]">
                 @Model.Model.DivisionCode.ToUpper()
