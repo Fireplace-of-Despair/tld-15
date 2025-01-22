@@ -135,7 +135,9 @@
 <article>
     <div class="article-container">
         <div class="article-container-poster-container">
-            <img src="/images/placeholder/article.png" alt="Background Image">
+            <img loading="lazy"
+                 aria-labelledby="@Model.Model.PosterAlt"
+                 src="@Model.Model.PosterUrl" alt="@Model.Model.PosterAlt">
             <div class="article-container-poster-division"
                  data-tooltip="@Globals.Brand.Divisions[Model.Model.DivisionCode]">
                 @Model.Model.DivisionCode.ToUpper()
