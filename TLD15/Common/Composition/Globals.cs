@@ -7,6 +7,8 @@ public static class Globals
     public static class Brand
     {
         public static string Title => "Fireplace Of Despair";
+        public static string Description => "&ldquo;Fireplace of Despair&rdquo; is a creation of Stan &ldquo;Chief&rdquo; Shevtsov. The place where suffering builds. You know where I am going with it.";
+        public static string Keywords => "Fireplace of Despair; Shevtsov Stan; Master Stan; Chief; スタン; シェフツォフ スタニスラフ;";
         public static string Slogan => "Suffering builds";
         public static string Author => "Shevtsov \"Chief\" Stan";
         public static string Designer => "Shevtsov \"Chief\" Stan";
