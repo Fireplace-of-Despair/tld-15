@@ -44,7 +44,8 @@ public class LoginFeature(IMediator mediator): PageModel
         {
             var result = await FeatureRunner.Run(async() =>
             {
-                //await mediator.Send(new AccountInit.Request { Login = Model.Login, Password = Model.Password });
+                await mediator.Send(new AFeatureAccount.RequestEmptyLogin{ Login = Model.Login, Password = Model.Password });
+
                 await mediator.Send(Model);
 
                 return true;

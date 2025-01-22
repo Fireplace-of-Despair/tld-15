@@ -93,7 +93,7 @@ public sealed class HashingService(IConfiguration configuration) : IHashingServi
         plainText.CopyTo(plainTextWithSalt, 0);
         salt.CopyTo(plainTextWithSalt, plainText.Length);
 
-        return SHA384.HashData(plainTextWithSalt);
+        return Rfc2898DeriveBytes.Pbkdf2(plainText, salt, 100000, HashAlgorithmName.SHA384, 128);
     }
 
     /// <summary>Create <see cref="byte"/> array filled with random numbers </summary>

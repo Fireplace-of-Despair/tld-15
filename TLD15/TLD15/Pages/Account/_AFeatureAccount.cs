@@ -16,7 +16,7 @@ namespace TLD15.Pages.Account;
 
 public sealed class AFeatureAccount
 {
-    public sealed class RequestLogin : IRequest<ResponseId<Guid>>
+    public sealed class RequestEmptyLogin : IRequest<ResponseId<Guid>>
     {
         [BindProperty, MaxLength(140)]
         public string Login { get; set; } = string.Empty;
@@ -33,9 +33,9 @@ public sealed class AFeatureAccount
     public sealed class HandlerEmpty (
         IConfiguration configuration,
         IHashingService hashingService,
-        IMongoClient client) : IRequestHandler<RequestLogin, ResponseId<Guid>>
+        IMongoClient client) : IRequestHandler<RequestEmptyLogin, ResponseId<Guid>>
     {
-        public async Task<ResponseId<Guid>> Handle(RequestLogin request, CancellationToken cancellationToken)
+        public async Task<ResponseId<Guid>> Handle(RequestEmptyLogin request, CancellationToken cancellationToken)
         {
             var saId = configuration.GetSection(Globals.Security.Admin.IdString).Get<Guid>();
             var database = client.GetDatabase(EntityAccount.Database);
@@ -63,6 +63,20 @@ public sealed class AFeatureAccount
         }
     }
 
+    public sealed class RequestLogin : IRequest<ResponseId<Guid>>
+    {
+        [BindProperty, MaxLength(140)]
+        public string Login { get; set; } = string.Empty;
+
+        [BindProperty, MaxLength(140), DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
+
+        [TempData]
+        public string ErrorMessage { get; set; } = string.Empty;
+
+        public string ReturnUrl { get; set; } = string.Empty;
+    }
+
     public sealed class HandlerLogin (
         IHashingService hashingService,
         IMongoClient client)
@@ -76,8 +90,11 @@ public sealed class AFeatureAccount
             var database = client.GetDatabase(EntityAccount.Database);
             var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
             var document = await collection.Find(x => x.Login == request.Login)
-                .FirstOrDefaultAsync(cancellationToken)
-                ?? throw new IncidentException(IncidentCode.LoginFailed);
+                .FirstOrDefaultAsync(cancellationToken);
+            if (document == null)
+            {
+                throw new IncidentException(IncidentCode.LoginFailed);
+            }
 
             var incode = hashingService.Hash(request.Password, document.Salt);
             if (incode.HexHash != document.Password)
