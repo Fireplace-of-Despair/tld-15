@@ -11,7 +11,7 @@
     ViewData[Globals.OpenGraph.Url] =
     $"https://{ViewContext.HttpContext.Request.Host}" +
             $"{ViewContext.HttpContext.Request.Path}";
-    ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl}";
+    ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl ?? "https://" + ViewContext.HttpContext.Request.Host + "/images/placeholder/article.png"}";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
     ViewData[Globals.OpenGraph.SiteName] = Globals.Brand.Title;
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
