@@ -7,12 +7,14 @@ public static class Globals
     public static class Brand
     {
         public static string Title => "Fireplace Of Despair";
+        public static string Company => "Fireplace Of Despair";
         public static string Description => "&ldquo;Fireplace of Despair&rdquo; is a creation of Stan &ldquo;Chief&rdquo; Shevtsov. The place where suffering builds. You know where I am going with it.";
-        public static string Keywords => "Fireplace of Despair; Shevtsov Stan; Master Stan; Chief; スタン; シェフツォフ スタニスラフ;";
+        public static string Keywords => "Fireplace of Despair, Shevtsov Stanislav, Shevtsov Stan, Master Stan, Chief, スタン, シェフツォフ スタニスラフ";
         public static string Slogan => "Suffering builds";
         public static string Author => "Shevtsov \"Chief\" Stan";
         public static string Designer => "Shevtsov \"Chief\" Stan";
         public static string Type => "Blog";
+        public static string BaseUrl => "https://1.1.1.1/";
 
         public static Dictionary<string, string> Divisions => new()
         {
@@ -45,11 +47,23 @@ public static class Globals
     public static class Page
     {
         public static string Title => "Title";
+        public static string Description => "description";
     }
     public static class Controls
     {
         public static string ScrollToTheTop => "Scroll to the top";
         public static string Login => "Login";
+    }
+
+    public static class Meta
+    {
+        public static string Language => "language";
+        public static string Author => "author";
+        public static string Designer => "designer";
+        public static string Publisher => "publisher";
+        public static string Subtitle => "subtitle";
+        public static string PageName => "page name";
+        public static string Description => "description";
     }
 
     public static class OpenGraph

@@ -5,16 +5,12 @@
 
 @{
     ViewData[Globals.Page.Title] = $"{Model.Model.Title} | {Globals.Brand.Title}";
-
-    ViewData[Globals.OpenGraph.Title] = $"{Model.Model.Title} | {Globals.Brand.Title}";
-    ViewData[Globals.OpenGraph.Description] = $"{Model.Model.SubTitle} | {Globals.Brand.Author}";
-    ViewData[Globals.OpenGraph.Url] =
-    $"https://{ViewContext.HttpContext.Request.Host}" +
-            $"{ViewContext.HttpContext.Request.Path}";
+    ViewData[Globals.Page.Description] = Model.Model.SubTitle;
+    ViewData[Globals.OpenGraph.Url] = Globals.Brand.BaseUrl + ViewContext.HttpContext.Request.Path;
     ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl ?? "https://" + ViewContext.HttpContext.Request.Host + "/images/placeholder/article.png"}";
-    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
-    ViewData[Globals.OpenGraph.SiteName] = Globals.Brand.Title;
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
+
+    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
 <style>

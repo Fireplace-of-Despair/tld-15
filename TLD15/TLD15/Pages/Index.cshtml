@@ -6,26 +6,22 @@
 
 @{
     ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
-
-    ViewData[Globals.OpenGraph.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
-    ViewData[Globals.OpenGraph.Description] = $"{Globals.Brand.Author} {Globals.Brand.Type}";
-    ViewData[Globals.OpenGraph.Url] =
-    $"https://{ViewContext.HttpContext.Request.Host}" +
-            $"{ViewContext.HttpContext.Request.Path}";
-    ViewData[Globals.OpenGraph.Image] = $"";
-    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
-    ViewData[Globals.OpenGraph.SiteName] = Globals.Brand.Title;
+    ViewData[Globals.Page.Description] = $"{Globals.Brand.Author} {Globals.Brand.Type}";
+    ViewData[Globals.OpenGraph.Url] = Globals.Brand.BaseUrl;
+    ViewData[Globals.OpenGraph.Image] = $"/images/chief.png";
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
+
+    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
 <div class="component-container">
     @await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
-            {
-                { TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor, "Articles" },
-    { TLD15.Pages.Lore.PreviewLoreModel.Anchor, "Lore" },
-    { TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor, "Contacts" },
-    { TLD15.Pages.Social.PreviewSocialPartialModel.Anchor, "Social" }
-            })
+    {
+        { TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor, "Articles" },
+        { TLD15.Pages.Lore.PreviewLoreModel.Anchor, "Lore" },
+        { TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor, "Contacts" },
+        { TLD15.Pages.Social.PreviewSocialPartialModel.Anchor, "Social" }
+    })
 </div>
 
 <div class="component-container">

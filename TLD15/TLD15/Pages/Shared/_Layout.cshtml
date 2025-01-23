@@ -7,15 +7,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head prefix="og: https://ogp.me/ns#">
+
     <!-- Meta Tags -->
     <meta charset="utf-8">
-    <meta name="author" content="@Globals.Brand.Author">
-    <meta name="designer" content="@Globals.Brand.Designer">
-    <meta name="publisher" content="@Globals.Brand.Title">
-    <meta name="subtitle" content="@Globals.Brand.Slogan">
+    <meta name="@Globals.Meta.Language" content="en">
+    <meta name="@Globals.Meta.Author" content="@Globals.Brand.Author">
+    <meta name="@Globals.Meta.Designer" content="@Globals.Brand.Designer">
+    <meta name="@Globals.Meta.Publisher" content="@Globals.Brand.Company">
+    <meta name="@Globals.Meta.Subtitle" content="@Globals.Brand.Slogan">
+    <meta name="@Globals.Meta.PageName" content="@ViewData[Globals.Page.Title]">
 
     <!-- Search Engine Optimization Meta Tags -->
-    <meta name="description" content="@Globals.Brand.Description">
+    <meta name="@Globals.Meta.Description" content="@ViewData[Globals.Page.Description]">
     <meta name="keywords" content="@Globals.Brand.Keywords">
     <meta name="copyright" content="@Globals.Brand.Title @Globals.Brand.Author">
     <meta name="revisit-after" content="7 days">
@@ -24,16 +27,23 @@
     <meta name="coverage" content="Worldwide">
     <meta name="distribution" content="Global">
     <meta name="rating" content="General">
+    <meta name="url" content="@Globals.Brand.BaseUrl">
+    <meta name="identifier-URL" content="@Globals.Brand.BaseUrl">
 
     <!-- Open Graph -->
     <meta property="@Globals.OpenGraph.Title" content="@ViewData[Globals.Page.Title]">
-    <meta property="@Globals.OpenGraph.Description" content="@ViewData[Globals.OpenGraph.Description]">
+    <meta property="@Globals.OpenGraph.Description" content="@ViewData[Globals.Page.Description]">
     <meta property="@Globals.OpenGraph.Url" content="@ViewData[Globals.OpenGraph.Url]">
     <meta property="@Globals.OpenGraph.Image" content="@ViewData[Globals.OpenGraph.Image]">
     <meta property="@Globals.OpenGraph.Locale" content="@Globals.Settings.Locale">
     <meta property="@Globals.OpenGraph.SiteName" content="@Globals.Brand.Title | @Globals.Brand.Type">
     <meta property="@Globals.OpenGraph.Type" content="website">
     <meta property="@Globals.OpenGraph.ArticleAuthor" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
+
+    <!-- twitter cards-->
+    <meta property="twitter:card" content="@ViewData[Globals.Page.Description]">
+    <meta property="twitter:site" content="@ViewData[Globals.OpenGraph.Url]">
+    <meta property="twitter:creator" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
 
     <!-- mobile meta tags -->
     <meta name="format-detection" content="telephone=yes">
@@ -42,14 +52,19 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+    <link rel="icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="logo.png" />
 
     <!-- Title -->
     <title>@ViewData[Globals.Page.Title]</title>
 
-    <!-- System -->
+    <!-- Styles -->
     <link rel="stylesheet" href="~/css/brand.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
     <link rel="stylesheet" href="~/TLD15.styles.css" asp-append-version="true">
+
+    <!-- System -->
+    <link rel="canonical" href="@ViewData[Globals.OpenGraph.Url]" />
 </head>
 <body>
     @await Component.InvokeAsync(nameof(BrandHeader))
