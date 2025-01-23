@@ -23,8 +23,6 @@ public sealed class AFeatureAccount
         public static int LoginAttemptMax => 5;
     }
 
-
-
     public sealed class RequestEmptyLogin : IRequest<ResponseId<Guid>>
     {
         [BindProperty, MaxLength(140)]
@@ -94,12 +92,10 @@ public sealed class AFeatureAccount
     {
         public async Task<ResponseId<Guid>> Handle(RequestLogin request, CancellationToken cancellationToken)
         {
-            if (!memoryCache.TryGetValue(string.Format(CacheKey.LoginAttempt, request.Login), out int loginFailedAttempts))
+            var cacheKey = string.Format(CacheKey.LoginAttempt, request.Login);
+            if (!memoryCache.TryGetValue(cacheKey, out int loginFailedAttempts))
             {
-                memoryCache.Set(
-                    string.Format(CacheKey.LoginAttempt, request.Login),
-                    1,
-                    TimeSpan.FromMinutes(30));
+                memoryCache.Set(cacheKey, 1, TimeSpan.FromMinutes(30));
             }
 
             await Task.Delay(new Random().Next(1000, 3000), cancellationToken);
