@@ -24,9 +24,7 @@ public static class DependencyInjection
             pipeline.MinifyCssFiles();
             pipeline.MinifyJsFiles();
 
-
             //TODO: add css bundle later
-            //pipeline.AddCssBundle("css/brand.css", "css/site.css");
             pipeline.MinifyHtmlFiles();
         });
 
@@ -36,7 +34,7 @@ public static class DependencyInjection
         return builder;
     }
 
-    public static async Task<WebApplicationBuilder> ConfigureStorage(this WebApplicationBuilder builder, ConfigurationManager configuration)
+    public static async Task<WebApplicationBuilder> ConfigureStorage(this WebApplicationBuilder builder)
     {
         var connectionMongo = builder.Configuration.GetSection(Globals.Storage.Mongo).Get<string>()!;
 
@@ -55,7 +53,7 @@ public static class DependencyInjection
                 var method = type.GetMethod("CreateIndexesAsync", BindingFlags.Public | BindingFlags.Static);
 
                 if (method != null)
-                {;
+                {
                     await (Task)method.Invoke(null, [client])!;
                 }
                 else

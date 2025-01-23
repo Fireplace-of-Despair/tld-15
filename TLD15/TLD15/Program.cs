@@ -37,7 +37,7 @@ public static class Program
 
 
         builder.ConfigureServices();
-        await builder.ConfigureStorage(builder.Configuration);
+        await builder.ConfigureStorage();
 
         var app = builder.Build();
         app.UseWebOptimizer();
