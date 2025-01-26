@@ -1,0 +1,123 @@
+﻿::deep .image-container img {
+    width: auto;
+    height: 150px;
+}
+
+::deep .image-container-content {
+    display: flex;
+    align-items: stretch;
+}
+
+    ::deep .image-container-content i {
+        vertical-align: middle;
+        line-height: 150px;
+    }
+
+.tabs {
+    display: flex;
+}
+
+/* Individual tab buttons */
+.tab-button {
+    font: inherit;
+    font-size: 16px;
+    flex: 1;
+    background: none;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.tab-active {
+    font: inherit;
+    font-size: 16px;
+    border-bottom: 2px solid var(--brand-color-third);
+    color: var(--brand-color-third);
+}
+
+    .tab-active:hover {
+        color: var(--brand-color-first);
+    }
+
+.tab-button:hover {
+    background-color: var(--brand-color-third);
+}
+
+::deep .article-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+}
+/* Hide inactive tab panels */
+.tab-panel {
+    display: none;
+}
+
+/* Show active tab panel */
+.tab-panel-active {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--brand-color-first);
+    color: var(--brand-color-third);
+}
+
+/* -------------------- */
+.lore-content {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    flex-direction: row;
+}
+
+::deep .lore-content-text {
+    flex: 1;
+    min-width: 65%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+::deep .lore-content-image {
+    flex: 1 0 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+    ::deep .lore-content-image img {
+        width: 100%;
+        height: 600px;
+        object-fit: cover;
+        filter: grayscale(100%) contrast(130%);
+        transition: all 0.8s ease 0s;
+    }
+
+        ::deep .lore-content-image img:hover {
+            filter: grayscale(0) contrast(100%);
+        }
+
+@media (max-width: 768px) {
+    .lore-content {
+        flex-direction: column;
+    }
+
+    ::deep .lore-content-text {
+        min-width: 100%;
+        text-align: left;
+    }
+
+    ::deep .lore-content-image {
+        min-width: 100%;
+    }
+
+        ::deep .lore-content-image img {
+            height: auto;
+        }
+}

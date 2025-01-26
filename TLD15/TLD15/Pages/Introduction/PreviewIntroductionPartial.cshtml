@@ -1,0 +1,22 @@
+﻿@model TLD15.Pages.Introduction.PreviewIntroductionPartialModel
+
+@if (Model.Data != null)
+{
+    <div class="component-container">
+        <h2 id="@TLD15.Pages.Introduction.PreviewIntroductionPartialModel.Anchor"
+            class="component-title">
+            @Model.Title
+        </h2>
+
+        <div class="introduction-content">
+            <div class="introduction-content-text">
+                @Html.Raw(@Model.Data!.ContentHtml)
+            </div>
+            <div class="introduction-content-image">
+                <img loading="lazy"
+                     aria-labelledby="@Model.Data!.PosterAlt"
+                     src="@Model.Data!.PosterUrl" alt="@Model.Data!.PosterAlt">
+            </div>
+        </div>
+    </div>
+}

@@ -4,11 +4,11 @@ using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
-namespace TLD15.Pages.Lore;
+namespace TLD15.Pages.Introduction;
 
-public class EntityLore : EntityBase<Guid>, IEntityStored
+public sealed class EntityIntroduction : EntityBase<Guid>, IEntityStored
 {
-    public static string Collection => "lore";
+    public static string Collection => "introduction";
     public static string Database => "core";
 
     [BsonElement("poster_url")]

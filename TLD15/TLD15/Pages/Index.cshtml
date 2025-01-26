@@ -24,6 +24,11 @@
     })
 </div>
 
+@{
+    await Html.RenderPartialAsync("/Pages/Introduction/PreviewIntroductionPartial.cshtml",
+        await TLD15.Pages.Introduction.PreviewIntroductionPartialModel.InitializeAsync(Model.Mediator));
+}
+
 <div class="component-container">
 @{
     await Html.RenderPartialAsync("/Pages/Articles/PreviewPartial.cshtml",

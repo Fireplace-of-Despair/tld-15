@@ -33,5 +33,4 @@ public sealed class PreviewLoreModel() : PageModel, IPartial
 
         return result;
     }
-
 }
