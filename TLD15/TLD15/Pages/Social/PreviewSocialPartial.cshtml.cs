@@ -2,7 +2,6 @@ using ACherryPie.Feature;
 using ACherryPie.Pages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,12 +9,12 @@ namespace TLD15.Pages.Social;
 
 public class PreviewSocialPartialModel : PageModel, IPartial
 {
-    public static string Anchor => "preview_social";
-
-    public List<ASocialFeature.ResponsePreview> Data { get; set; } = [];
+    public static string Id => "preview_social";
+    public string Anchor => Id;
     public string Title => "Social";
 
-
+    public List<ASocialFeature.ResponsePreview> Data { get; set; } = [];
+    
     public static async Task<PreviewSocialPartialModel> InitializeAsync(IMediator mediator)
     {
         var socials = await FeatureRunner.Run(async () =>

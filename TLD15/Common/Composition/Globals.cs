@@ -50,12 +50,14 @@ public static class Globals
     }
     public static class Controls
     {
+        public static string Manage => "Manage";
         public static string Login => "Login";
         public static string Edit => "Edit";
         public static string Create => "Create";
         public static string Cancel => "Cancel";
         public static string Save => "Save";
         public static string Delete => "Delete";
+        public static string ScrollToTheTop => "Scroll to the top";
     }
 
     public static class Meta

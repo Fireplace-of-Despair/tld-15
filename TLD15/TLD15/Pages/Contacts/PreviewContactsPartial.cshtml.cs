@@ -9,7 +9,11 @@ namespace TLD15.Pages.Contacts;
 
 public class PreviewContactsPartialModel : PageModel, IPartial
 {
-    public static string Anchor => "preview_contacts";
+    public static string Id => "preview_contacts";
+    public string Anchor => Id;
+    public string Title => "Contacts";
+
+    public List<AFeatureContacts.ResponsePreview> Data { get; set; } = [];
 
     public static async Task<PreviewContactsPartialModel> InitializeAsync(IMediator mediator)
     {
@@ -31,7 +35,4 @@ public class PreviewContactsPartialModel : PageModel, IPartial
 
         return result;
     }
-
-    public List<AFeatureContacts.ResponsePreview> Data { get; set; } = [];
-    public string Title => "Contacts";
 }

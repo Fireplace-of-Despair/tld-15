@@ -17,10 +17,11 @@
 <div class="component-container">
     @await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
     {
-        { TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor, "Articles" },
-        { TLD15.Pages.Lore.PreviewLoreModel.Anchor, "Lore" },
-        { TLD15.Pages.Social.PreviewSocialPartialModel.Anchor, "Social" },
-        { TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor, "Contacts" },
+        { TLD15.Pages.Articles.PreviewArticlesPartialModel.Id, "Articles" },
+        { TLD15.Pages.Projects.PreviewPartialModel.Id, "Projects" },
+        { TLD15.Pages.Lore.PreviewLoreModel.Id, "Lore" },
+        { TLD15.Pages.Social.PreviewSocialPartialModel.Id, "Social" },
+        { TLD15.Pages.Contacts.PreviewContactsPartialModel.Id, "Contacts" },
     })
 </div>
 

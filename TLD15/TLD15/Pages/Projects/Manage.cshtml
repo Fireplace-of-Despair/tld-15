@@ -2,12 +2,11 @@
 @using Common.Composition
 @using System.Globalization
 
-@model TLD15.Pages.Articles.ManageArticlesModel
+@model TLD15.Pages.Projects.ManageModel
 
 <script src="~/js/jquery/jquery-3.7.1.min.js"></script>
-
 <script>
-    function deleteArticle(id) {
+    function deleteProject(id) {
         $.ajax({
             method: 'POST',
             url: "/?handler=Delete&id="+id,
@@ -24,7 +23,6 @@
             }
         });
     };
-
 </script>
 
 <div class="manage-container">
@@ -34,7 +32,7 @@
         {
             <div id="@article.Id" class="article">
                 <div class="article-image-container">
-                    <a asp-page="/Articles/Edit" asp-route-id="@article.Id" rel="canonical">
+                    <a asp-page="/Projects/Edit" asp-route-id="@article.Id" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))
                         {
                             <img class="article-image" src="/images/placeholder/article.png" alt="@article.PosterAlt">
@@ -54,7 +52,7 @@
                     </div>
                 </div>
 
-                <a asp-page="/Articles/Edit" asp-route-id="@article.Id" class="article-title" rel="canonical">
+                <a asp-page="/Projects/Edit" asp-route-id="@article.Id" class="article-title" rel="canonical">
                     <b>@article.Title</b>
                 </a>
 
@@ -63,11 +61,12 @@
                 </div>
 
                 <div class="button-container">
-                    <form method="get" asp-page="/Articles/Edit" asp-route-id="@article.Id">
+                    <form method="get" asp-page="/Projects/Edit" asp-route-id="@article.Id">
                         <button type="submit"> @(article.Id == null ? Globals.Controls.Create : Globals.Controls.Edit) </button>
                     </form>
 
-                    @if (article.Id != null) {
+                    @if (article.Id != null)
+                    {
                         <form method="post" asp-page-handler="Delete">
                             <input type="hidden" name="id" value="@article.Id" />
                             <button type="submit">@Globals.Controls.Delete</button>

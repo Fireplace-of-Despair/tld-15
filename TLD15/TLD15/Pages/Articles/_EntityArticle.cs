@@ -10,7 +10,7 @@ namespace TLD15.Pages.Articles;
 public sealed class EntityArticle : EntityBase<Guid>, IEntityStored
 {
     public static string Collection => "articles";
-    public static string Database => "blog";
+    public static string Database => "production";
 
     [BsonElement("id_friendly"), MaxLength(140)]
     public string IdFriendly { get; set; } = string.Empty;
@@ -18,7 +18,7 @@ public sealed class EntityArticle : EntityBase<Guid>, IEntityStored
     [BsonElement("title"), MaxLength(140)]
     public string Title { get; set; } = string.Empty;
 
-    [BsonElement("subtitle"), MaxLength(240)]
+    [BsonElement("subtitle"), MaxLength(300)]
     public string SubTitle { get; set; } = string.Empty;
 
     [BsonElement("poster_url")]

@@ -8,7 +8,8 @@ namespace TLD15.Pages.Introduction;
 
 public class PreviewIntroductionPartialModel : PageModel, IPartial
 {
-    public static string Anchor => "preview_introduction";
+    public static string Id => "preview_introduction";
+    public string Anchor => Id;
     public string Title => "Introduction";
 
     public AFeatureIntroduction.ResponseRead? Data { get; set; }

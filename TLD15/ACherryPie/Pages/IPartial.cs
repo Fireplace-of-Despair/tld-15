@@ -2,5 +2,7 @@
 
 public interface IPartial
 {
-    public static abstract string Anchor { get; }
+    public string Title { get; }
+    public string Anchor { get; }
+    public static abstract string Id { get; }
 }

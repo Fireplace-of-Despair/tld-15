@@ -1,11 +1,25 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace TLD15.Utils;
 
 public static class IconHelper
 {
-    public static string GetIcon(string key)
+    public static string GetLanguage(string key)
     {
+        var language = key.Split("_").LastOrDefault();
+
+        if (string.IsNullOrEmpty(language))
+        {
+            return string.Empty;
+        }
+
+        return language.ToUpper();
+    }
+
+    public static string GetIcon(string name)
+    {
+        var key = name.Split("_")[0].ToLowerInvariant();
+
         return key switch
         {
             "amazon" => "/images/icons/amazon.svg",
