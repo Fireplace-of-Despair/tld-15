@@ -150,7 +150,9 @@
     </div>
 
     <span asp-validation-for="Model" class="text-danger"></span>
-    <button onclick="submitForm()">Create</button>
+    <button onclick="submitForm()">
+        @(Model.Model.Id == null ? Globals.Controls.Create : Globals.Controls.Save)
+        </button>
 </div>
 
 <script>

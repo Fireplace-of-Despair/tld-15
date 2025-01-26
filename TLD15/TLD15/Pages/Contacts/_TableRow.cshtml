@@ -1,4 +1,5 @@
-﻿@using TLD15.TagHelpers
+﻿@using Common.Composition
+@using TLD15.TagHelpers
 @model TLD15.Pages.Contacts.AFeatureContacts.RequestEdit
 
 <tr>
@@ -6,10 +7,10 @@
     <td>@Model.Url</td>
     <td>
         <button class="outline" hx-get="@Url.Handler("EditItem", new { id = Model.Id })">
-            Edit
+            @Globals.Controls.Edit
         </button>
         <button class="outline" hx-delete="@Url.Handler("Item", new { id = Model.Id })" antiforgery="true">
-            Delete
+            @Globals.Controls.Delete
         </button>
     </td>
 </tr>

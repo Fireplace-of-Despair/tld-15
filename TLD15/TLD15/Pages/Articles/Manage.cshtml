@@ -64,17 +64,15 @@
 
                 <div class="button-container">
                     <form method="get" asp-page="/Articles/Edit" asp-route-id="@article.Id">
-                        <button type="submit"> @(article.Id == Guid.Empty ? "Create" : "Edit" ) </button>
+                        <button type="submit"> @(article.Id == null ? Globals.Controls.Create : Globals.Controls.Edit) </button>
                     </form>
 
                     @if (article.Id != null) {
                         <form method="post" asp-page-handler="Delete">
                             <input type="hidden" name="id" value="@article.Id" />
-                            <button type="submit">Delete</button>
+                            <button type="submit">@Globals.Controls.Delete</button>
                         </form>
                     }
-
-
                 </div>
             </div>
         }

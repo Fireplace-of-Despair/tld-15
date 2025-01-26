@@ -4,12 +4,13 @@ using MongoDB.Driver;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using TLD15.Pages.Articles;
 
-namespace TLD15.Pages.Articles;
+namespace TLD15.Pages.Projects;
 
-public sealed class EntityArticle : EntityBase<Guid>, IEntityStored
+public class EntityProject : EntityBase<Guid>, IEntityStored
 {
-    public static string Collection => "articles";
+    public static string Collection => "projects";
     public static string Database => "blog";
 
     [BsonElement("id_friendly"), MaxLength(140)]
