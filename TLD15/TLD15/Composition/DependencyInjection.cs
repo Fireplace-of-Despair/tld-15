@@ -18,13 +18,8 @@ public static class DependencyInjection
     {
         builder.Services.AddWebOptimizer(pipeline =>
         {
-            pipeline.AddCssBundle("/css/site.css", "css/**/*css");
-            pipeline.AddJavaScriptBundle("/js/site.js", "js/**/*.js");
-
             pipeline.MinifyCssFiles();
             pipeline.MinifyJsFiles();
-
-            //TODO: add css bundle later
             pipeline.MinifyHtmlFiles();
         });
 
