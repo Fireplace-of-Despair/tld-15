@@ -32,7 +32,7 @@
     <div class="articles-container">
         @foreach (var article in Model.Data)
         {
-            <div id="@article.Id" class="article" lang="en">
+            <div id="@article.Id" class="article">
                 <div class="article-image-container">
                     <a asp-page="/Articles/Edit" asp-route-id="@article.Id" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))

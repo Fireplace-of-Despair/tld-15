@@ -85,6 +85,6 @@ public static class Globals
     public static class Settings
     {
         public static string DateFormat => "yyyy/MM/dd";
-        public static string Locale => "en_US";
+        public static string Locale => "en";
     }
 }
