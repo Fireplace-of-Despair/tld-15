@@ -2,7 +2,6 @@ using ACherryPie.Feature;
 using ACherryPie.Pages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,10 +34,4 @@ public class PreviewContactsPartialModel : PageModel, IPartial
 
     public List<AFeatureContacts.ResponsePreview> Data { get; set; } = [];
     public string Title => "Contacts";
-
-
-    public void OnGet()
-    {
-        throw new NotSupportedException();
-    }
 }

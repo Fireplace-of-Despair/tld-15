@@ -2,7 +2,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Entities;
 
@@ -26,6 +25,9 @@ public abstract class EntityBase<T>
 
     [BsonElement("version")]
     public long Version { get; set; }
+
+    [BsonExtraElements]
+    public BsonDocument ExtraElements { get; set; } = [];
 
     public virtual void Bump(long version)
     {

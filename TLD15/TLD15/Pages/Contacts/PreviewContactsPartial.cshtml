@@ -3,20 +3,25 @@
 @using TLD15.Utils
 @model TLD15.Pages.Contacts.PreviewContactsPartialModel
 
-<h2 id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor"
-    class="component-title">@Model.Title</h2>
-
 @if (Model.Data.Any())
 {
-    <div class="contact-container">
-        @foreach (var link in @Model.Data)
-        {
-            <a role="button" href="@link.Url">
-                <img class="contact-button" loading="lazy"
-                     src="@IconHelper.GetIcon(link.Name)"
-                     alt="@link.Name"
-                     aria-labelledby="@link.Name">
-            </a>
-        }
+    <div class="component-container">
+        <h2 id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor"
+            class="component-title">
+            @Model.Title
+        </h2>
+
+
+        <div class="contact-container">
+            @foreach (var link in @Model.Data)
+            {
+                <a role="button" href="@link.Url">
+                    <img class="contact-button" loading="lazy"
+                         src="@IconHelper.GetIcon(link.Name)"
+                         alt="@link.Name"
+                         aria-labelledby="@link.Name">
+                </a>
+            }
+        </div>
     </div>
 }

@@ -36,10 +36,4 @@ public class PreviewSocialPartialModel : PageModel, IPartial
 
         return result;
     }
-
-
-    public void OnGet()
-    {
-        throw new NotSupportedException();
-    }
 }
