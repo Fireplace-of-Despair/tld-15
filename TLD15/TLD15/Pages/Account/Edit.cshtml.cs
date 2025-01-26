@@ -22,7 +22,7 @@ public sealed class EditModel(
     public static MetaData MetaData => new()
     {
         Id = "Accounts",
-        LocalUrl = "/Account/Edit"
+        LocalUrl = "/account/edit"
     };
 
     public async Task OnGet()

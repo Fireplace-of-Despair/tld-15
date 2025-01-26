@@ -22,7 +22,7 @@ public class EditContactsModel(
     public static MetaData MetaData => new()
     {
         Id = "Contacts",
-        LocalUrl = "/Contacts/Edit"
+        LocalUrl = "/contacts/edit"
     };
 
     public async Task OnGet()

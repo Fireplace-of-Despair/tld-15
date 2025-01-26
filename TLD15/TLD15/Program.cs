@@ -28,7 +28,10 @@ public static class Program
 
         // Add services to the container.
         builder.Services.AddRazorPages();
-
+        builder.Services.AddRouting(options =>
+        {
+            options.LowercaseUrls = true;
+        });
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.LoginPath = "/Login";

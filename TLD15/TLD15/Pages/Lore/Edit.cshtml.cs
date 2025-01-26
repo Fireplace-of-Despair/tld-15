@@ -28,7 +28,7 @@ public class EditLoreModel(IMediator mediator,
     public static MetaData MetaData => new()
     {
         Id = "Lore",
-        LocalUrl = "/Lore/Edit"
+        LocalUrl = "/lore/edit"
     };
 
     [BindProperty]

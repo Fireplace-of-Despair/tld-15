@@ -20,7 +20,7 @@ public class ManageArticlesModel(
     public static MetaData MetaData => new()
     {
         Id = "Articles",
-        LocalUrl = "/Articles/Manage"
+        LocalUrl = "/articles/manage"
     };
 
     public IMediator Mediator => mediator;

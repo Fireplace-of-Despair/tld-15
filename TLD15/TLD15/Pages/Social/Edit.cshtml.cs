@@ -21,7 +21,7 @@ public class EditModel(IMediator mediator,
     public static MetaData MetaData => new()
     {
         Id = "Social",
-        LocalUrl = "/Social/Edit"
+        LocalUrl = "/social/edit"
     };
 
     public async Task OnGet()
