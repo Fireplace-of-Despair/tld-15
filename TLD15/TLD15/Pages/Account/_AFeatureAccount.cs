@@ -13,7 +13,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using TLD15.Infrastructure;
-using TLD15.Pages.Contacts;
 
 namespace TLD15.Pages.Account;
 
@@ -137,42 +136,42 @@ public sealed class AFeatureAccount
 
 
 
-    public sealed class ResponsePreview
-    {
-        public required Guid? Id { get; set; }
-        public string Login { get; set; } = string.Empty;
+    //public sealed class ResponsePreview
+    //{
+    //    public required Guid? Id { get; set; }
+    //    public string Login { get; set; } = string.Empty;
 
-        public required DateTime CreatedAt { get; set; }
-        public required DateTime UpdatedAt { get; set; }
-        public required long Version { get; set; }
-    }
+    //    public required DateTime CreatedAt { get; set; }
+    //    public required DateTime UpdatedAt { get; set; }
+    //    public required long Version { get; set; }
+    //}
 
-    public sealed class RequestPreview : IRequest<List<ResponsePreview>>
-    {
-    }
+    //public sealed class RequestPreview : IRequest<List<ResponsePreview>>
+    //{
+    //}
 
-    public sealed class HandlerPreview(IMongoClient client)
-        : IRequestHandler<RequestPreview, List<ResponsePreview>>
-    {
-        public async Task<List<ResponsePreview>> Handle(RequestPreview request, CancellationToken cancellationToken)
-        {
-            var database = client.GetDatabase(EntityAccount.Database);
-            var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
+    //public sealed class HandlerPreview(IMongoClient client)
+    //    : IRequestHandler<RequestPreview, List<ResponsePreview>>
+    //{
+    //    public async Task<List<ResponsePreview>> Handle(RequestPreview request, CancellationToken cancellationToken)
+    //    {
+    //        var database = client.GetDatabase(EntityAccount.Database);
+    //        var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
 
-            var documents = await collection.Find(FilterDefinition<EntityAccount>.Empty)
-                .SortByDescending(x => x.CreatedAt)
-                .ToListAsync(cancellationToken);
+    //        var documents = await collection.Find(FilterDefinition<EntityAccount>.Empty)
+    //            .SortByDescending(x => x.CreatedAt)
+    //            .ToListAsync(cancellationToken);
 
-            return documents.ConvertAll(x => new ResponsePreview
-            {
-                Id = x.Id,
-                CreatedAt = x.CreatedAt,
-                UpdatedAt = x.UpdatedAt,
-                Version = x.Version,
-                Login = x.Login,
-            });
-        }
-    }
+    //        return documents.ConvertAll(x => new ResponsePreview
+    //        {
+    //            Id = x.Id,
+    //            CreatedAt = x.CreatedAt,
+    //            UpdatedAt = x.UpdatedAt,
+    //            Version = x.Version,
+    //            Login = x.Login,
+    //        });
+    //    }
+    //}
 
 
 
@@ -238,13 +237,21 @@ public sealed class AFeatureAccount
             }
             else
             {
+                if (string.IsNullOrEmpty(item.Password))
+                {
+                    throw new IncidentException(IncidentCode.Invalid);
+                }
                 await collection.InsertOneAsync(item, collection.GetDefaultInsert(), cancellationToken);
             }
 
             item.Login = request.Login;
-            var hashResult = hashingService.Hash(request.Password);
-            item.Password = hashResult.HexHash;
-            item.Salt = hashResult.HexSalt;
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                var hashResult = hashingService.Hash(request.Password);
+                item.Password = hashResult.HexHash;
+                item.Salt = hashResult.HexSalt;
+            }
+            
             item.Bump(request.Version);
 
             await collection.ReplaceOneAsync(x => x.Id == item.Id, item, cancellationToken: cancellationToken);
@@ -264,10 +271,14 @@ public sealed class AFeatureAccount
     {
         public async Task<ResponseId<Guid>> Handle(RequestDelete request, CancellationToken cancellationToken)
         {
-            var database = client.GetDatabase(EntityContact.Database);
-            var collection = database.GetCollection<EntityContact>(EntityContact.Collection);
+            var database = client.GetDatabase(EntityAccount.Database);
+            var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
 
-            await collection.DeleteOneAsync(Builders<EntityContact>.Filter.Eq(x => x.Id, request.Id), new DeleteOptions(), cancellationToken);
+            var result = await collection.DeleteOneAsync(Builders<EntityAccount>.Filter.Eq(x => x.Id, request.Id), new DeleteOptions(), cancellationToken);
+            if (result.DeletedCount <= 0)
+            {
+                throw new IncidentException(IncidentCode.NotFound);
+            }
 
             return new ResponseId<Guid> { Id = request.Id };
         }

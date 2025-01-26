@@ -126,7 +126,11 @@ public sealed class AFeatureContacts
             var database = client.GetDatabase(EntityContact.Database);
             var collection = database.GetCollection<EntityContact>(EntityContact.Collection);
 
-            await collection.DeleteOneAsync(Builders<EntityContact>.Filter.Eq(x => x.Id, request.Id), new DeleteOptions(), cancellationToken);
+            var result = await collection.DeleteOneAsync(Builders<EntityContact>.Filter.Eq(x => x.Id, request.Id), new DeleteOptions(), cancellationToken);
+            if (result.DeletedCount <= 0)
+            {
+                throw new IncidentException(IncidentCode.NotFound);
+            }
 
             return new ResponseId<Guid> { Id = request.Id };
         }

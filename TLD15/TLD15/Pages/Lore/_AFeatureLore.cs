@@ -14,7 +14,6 @@ public sealed class AFeatureLore
     {
         public required Guid? Id { get; set; }
 
-        public required string Title { get; set; } = string.Empty;
         public required string PosterUrl { get; set; } = string.Empty;
         public required string PosterAlt { get; set; } = string.Empty;
         public required string Content { get; set; } = string.Empty;
@@ -25,9 +24,7 @@ public sealed class AFeatureLore
         public required long Version { get; set; }
     }
 
-    public sealed class RequestRead : IRequest<ResponseRead?>
-    {
-    }
+    public sealed class RequestRead : IRequest<ResponseRead?>;
 
     public sealed class HandlerRead(IMongoClient client) : IRequestHandler<RequestRead, ResponseRead?>
     {
@@ -42,7 +39,6 @@ public sealed class AFeatureLore
             return document == null ? null : new ResponseRead
             {
                 Id = document.Id,
-                Title = document.Title,
                 PosterUrl = document.PosterUrl,
                 PosterAlt = document.PosterAlt,
                 Content = document.Content,
@@ -67,7 +63,6 @@ public sealed class AFeatureLore
                 Id = Guid.NewGuid(),
             };
 
-            document.Title = request.Title;
             document.PosterUrl = request.PosterUrl;
             document.PosterAlt = request.PosterAlt;
             document.Content = request.Content;

@@ -1,13 +1,14 @@
 ﻿@page "{idFriendly}"
 @using Common.Composition
 @using System.Globalization
+@using TLD15.Utils
 @model TLD15.Pages.Articles.ReadModel
 
 @{
     ViewData[Globals.Page.Title] = $"{Model.Model.Title} | {Globals.Brand.Title}";
     ViewData[Globals.Page.Description] = Model.Model.SubTitle;
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl ?? "https://" + ViewContext.HttpContext.Request.Host + "/images/placeholder/article.png"}";
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl ?? "https://" + ViewContext.HttpContext.Request.Host + "images/placeholder/article.png"}";
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;

@@ -1,8 +1,10 @@
 using ACherryPie.Pages;
+using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,8 +12,11 @@ using System.Threading.Tasks;
 namespace TLD15.Pages.Contacts;
 
 [Authorize]
-public class EditContactsModel(IMediator mediator) : PageModel, IPageAdmin
+public class EditContactsModel(
+    IMediator mediator,
+    IConfiguration configuration) : PageModel, IPageAdmin
 {
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
     public List<AFeatureContacts.RequestEdit> Data { get; set; } = [];
 
     public static MetaData MetaData => new()

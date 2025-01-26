@@ -24,6 +24,7 @@ public class EditArticleModel(IMediator mediator,
     IConfiguration configuration) : PageModel
 {
     public static string FeatureName => "Edit Article";
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
 
     [BindProperty]
     public AFeatureArticle.ResponseRead Model { get; set; } = new();
@@ -66,8 +67,6 @@ public class EditArticleModel(IMediator mediator,
         return RedirectToPage(@"/Articles/Edit", new { id = result.Data!.Id });
     }
 
-    readonly string _host = configuration.GetSection("Application:Host").Get<string>()!;
-
     public async Task<IActionResult> OnPostImages(IList<IFormFile> files)
     {
         List<string> urls = [];
@@ -82,7 +81,7 @@ public class EditArticleModel(IMediator mediator,
                 await file.CopyToAsync(stream);
             }
 
-            urls.Add($"{_host}/files/{hash}{extension}");
+            urls.Add($"{ApplicationHost}files/{hash}{extension}");
         }
 
         return new ObjectResult(urls);

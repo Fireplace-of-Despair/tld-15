@@ -12,9 +12,6 @@ public class EntityLore : EntityBase<Guid>, IEntityStored
     public static string Collection => "lore";
     public static string Database => "core";
 
-    [BsonElement("title"), MaxLength(140)]
-    public string Title { get; set; } = string.Empty;
-
     [BsonElement("poster_url")]
     public string PosterUrl { get; set; } = string.Empty;
 
@@ -26,7 +23,6 @@ public class EntityLore : EntityBase<Guid>, IEntityStored
 
     [BsonElement("content_html")]
     public string ContentHtml { get; set; } = string.Empty;
-
 
     public static async Task CreateIndexesAsync(IMongoClient client)
     {

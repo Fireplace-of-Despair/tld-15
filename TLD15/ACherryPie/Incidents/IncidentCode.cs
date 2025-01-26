@@ -25,6 +25,9 @@ public enum IncidentCode
 
     [Description("Item not found")]
     NotFound = 40400,
+
+    [Description("Invalid items")]
+    Invalid = 40401,
 }
 
 public static class IncidentCodeHelper

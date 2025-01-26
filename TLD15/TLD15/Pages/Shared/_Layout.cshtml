@@ -19,7 +19,7 @@
 
     <!-- Search Engine Optimization Meta Tags -->
     <meta name="@Globals.Meta.Description" content="@ViewData[Globals.Page.Description]">
-    <meta name="keywords" content="@Globals.Brand.Keywords">
+    <meta name="keywords" content="@Html.Raw(Globals.Brand.Keywords)">
     <meta name="copyright" content="@Globals.Brand.Title @Globals.Brand.Author">
     <meta name="revisit-after" content="7 days">
     <meta name="distribution" content="web">
@@ -52,8 +52,8 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="~/favicon.ico">
-    <link rel="icon" href="favicon.png" />
-    <link rel="apple-touch-icon" href="logo.png" />
+    <link rel="icon" href="~/favicon.png" />
+    <link rel="apple-touch-icon" href="~/logo.png" />
 
     <!-- Title -->
     <title>@ViewData[Globals.Page.Title]</title>

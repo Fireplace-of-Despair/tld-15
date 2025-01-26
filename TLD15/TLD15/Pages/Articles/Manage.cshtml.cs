@@ -1,8 +1,10 @@
 using ACherryPie.Pages;
+using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,11 +12,14 @@ using System.Threading.Tasks;
 namespace TLD15.Pages.Articles;
 
 [Authorize]
-public class ManageArticlesModel(IMediator mediator) : PageModel, IPageAdmin
+public class ManageArticlesModel(
+    IMediator mediator,
+    IConfiguration configuration) : PageModel, IPageAdmin
 {
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
     public static MetaData MetaData => new()
     {
-        Id = "ManageArticles",
+        Id = "Articles",
         LocalUrl = "/Articles/Manage"
     };
 

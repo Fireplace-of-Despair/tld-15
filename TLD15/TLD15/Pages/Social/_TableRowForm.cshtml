@@ -10,7 +10,7 @@
         <input type="text" asp-for="@Model.Name" />
     </td>
     <td>
-        <input type="email" asp-for="@Model.Url" />
+        <input type="url" asp-for="@Model.Url" />
     </td>
     <td>
         <button hx-get="@Url.Handler("Item", new { id = Model.Id })" class="secondary" style="margin-bottom: 6px;">

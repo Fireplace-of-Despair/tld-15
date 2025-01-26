@@ -128,7 +128,11 @@ public sealed class ASocialFeature
             var database = client.GetDatabase(EntitySocial.Database);
             var collection = database.GetCollection<EntitySocial>(EntitySocial.Collection);
 
-            await collection.DeleteOneAsync(Builders<EntitySocial>.Filter.Eq(x => x.Id, request.Id), new DeleteOptions(), cancellationToken);
+            var result = await collection.DeleteOneAsync(Builders<EntitySocial>.Filter.Eq(x => x.Id, request.Id), new DeleteOptions(), cancellationToken);
+            if (result.DeletedCount <= 0)
+            {
+                throw new IncidentException(IncidentCode.NotFound);
+            }
 
             return new ResponseId<Guid> { Id = request.Id };
         }

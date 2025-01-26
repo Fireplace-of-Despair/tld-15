@@ -2,16 +2,22 @@
 @model TLD15.Pages.Account.AFeatureAccount.RequestEdit
 
 <tr>
-    <td>@Model.Login</td>
-    <td>@Model.CreatedAt</td>
-    <td>@Model.UpdatedAt</td>
-    <td>@Model.Version</td>
     <td>
-        <button class="outline" hx-get="@Url.Handler("EditItem", new { id = Model.Id })">
-            Edit
+        <input hidden type="text" asp-for="@Model.Id" />
+        <input hidden type="text" asp-for="@Model.Version" />
+        <input hidden type="text" asp-for="@Model.CreatedAt" />
+        <input hidden type="text" asp-for="@Model.UpdatedAt" />
+        <input type="text" asp-for="@Model.Login" />
+    </td>
+    <td>
+        <input type="password" asp-for="@Model.Password" />
+    </td>
+    <td>
+        <button hx-get="@Url.Handler("Item", new { id = Model.Id })" class="secondary" style="margin-bottom: 6px;">
+            Cancel
         </button>
-        <button class="outline" hx-delete="@Url.Handler("Item", new { id = Model.Id })" antiforgery="true">
-            Delete
+        <button hx-put="@Url.Handler("Item", new { id = Model.Id })" hx-include="closest tr" antiforgery="true">
+            Save
         </button>
     </td>
 </tr>

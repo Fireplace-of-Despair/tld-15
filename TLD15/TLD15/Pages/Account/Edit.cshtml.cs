@@ -1,8 +1,10 @@
 using ACherryPie.Pages;
+using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,9 +12,12 @@ using System.Threading.Tasks;
 namespace TLD15.Pages.Account;
 
 [Authorize]
-public sealed class EditModel(IMediator mediator) : PageModel, IPageAdmin
+public sealed class EditModel(
+    IMediator mediator,
+    IConfiguration configuration) : PageModel, IPageAdmin
 {
-    public List<AFeatureAccount.ResponsePreview> Data { get; set; } = [];
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public List<AFeatureAccount.RequestEdit> Data { get; set; } = [];
 
     public static MetaData MetaData => new()
     {
@@ -22,7 +27,7 @@ public sealed class EditModel(IMediator mediator) : PageModel, IPageAdmin
 
     public async Task OnGet()
     {
-        Data = await mediator.Send(new AFeatureAccount.RequestPreview {  });
+        Data = await mediator.Send(new AFeatureAccount.RequestView { Id = null  });
     }
 
     public async Task<IActionResult> OnGetItem(Guid id)
