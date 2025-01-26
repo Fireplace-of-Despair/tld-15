@@ -2,10 +2,13 @@
 @using Common.Composition
 @model TLD15.Pages.Account.LoginFeature
 @{
-    ViewData[Globals.Page.Title] = $"{LoginFeature.PageName} | {Globals.Brand.Title}";
-    ViewData[Globals.OpenGraph.Url] =
-        $"https://{ViewContext.HttpContext.Request.Host}" +
-        $"{ViewContext.HttpContext.Request.Path}";
+    ViewData[Globals.Page.Title] = $" | {Globals.Brand.Title}";
+    ViewData[Globals.Page.Description] = Globals.Brand.Description;
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"/images/chief.png";
+    ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
+
+    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
 <form id="loginForm" method="post" class="component-container">

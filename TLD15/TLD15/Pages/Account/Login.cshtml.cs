@@ -1,18 +1,20 @@
 using ACherryPie.Feature;
+using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-
 namespace TLD15.Pages.Account;
 
-public class LoginFeature(IMediator mediator): PageModel
+public class LoginFeature(IMediator mediator, IConfiguration configuration) : PageModel
 {
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
     public static string PageName => "Login";
 
     [BindProperty]

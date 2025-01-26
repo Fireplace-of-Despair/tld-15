@@ -14,7 +14,6 @@ public static class Globals
         public static string Author => "Shevtsov \"Chief\" Stan";
         public static string Designer => "Shevtsov \"Chief\" Stan";
         public static string Type => "Blog";
-        public static string BaseUrl => "https://1.1.1.1/";
 
         public static Dictionary<string, string> Divisions => new()
         {
@@ -86,5 +85,6 @@ public static class Globals
     {
         public static string DateFormat => "yyyy/MM/dd";
         public static string Locale => "en";
+        public static string ApplicationHost => "Application:Host";
     }
 }

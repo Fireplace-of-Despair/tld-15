@@ -6,7 +6,7 @@
 @{
     ViewData[Globals.Page.Title] = $"{Model.Model.Title} | {Globals.Brand.Title}";
     ViewData[Globals.Page.Description] = Model.Model.SubTitle;
-    ViewData[Globals.OpenGraph.Url] = Globals.Brand.BaseUrl + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost + ViewContext.HttpContext.Request.Path;
     ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl ?? "https://" + ViewContext.HttpContext.Request.Host + "/images/placeholder/article.png"}";
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 

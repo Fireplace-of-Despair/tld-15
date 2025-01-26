@@ -3,10 +3,12 @@
 
 @if (User?.Identity?.IsAuthenticated == true)
 {
-    @foreach (var item in Model.Urls ?? [])
-    {
-        <a class="navigation-link" href="@item.Value">
-            @item.Key
-        </a>
-    }
+    <div class="component-container">
+        @foreach (var item in Model.Urls ?? [])
+        {
+            <a class="navigation-link" href="@item.Value">
+                @item.Key
+            </a>
+        }
+    </div>
 }

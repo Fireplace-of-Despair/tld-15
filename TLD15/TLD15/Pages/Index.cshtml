@@ -7,7 +7,7 @@
 @{
     ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
     ViewData[Globals.Page.Description] = $"{Globals.Brand.Author} {Globals.Brand.Type}";
-    ViewData[Globals.OpenGraph.Url] = Globals.Brand.BaseUrl;
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost;
     ViewData[Globals.OpenGraph.Image] = $"/images/chief.png";
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 
@@ -19,8 +19,8 @@
     {
         { TLD15.Pages.Articles.PreviewArticlesPartialModel.Anchor, "Articles" },
         { TLD15.Pages.Lore.PreviewLoreModel.Anchor, "Lore" },
+        { TLD15.Pages.Social.PreviewSocialPartialModel.Anchor, "Social" },
         { TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor, "Contacts" },
-        { TLD15.Pages.Social.PreviewSocialPartialModel.Anchor, "Social" }
     })
 </div>
 

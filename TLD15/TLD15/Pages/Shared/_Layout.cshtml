@@ -27,8 +27,8 @@
     <meta name="coverage" content="Worldwide">
     <meta name="distribution" content="Global">
     <meta name="rating" content="General">
-    <meta name="url" content="@Globals.Brand.BaseUrl">
-    <meta name="identifier-URL" content="@Globals.Brand.BaseUrl">
+    <meta name="url" content="@Model.ApplicationHost">
+    <meta name="identifier-URL" content="@Model.ApplicationHost">
 
     <!-- Open Graph -->
     <meta property="@Globals.OpenGraph.Title" content="@ViewData[Globals.Page.Title]">
@@ -69,9 +69,7 @@
 <body>
     @await Component.InvokeAsync(nameof(BrandHeader))
 
-    <div class="component-container">
-        @await Component.InvokeAsync(nameof(NavigationAdmin))
-    </div>
+    @await Component.InvokeAsync(nameof(NavigationAdmin))
 
     <main role="main" class="container">
         @RenderBody()
