@@ -16,10 +16,10 @@ public sealed class EntityAccount : EntityBase<Guid>, IEntityStored
     public required string Login { get; set; }
 
     [BsonElement("password")]
-    public required string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 
     [BsonElement("salt")]
-    public required string Salt { get; set; }
+    public string Salt { get; set; } = string.Empty;
 
     public static async Task CreateIndexesAsync(IMongoClient client)
     {

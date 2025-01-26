@@ -25,47 +25,21 @@ public sealed class AFeatureLore
         public required long Version { get; set; }
     }
 
-    public sealed class RequestRead : IRequest<ResponseRead>
+    public sealed class RequestRead : IRequest<ResponseRead?>
     {
     }
 
-    public sealed class HandlerRead(IMongoClient client) : IRequestHandler<RequestRead, ResponseRead>
+    public sealed class HandlerRead(IMongoClient client) : IRequestHandler<RequestRead, ResponseRead?>
     {
-        public async Task<ResponseRead> Handle(RequestRead request, CancellationToken cancellationToken)
+        public async Task<ResponseRead?> Handle(RequestRead request, CancellationToken cancellationToken)
         {
             var database = client.GetDatabase(EntityLore.Database);
             var collection = database.GetCollection<EntityLore>(EntityLore.Collection);
 
             var document = await collection.Find(FilterDefinition<EntityLore>.Empty)
-                .FirstOrDefaultAsync(cancellationToken)
-                ??
-                new EntityLore
-                {
-                    Id = Guid.Empty,
-                    Language = "eng",
-                    Title = "Lore",
-                    PosterUrl = "https://fireplace-of-despair.org/images/chief.jpg",
-                    PosterAlt = "lol",
-                    Content = @"The lore and history of the Fireplace of Despair had slipped away into the shadows of time, like smoke from a half-forgotten cigarette. The Fireplace of Despair had always been here, lurking in the corners, barely noticed by most.
+                .FirstOrDefaultAsync(cancellationToken);
 
-But behind it all, there is one man, a constant presence from the beginning to the very end.
-
-A seasoned individual with a mind as sharp as his tailored suits, he'd seen it all. Nothing escaped his notice. At the head of the Fireplace of Despair stands a figure cloaked in mystery, known as Shevtsov Stan. Or simply, the Chief. A ghost from a distant land, his past shrouded in layers of intrigue and rumor. To some, he is a myth, a legend whispered among the people.
-
-Yet beneath the cloak of enigma, there is a man with a soft smile, a soul steeped in shadows, and too many skills for one person alone. The Chief's true motives remain hidden in the murk, his loyalty a secret he keeps close to the chest. To those who seek his help, he makes no promises but always delivers results. ",
-                    ContentHtml = @"The lore and history of the Fireplace of Despair had slipped away into the shadows of time, like smoke from a half-forgotten cigarette. The Fireplace of Despair had always been here, lurking in the corners, barely noticed by most.
-
-But behind it all, there is one man, a constant presence from the beginning to the very end.
-
-A seasoned individual with a mind as sharp as his tailored suits, he'd seen it all. Nothing escaped his notice. At the head of the Fireplace of Despair stands a figure cloaked in mystery, known as Shevtsov Stan. Or simply, the Chief. A ghost from a distant land, his past shrouded in layers of intrigue and rumor. To some, he is a myth, a legend whispered among the people.
-
-Yet beneath the cloak of enigma, there is a man with a soft smile, a soul steeped in shadows, and too many skills for one person alone. The Chief's true motives remain hidden in the murk, his loyalty a secret he keeps close to the chest. To those who seek his help, he makes no promises but always delivers results. ",
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    Version = 0,
-                };
-
-            return new ResponseRead
+            return document == null ? null : new ResponseRead
             {
                 Id = document.Id,
                 Title = document.Title,

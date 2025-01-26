@@ -9,6 +9,7 @@ namespace TLD15.Pages.Lore;
 public sealed class PreviewLoreModel() : PageModel, IPartial
 {
     public static string Anchor => "preview_lore";
+    public string Title => "Lore";
 
     public AFeatureLore.ResponseRead? Data { get; set; }
 

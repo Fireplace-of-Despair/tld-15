@@ -1,0 +1,17 @@
+﻿@using TLD15.TagHelpers
+@model TLD15.Pages.Account.AFeatureAccount.RequestEdit
+
+<tr>
+    <td>@Model.Login</td>
+    <td>@Model.CreatedAt</td>
+    <td>@Model.UpdatedAt</td>
+    <td>@Model.Version</td>
+    <td>
+        <button class="outline" hx-get="@Url.Handler("EditItem", new { id = Model.Id })">
+            Edit
+        </button>
+        <button class="outline" hx-delete="@Url.Handler("Item", new { id = Model.Id })" antiforgery="true">
+            Delete
+        </button>
+    </td>
+</tr>

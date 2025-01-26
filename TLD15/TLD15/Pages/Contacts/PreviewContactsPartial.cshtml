@@ -3,12 +3,12 @@
 @using TLD15.Utils
 @model TLD15.Pages.Contacts.PreviewContactsPartialModel
 
+<h2 class="component-title" id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor">
+    @Model.Title
+</h2>
+
 @if (Model.Data.Any())
 {
-    <h2 class="component-title" id="@TLD15.Pages.Contacts.PreviewContactsPartialModel.Anchor">
-        @Model.Title
-    </h2>
-
     <div class="contact-container">
         @foreach (var link in @Model.Data)
         {

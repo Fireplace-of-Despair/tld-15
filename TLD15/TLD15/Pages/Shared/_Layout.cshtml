@@ -68,7 +68,10 @@
 </head>
 <body>
     @await Component.InvokeAsync(nameof(BrandHeader))
-    @await Component.InvokeAsync(nameof(NavigationAdmin))
+
+    <div class="component-container">
+        @await Component.InvokeAsync(nameof(NavigationAdmin))
+    </div>
 
     <main role="main" class="container">
         @RenderBody()
