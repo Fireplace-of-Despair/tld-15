@@ -26,6 +26,11 @@
 </div>
 
 @{
+    await Html.RenderPartialAsync("/Pages/Projects/PreviewPartial.cshtml",
+        await TLD15.Pages.Projects.PreviewPartialModel.InitializeAsync(Model.Mediator));
+}
+
+@{
     await Html.RenderPartialAsync("/Pages/Introduction/PreviewIntroductionPartial.cshtml",
         await TLD15.Pages.Introduction.PreviewIntroductionPartialModel.InitializeAsync(Model.Mediator));
 }

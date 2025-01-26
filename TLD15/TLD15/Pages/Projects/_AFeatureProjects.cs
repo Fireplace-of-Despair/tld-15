@@ -96,6 +96,7 @@ public sealed class AFeatureProjects
         {
             var database = client.GetDatabase(EntityProject.Database);
             var collection = database.GetCollection<EntityProject>(EntityProject.Collection);
+
             var document = await collection.Find(x => x.IdFriendly == request.IdFriendly || x.Id == request.Id)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
@@ -136,7 +137,7 @@ public sealed class AFeatureProjects
                 await collection.InsertOneAsync(item, collection.GetDefaultInsert(), cancellationToken);
             }
 
-            item.IdFriendly = request.IdFriendly;
+            item.IdFriendly = request.IdFriendly.ToLowerInvariant();
             item.Title = request.Title;
             item.SubTitle = request.SubTitle;
             item.PosterUrl = request.PosterUrl;
