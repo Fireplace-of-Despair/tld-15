@@ -22,7 +22,7 @@ public static class IconHelper
             "telegram" => "/images/icons/telegram.svg",
             "youtube" => "/images/icons/youtube.svg",
 
-            _ => throw new ArgumentException($"Unknown icon key: {key}"),
+            _ => "/images/icons/default.svg",
         };
     }
 }
