@@ -98,13 +98,13 @@ public sealed class AFeatureAccount
     {
         public async Task<ResponseId<Guid>> Handle(RequestLogin request, CancellationToken cancellationToken)
         {
+            await Task.Delay(5_000, cancellationToken);
+
             var cacheKey = string.Format(CacheKey.LoginAttempt, request.Login);
             if (!memoryCache.TryGetValue(cacheKey, out int loginFailedAttempts))
             {
                 memoryCache.Set(cacheKey, 1, TimeSpan.FromMinutes(30));
             }
-
-            await Task.Delay(new Random().Next(1000, 3000), cancellationToken);
 
             if (loginFailedAttempts >= CacheKey.LoginAttemptMax)
             {
