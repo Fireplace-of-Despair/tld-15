@@ -31,7 +31,11 @@ public sealed class AFeatureProjects
         public DateTime CreatedAt { get; set; }
     }
 
-    public sealed class RequestPreview : IRequest<List<ResponsePreview>>;
+    public sealed class RequestPreview : IRequest<List<ResponsePreview>>
+    {
+        public required List<string> ExcludeDivisions { get; set; } = [];
+        public required List<string> IncludeDivisions { get; set; } = [];
+    }
 
     public sealed class HandlerPreview(IMongoClient client)
         : IRequestHandler<RequestPreview, List<ResponsePreview>>
@@ -41,7 +45,10 @@ public sealed class AFeatureProjects
             var database = client.GetDatabase(EntityProject.Database);
             var collection = database.GetCollection<EntityProject>(EntityProject.Collection);
 
-            var documents = await collection.Find(FilterDefinition<EntityProject>.Empty)
+            var documents = await collection.Find(x =>
+                !request.ExcludeDivisions.Contains(x.DivisionCode)
+                && request.IncludeDivisions.Contains(x.DivisionCode)
+                )
                 .SortByDescending(x => x.CreatedAt)
                 .ToListAsync(cancellationToken);
 

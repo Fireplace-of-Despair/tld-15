@@ -51,14 +51,14 @@
                     <div class="project-buttons-container">
                         @foreach (var link in project.Links)
                         {
-                            <a class="link-container" href="@link.Value">
-                                @if (!string.IsNullOrEmpty(IconHelper.GetLanguage(@link.Key)))
-                                {
-                                    <div class="link-container-language">
+                            <a class="external-button" href="@link.Value">
+                                <div class="external-button-language">
+                                    @if (!string.IsNullOrEmpty(IconHelper.GetLanguage(@link.Key)))
+                                    {
                                         @IconHelper.GetLanguage(@link.Key)
-                                    </div>
-                                }
-                                <img class="project-button"
+                                    }
+                                </div>
+                                <img class="external-button-icon"
                                      src="@IconHelper.GetIcon(@link.Key)"
                                      alt="@link.Key">
                             </a>

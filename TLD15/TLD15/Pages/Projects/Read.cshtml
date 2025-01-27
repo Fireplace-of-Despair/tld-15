@@ -127,6 +127,54 @@
         background: var(--brand-color-first);
         font-family: 'Roboto', sans-serif;
     }
+
+    .article-container-outer {
+        margin-left: 5%;
+        margin-right: 5%;
+        padding: 15px;
+        margin-top: 15px;
+        text-align: center;
+        align-content: center;
+        background-color: var(--brand-color-first);
+        padding-bottom: 20px;
+    }
+
+    .project-read-buttons-container {
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        margin-top: 35px;
+        gap: 10px;
+    }
+
+    .project-read-external-button {
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        text-decoration: none;
+        color: var(--color-background) !important;
+        margin-right: 10px;
+    }
+
+        .project-read-external-button:hover {
+            filter: brightness(0) saturate(100%) invert(40%) sepia(56%) saturate(5293%) hue-rotate(342deg) brightness(94%) contrast(93%);
+        }
+
+    .project-read-external-button-language {
+        border: 1px solid var(--brand-color-third);
+        color: var( --brand-color-third);
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+    }
+
+    .project-read-external-button-icon {
+        object-fit: cover;
+        width: 50px !important;
+        height: 50px !important;
+        filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7484%) hue-rotate(203deg) brightness(103%) contrast(101%);
+    }
+
 </style>
 
 <article>
@@ -169,4 +217,24 @@
             @Html.Raw(item)
         </section>
     }
+
+    <div class="article-container-outer">
+        <h2>@Globals.Controls.Links</h2>
+        <div class="project-read-buttons-container">
+        @foreach (var link in Model.Model.Links)
+        {
+                <a class="project-read-external-button" href="@link.Value">
+                    <div class="project-read-external-button-language">
+                    @if (!string.IsNullOrEmpty(IconHelper.GetLanguage(@link.Key)))
+                    {
+                        @IconHelper.GetLanguage(@link.Key)
+                    }
+                </div>
+                    <img class="project-read-external-button-icon"
+                     src="@IconHelper.GetIcon(@link.Key)"
+                     alt="@link.Key">
+            </a>
+        }
+        </div>
+    </div>
 </article>

@@ -38,7 +38,7 @@ public class EntityProject : EntityBase<Guid>, IEntityStored
     [BsonElement("content_html")]
     public string ContentHtml { get; set; } = string.Empty;
 
-    public Dictionary<string, string> Links { get; set; } = new();
+    public Dictionary<string, string> Links { get; set; } = [];
 
     public static async Task CreateIndexesAsync(IMongoClient client)
     {
@@ -47,9 +47,12 @@ public class EntityProject : EntityBase<Guid>, IEntityStored
 
         var fieldIdFriendly = new StringFieldDefinition<EntityArticle>("id_friendly");
         var indexDefinition = new IndexKeysDefinitionBuilder<EntityArticle>().Ascending(fieldIdFriendly);
-
         var indexIdFriendly = new CreateIndexModel<EntityArticle>(indexDefinition, new CreateIndexOptions() { Unique = true });
-
         await collection.Indexes.CreateOneAsync(indexIdFriendly);
+
+        var fieldIdDivision = new StringFieldDefinition<EntityArticle>("Division");
+        var indexDivision = new IndexKeysDefinitionBuilder<EntityArticle>().Ascending(fieldIdDivision);
+        var indexModelDivision = new CreateIndexModel<EntityArticle>(indexDivision, new CreateIndexOptions() { Unique = false });
+        await collection.Indexes.CreateOneAsync(indexModelDivision);
     }
 }

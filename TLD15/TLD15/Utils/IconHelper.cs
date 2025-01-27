@@ -8,9 +8,9 @@ public static class IconHelper
     {
         var language = key.Split("_").LastOrDefault();
 
-        if (string.IsNullOrEmpty(language))
+        if (string.IsNullOrEmpty(language) || language.Length > 3)
         {
-            return string.Empty;
+            return "〇";
         }
 
         return language.ToUpper();

@@ -29,6 +29,9 @@ public sealed class EditModel(IMediator mediator,
     [BindProperty]
     public AFeatureProjects.ResponseRead Model { get; set; } = new();
 
+    [BindProperty]
+    public Dictionary<string, string> Links { get; set; } = new();
+
     public SelectList Divisions { get; set; } = new SelectList(Globals.Brand.Divisions, "Key", "Value");
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
@@ -46,6 +49,7 @@ public sealed class EditModel(IMediator mediator,
         }
 
         Model = result.Data!;
+        Links = Model.Links;
         return Page();
     }
 
@@ -56,6 +60,8 @@ public sealed class EditModel(IMediator mediator,
             ModelState.AddModelError("Model", IncidentCode.General.GetDescription());
             return Page();
         }
+
+        Model.Links = Links;
 
         var result = await FeatureRunner.Run(async () => await mediator.Send(Model));
         if (result.Incident != null)

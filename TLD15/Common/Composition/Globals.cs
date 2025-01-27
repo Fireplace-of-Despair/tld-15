@@ -58,6 +58,7 @@ public static class Globals
         public static string Save => "Save";
         public static string Delete => "Delete";
         public static string ScrollToTheTop => "Scroll to the top";
+        public static string Links => "Links";
     }
 
     public static class Meta

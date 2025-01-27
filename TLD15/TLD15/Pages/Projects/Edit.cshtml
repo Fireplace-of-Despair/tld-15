@@ -19,7 +19,6 @@
         text-align: center;
         align-content: center;
         background-color: var(--brand-color-first);
-        color: var(--brand-color-third);
         padding-bottom: 20px;
     }
 
@@ -120,6 +119,25 @@
 
             <input id="content-html" type="hidden" asp-for="@Model.Model.ContentHtml" />
             <textarea id="content" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
+
+            <div id="links-container">
+                @for (int i = 0; i < Model.Links.Count; i++)
+                {
+                    <div class="link-item">
+                        <input type="text" name="Links[@i].Key" value="@Model.Links.ElementAt(i).Key" placeholder="Key" class="form-control link-key" />
+                        <input type="text" name="Links[@i].Value" value="@Model.Links.ElementAt(i).Value" placeholder="Value" class="form-control link-value" />
+                        <button type="button" class="remove-link btn btn-danger">Remove</button>
+                    </div>
+                }
+            </div>
+
+            <button type="button" id="add-link" class="btn btn-primary">Add Link</button>
+
+            <button type="button" id="add-link" class="btn btn-primary">Add Link</button>
+            <button type="submit" class="btn btn-success">Save Links</button>
+
+
+
         </form>
 
         <form id="form" class="article-edit" name="form" action="/uploader" enctype="multipart/form-data" method="post">
@@ -156,6 +174,25 @@
 </div>
 
 <script>
+        $(document).ready(function() {
+            var linkIndex = @Model.Links.Count
+
+            // Add new link
+            $('#add-link').click(function() {
+                const newLinkItem = $('<div class="link-item">')
+                    .append('<input type="text" name="Links[' + linkIndex + '].Key" placeholder="Key" class="form-control link-key" />')
+                    .append('<input type="text" name="Links[' + linkIndex + '].Value" placeholder="Value" class="form-control link-value" />')
+                    .append('<button type="button" class="remove-link btn btn-danger">Remove</button>');
+                $('#links-container').append(newLinkItem);
+                linkIndex++; // Increment the index for the next new field
+            });
+
+            // Remove link item
+            $('#links-container').on('click', '.remove-link', function() {
+                $(this).closest('.link-item').remove();
+            });
+        });
+
     function uploadFiles(inputId) {
         var input = document.getElementById(inputId);
         var files = input.files;

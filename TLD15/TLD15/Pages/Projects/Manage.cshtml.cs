@@ -30,7 +30,11 @@ public class ManageModel(
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var result = await mediator.Send(new AFeatureProjects.RequestPreview());
+        var result = await mediator.Send(new AFeatureProjects.RequestPreview
+        {
+            ExcludeDivisions = ["ACD"],
+            IncludeDivisions = [.. Globals.Brand.Divisions.Keys.Where(x => x != "ACD")],
+        });
         result.Add(new AFeatureProjects.ResponsePreview
         {
             Id = null,
