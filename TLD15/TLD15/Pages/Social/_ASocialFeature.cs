@@ -18,9 +18,7 @@ public sealed class ASocialFeature
         public required string Name { get; set; }
     }
 
-    public sealed class RequestPreview : IRequest<List<ResponsePreview>>
-    {
-    }
+    public sealed class RequestPreview : IRequest<List<ResponsePreview>>;
 
     public sealed class HandlerPreview(IMongoClient client) : IRequestHandler<RequestPreview, List<ResponsePreview>>
     {
