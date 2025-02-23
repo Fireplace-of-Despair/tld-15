@@ -1,20 +1,19 @@
-﻿@using Common.Composition
+﻿@page
+@using Common.Composition
 @using System.Globalization
-@using TLD15.Utils
-
-@model TLD15.Pages.Press.PartialPreviewPressModel
+@model TLD15.Pages.Press.ReadModel
 
 @if (Model.Data.Count > 0)
 {
     <div class="component-container">
-        <h2 id="@Model.Anchor" class="component-title">@Model.Title</h2>
+        <h1 class="component-title">@Model.Title</h1>
 
         <div class="projects-container">
             @foreach (var project in Model.Data)
             {
                 <div id="@project.Id" class="project-card">
                     <div class="project-image-container">
-                        <a href="@project.Url" target="_blank">
+                        <a href="@project.Url" target="_blank" rel="external">
                             @if (string.IsNullOrEmpty(project.PosterUrl))
                             {
                                 <img class="project-image" loading="lazy"
@@ -30,24 +29,20 @@
                                      aria-labelledby="@project.PosterAlt">
                             }
                         </a>
-                        <div class="project-image-overlay-division"
-                             data-tooltip="@Globals.Brand.Divisions["DSD"]">
-                            DSD
-                        </div>
 
                         <div class="project-image-overlay-date">
                             @project.CreatedAt.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
                         </div>
                     </div>
 
-                    <a href="@project.Url" target="_blank"
-                       class="project-title" rel="canonical">
+                    <a href="@project.Url" target="_blank" rel="external" class="project-title">
                         <b>@project.Title</b>
                     </a>
 
                     <div class="project-description">
                         @project.Subtitle
                     </div>
+
 
                 </div>
             }

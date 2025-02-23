@@ -1,5 +1,6 @@
 using ACherryPie.Feature;
 using ACherryPie.Incidents;
+using ACherryPie.Pages;
 using ACherryPie.Security;
 using Common.Composition;
 using MediatR;
@@ -8,31 +9,31 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace TLD15.Pages.Projects;
+namespace TLD15.Pages.Press;
 
 [Authorize]
-public sealed class EditModel(IMediator mediator,
+public class EditModel(IMediator mediator,
     IWebHostEnvironment webHostEnvironment,
     IHashingService hashingService,
     IConfiguration configuration) : PageModel
 {
-    public static string FeatureName => "Edit Project";
+    public static string FeatureName => "Edit Press";
     public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
 
-    [BindProperty]
-    public AFeatureProjects.ResponseRead Model { get; set; } = new();
+    public static MetaData MetaData => new()
+    {
+        Id = "Press",
+        LocalUrl = "/press/edit"
+    };
 
     [BindProperty]
-    public Dictionary<string, string> Links { get; set; } = [];
-
-    public SelectList Divisions { get; set; } = new SelectList(Globals.Brand.Divisions, "Key", "Value");
+    public AFeaturePress.ResponseRead Model { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync(Guid? id)
     {
@@ -41,7 +42,7 @@ public sealed class EditModel(IMediator mediator,
             return Page();
         }
 
-        var result = await FeatureRunner.Run(async () => await mediator.Send(new AFeatureProjects.RequestRead { Id = id.Value, IdFriendly = null }));
+        var result = await FeatureRunner.Run(async () => await mediator.Send(new AFeaturePress.RequestRead { Id = id.Value }));
         if (result.Incident != null)
         {
             ModelState.AddModelError("Model", result.Incident.Description);
@@ -49,7 +50,7 @@ public sealed class EditModel(IMediator mediator,
         }
 
         Model = result.Data!;
-        Links = Model.Links;
+
         return Page();
     }
 
@@ -61,8 +62,6 @@ public sealed class EditModel(IMediator mediator,
             return Page();
         }
 
-        Model.Links = Links;
-
         var result = await FeatureRunner.Run(async () => await mediator.Send(Model));
         if (result.Incident != null)
         {
@@ -70,7 +69,7 @@ public sealed class EditModel(IMediator mediator,
             return Page();
         }
 
-        return RedirectToPage(@"/Projects/Edit", new { id = result.Data!.Id });
+        return RedirectToPage(@"/Press/Edit", new { id = result.Data!.Id });
     }
 
     public async Task<IActionResult> OnPostImages(IList<IFormFile> files)

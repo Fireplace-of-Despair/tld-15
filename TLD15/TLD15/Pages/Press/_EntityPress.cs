@@ -16,13 +16,16 @@ public sealed class EntityPress : EntityBase<Guid>, IEntityStored
     public string Title { get; set; } = string.Empty;
 
     [BsonElement("subtitle"), MaxLength(300)]
-    public string SubTitle { get; set; } = string.Empty;
+    public string Subtitle { get; set; } = string.Empty;
 
     [BsonElement("poster_url")]
     public string PosterUrl { get; set; } = string.Empty;
 
     [BsonElement("poster_alt")]
     public string PosterAlt { get; set; } = string.Empty;
+
+    [BsonElement("url")]
+    public string Url { get; set; } = string.Empty;
 
     public static Task CreateIndexesAsync(IMongoClient client)
     {

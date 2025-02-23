@@ -1,0 +1,8 @@
+﻿@model NavigationGlobal
+
+@foreach (var item in Model.Links ?? [])
+{
+    <a class="navigation-link" asp-page="@item.Key" rel="canonical">
+        @item.Value
+    </a>
+}

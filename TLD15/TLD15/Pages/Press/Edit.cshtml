@@ -1,0 +1,29 @@
+﻿@page "{id?}"
+@Html.AntiForgeryToken()
+@using Common.Composition
+@using System.Globalization
+
+@model TLD15.Pages.Press.EditModel
+@{
+    ViewData[Globals.Page.Title] = $"EditArticleModel.FeatureName | {Globals.Brand.Title}";
+}
+
+<script src="~/js/showdown/showdown-2.1.0.min.js"></script>
+<script src="~/js/jquery/jquery-3.7.1.min.js"></script>
+
+<div class="component-container">
+    <form class="article-edit" id="#main-form" method="post">
+        <input type="hidden" asp-for="@Model.Model.Id" />
+        <input type="hidden" asp-for="@Model.Model.Version" />
+
+        <input id="title" type="text" asp-for="@Model.Model.Title" placeholder="Title">
+        <input id="subtitle" type="text" asp-for="@Model.Model.Subtitle" placeholder="Subtitle">
+
+        <input id="posterUrl" type="text" asp-for="@Model.Model.PosterUrl" placeholder="PosterUrl">
+        <input id="posterAlt" type="text" asp-for="@Model.Model.PosterAlt" placeholder="PosterAlt">
+
+        <input id="url" type="text" asp-for="@Model.Model.Url" placeholder="Url">
+        
+        <button type="submit">@Globals.Controls.Save</button>
+    </form>
+</div>

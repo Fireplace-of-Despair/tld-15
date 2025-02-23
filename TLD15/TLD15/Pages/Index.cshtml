@@ -1,6 +1,8 @@
 ﻿@page
 @using Common.Composition
 @using TLD15.Pages.Shared.Components.BrandHeader
+@using TLD15.Pages.Shared.Components.NavigationAdmin
+@using TLD15.Pages.Shared.Components.NavigationGlobal
 @using TLD15.Pages.Shared.Components.NavigationLocal
 @model IndexModel;
 
@@ -13,6 +15,13 @@
 
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
+
+<div class="component-container">
+    @await Component.InvokeAsync(nameof(NavigationGlobal), new Dictionary<string, string>()
+    {
+        { "/Press/Read", "Press" },
+    })
+</div>
 
 <div class="component-container">
     @await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
