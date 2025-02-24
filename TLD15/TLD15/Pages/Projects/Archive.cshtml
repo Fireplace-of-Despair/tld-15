@@ -1,0 +1,72 @@
+﻿@page
+@using Common.Composition
+@using System.Globalization
+@using TLD15.Utils
+@model TLD15.Pages.Projects.ArchiveModel
+
+@if (Model.Data.Count > 0)
+{
+    <div class="component-container">
+        <h2 id="@Model.Anchor" class="component-title">@Model.Title</h2>
+
+        <div class="projects-container">
+            @foreach (var project in Model.Data)
+            {
+                <div id="@project.Id" class="project-card">
+                    <div class="project-image-container">
+                        <a asp-page="/Projects/Read" asp-route-idFriendly="@project.IdFriendly" rel="canonical">
+                            @if (string.IsNullOrEmpty(project.PosterUrl))
+                            {
+                                <img class="project-image" loading="lazy"
+                                     src="/images/placeholder/project.png"
+                                     alt="@project.PosterAlt"
+                                     aria-labelledby="@project.PosterAlt">
+                            }
+                            else
+                            {
+                                <img class="project-image" loading="lazy"
+                                     src="@project.PosterUrl"
+                                     alt="@project.PosterAlt"
+                                     aria-labelledby="@project.PosterAlt">
+                            }
+                        </a>
+                        <div class="project-image-overlay-division"
+                             data-tooltip="@Globals.Brand.Divisions[project.Division]">
+                            @project.Division.ToUpper()
+                        </div>
+
+                        <div class="project-image-overlay-date">
+                            @project.CreatedAt.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
+                        </div>
+                    </div>
+
+                    <a asp-page="/Projects/Read" asp-route-idFriendly="@project.IdFriendly"
+                       class="project-title" rel="canonical">
+                        <b>@project.Title</b>
+                    </a>
+
+                    <div class="project-description">
+                        @project.Subtitle
+                    </div>
+
+                    <div class="project-buttons-container">
+                        @foreach (var link in project.Links)
+                        {
+                            <a class="external-button" href="@link.Value">
+                                <div class="external-button-language">
+                                    @if (!string.IsNullOrEmpty(IconHelper.GetLanguage(@link.Key)))
+                                    {
+                                        @IconHelper.GetLanguage(@link.Key)
+                                    }
+                                </div>
+                                <img class="external-button-icon"
+                                     src="@IconHelper.GetIcon(@link.Key)"
+                                     alt="@link.Key">
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

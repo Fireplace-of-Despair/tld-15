@@ -17,13 +17,6 @@
 }
 
 <div class="component-container">
-    @await Component.InvokeAsync(nameof(NavigationGlobal), new Dictionary<string, string>()
-    {
-        { "/Press/Read", "Press" },
-    })
-</div>
-
-<div class="component-container">
     @await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
     {
         { TLD15.Pages.Articles.PreviewArticlesPartialModel.Id, "Articles" },
