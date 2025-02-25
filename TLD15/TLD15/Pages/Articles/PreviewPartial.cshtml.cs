@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Articles;
 
-public class PreviewArticlesPartialModel() : PageModel, IPartial
+public class PreviewArticlesPartialModel : PageModel, IPartial
 {
     public static MetaPartialPublic MetaPublic => new()
     {
