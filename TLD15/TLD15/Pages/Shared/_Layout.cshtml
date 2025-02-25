@@ -11,6 +11,7 @@
 
     <!-- Meta Tags -->
     <meta charset="utf-8">
+
     <meta name="@Globals.Meta.Language" content="@Globals.Settings.Locale">
     <meta name="@Globals.Meta.Author" content="@Globals.Brand.Author">
     <meta name="@Globals.Meta.Designer" content="@Globals.Brand.Designer">
@@ -42,9 +43,12 @@
     <meta property="@Globals.OpenGraph.ArticleAuthor" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
 
     <!-- twitter cards-->
-    <meta property="twitter:card" content="@ViewData[Globals.Page.Description]">
-    <meta property="twitter:site" content="@ViewData[Globals.OpenGraph.Url]">
-    <meta property="twitter:creator" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
+    <meta name="twitter:card" content="@ViewData[Globals.Page.Description]">
+    <meta name="twitter:url" content="@ViewData[Globals.OpenGraph.Url]">
+    <meta name="twitter:title" content="@ViewData[Globals.Page.Title]">
+    <meta name="twitter:description" content="@ViewData[Globals.Page.Description]">
+    <meta name="twitter:creator" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
+    <meta name="twitter:card" content="summary">
 
     <!-- mobile meta tags -->
     <meta name="format-detection" content="telephone=yes">
