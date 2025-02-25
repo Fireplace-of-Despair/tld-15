@@ -6,14 +6,13 @@ namespace TLD15.Pages.Shared.Components.NavigationLocal;
 
 public class NavigationLocal : ViewComponent
 {
-    public Dictionary<string, string> Anchors { get; set; } = [];
+    public List<MetaPartialPublic> Metas { get; set; } = [];
 
-
-    public IViewComponentResult Invoke(Dictionary<string, string> anchors)
+    public IViewComponentResult Invoke(List<MetaPartialPublic> metas)
     {
         return View(GetType().Name, new NavigationLocal
         {
-            Anchors = anchors
+            Metas = metas,
         });
     }
 }

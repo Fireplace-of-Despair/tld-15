@@ -1,4 +1,5 @@
 ﻿@page
+@using ACherryPie.Pages
 @using Common.Composition
 @using TLD15.Pages.Shared.Components.BrandHeader
 @using TLD15.Pages.Shared.Components.NavigationAdmin
@@ -16,14 +17,14 @@
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
-@await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
+@await Component.InvokeAsync(nameof(NavigationLocal), new List<MetaPartialPublic>()
 {
     // { TLD15.Pages.Introduction.PreviewIntroductionPartialModel.Id, "Introduction" },
-    { TLD15.Pages.Lore.PreviewLoreModel.MetaPublic.Id, TLD15.Pages.Lore.PreviewLoreModel.MetaPublic.Title },
-    { TLD15.Pages.Articles.PreviewArticlesPartialModel.MetaPublic.Id, TLD15.Pages.Articles.PreviewArticlesPartialModel.MetaPublic.Title },
-    { TLD15.Pages.Projects.PreviewPartialModel.MetaPublic.Id, TLD15.Pages.Projects.PreviewPartialModel.MetaPublic.Title },
-    { TLD15.Pages.Social.PreviewSocialPartialModel.MetaPublic.Id, TLD15.Pages.Social.PreviewSocialPartialModel.MetaPublic.Title },
-    { TLD15.Pages.Contacts.PreviewContactsPartialModel.MetaPublic.Id, TLD15.Pages.Contacts.PreviewContactsPartialModel.MetaPublic.Title },
+    { TLD15.Pages.Lore.PreviewLoreModel.MetaPublic },
+    { TLD15.Pages.Articles.PreviewArticlesPartialModel.MetaPublic},
+    { TLD15.Pages.Projects.PreviewPartialModel.MetaPublic },
+    { TLD15.Pages.Social.PreviewSocialPartialModel.MetaPublic },
+    { TLD15.Pages.Contacts.PreviewContactsPartialModel.MetaPublic },
 })
 
 @* @{
