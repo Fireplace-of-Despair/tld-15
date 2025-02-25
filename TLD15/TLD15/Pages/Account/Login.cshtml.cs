@@ -12,10 +12,14 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Account;
 
-public class LoginFeature(IMediator mediator, IConfiguration configuration) : PageModel
+public class LoginFeature(
+      IMediator mediator
+    , IConfiguration configuration) : PageModel
 {
+    public static string TitleStatic => "Login";
+    public string Title => TitleStatic;
+
     public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
-    public static string PageName => "Login";
 
     [BindProperty]
     public AFeatureAccount.RequestLogin Model { get; set; } = new AFeatureAccount.RequestLogin();

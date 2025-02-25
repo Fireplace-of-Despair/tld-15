@@ -4,6 +4,14 @@
 @using TLD15.Utils
 @model TLD15.Pages.Projects.ArchiveModel
 
+@{
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Title}";
+
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.ApplicationHost}logo.png";
+    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
+}
+
 @if (Model.Data.Count > 0)
 {
     <div class="component-container">

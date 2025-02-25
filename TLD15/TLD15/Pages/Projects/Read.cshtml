@@ -5,13 +5,13 @@
 @model TLD15.Pages.Projects.ReadModel
 
 @{
-    ViewData[Globals.Page.Title] = $"{Model.Model.Title} | {Globals.Brand.Title}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Model.Title}";
     ViewData[Globals.Page.Description] = Model.Model.SubTitle;
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.Model.PosterUrl ?? "https://" + ViewContext.HttpContext.Request.Host + "images/placeholder/article.png"}";
-    ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = Model.Model.PosterUrl;
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
+    ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 }
 
 <style>

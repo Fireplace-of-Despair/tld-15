@@ -13,7 +13,6 @@ public static class Globals
         public static string Slogan => "Suffering builds";
         public static string Author => "Shevtsov \"Chief\" Stan";
         public static string Designer => "Shevtsov \"Chief\" Stan";
-        public static string Type => "Blog";
 
         public static Dictionary<string, string> Divisions => new()
         {

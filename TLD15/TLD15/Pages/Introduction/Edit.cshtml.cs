@@ -65,7 +65,7 @@ public sealed class EditModel(IMediator mediator,
             return Page();
         }
 
-        return RedirectToPage("/Lore/Edit");
+        return RedirectToPage("/Introduction/Edit");
     }
 
     public async Task<IActionResult> OnPostImages(IList<IFormFile> files)

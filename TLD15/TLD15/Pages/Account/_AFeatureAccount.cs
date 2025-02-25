@@ -135,47 +135,6 @@ public sealed class AFeatureAccount
     }
 
 
-
-    //public sealed class ResponsePreview
-    //{
-    //    public required Guid? Id { get; set; }
-    //    public string Login { get; set; } = string.Empty;
-
-    //    public required DateTime CreatedAt { get; set; }
-    //    public required DateTime UpdatedAt { get; set; }
-    //    public required long Version { get; set; }
-    //}
-
-    //public sealed class RequestPreview : IRequest<List<ResponsePreview>>
-    //{
-    //}
-
-    //public sealed class HandlerPreview(IMongoClient client)
-    //    : IRequestHandler<RequestPreview, List<ResponsePreview>>
-    //{
-    //    public async Task<List<ResponsePreview>> Handle(RequestPreview request, CancellationToken cancellationToken)
-    //    {
-    //        var database = client.GetDatabase(EntityAccount.Database);
-    //        var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
-
-    //        var documents = await collection.Find(FilterDefinition<EntityAccount>.Empty)
-    //            .SortByDescending(x => x.CreatedAt)
-    //            .ToListAsync(cancellationToken);
-
-    //        return documents.ConvertAll(x => new ResponsePreview
-    //        {
-    //            Id = x.Id,
-    //            CreatedAt = x.CreatedAt,
-    //            UpdatedAt = x.UpdatedAt,
-    //            Version = x.Version,
-    //            Login = x.Login,
-    //        });
-    //    }
-    //}
-
-
-
-
     public sealed class RequestEdit : IRequest<ResponseId<Guid>>
     {
         public required Guid? Id { get; set; }

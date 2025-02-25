@@ -4,15 +4,15 @@
 @using TLD15.Pages.Shared.Components.NavigationAdmin
 @using TLD15.Pages.Shared.Components.NavigationGlobal
 @using TLD15.Pages.Shared.Components.NavigationLocal
+@using TLD15.Utils
 @model IndexModel;
 
 @{
     ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
-    ViewData[Globals.Page.Description] = $"{Globals.Brand.Author} {Globals.Brand.Type}";
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost;
-    ViewData[Globals.OpenGraph.Image] = $"/logo.png";
-    ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
+    ViewData[Globals.Page.Description] = Globals.Brand.Description;
 
+    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.ApplicationHost}logo.png";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
