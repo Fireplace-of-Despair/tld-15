@@ -31,43 +31,6 @@ html {
     margin-bottom: 5px;
 }
 
-.navigation-link {
-    padding: 5px 10px 5px 10px;
-    font-weight: 80;
-    background: transparent;
-    text-decoration: none;
-    outline: none !important;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    border: 1px solid var(--brand-color-third);
-    z-index: 1;
-    color: var(--brand-color-third);
-}
-
-    .navigation-link:after {
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-        color: var(--brand-color-first);
-        background: var(--brand-color-third);
-        transition: all 0.3s ease;
-    }
-
-    .navigation-link:hover {
-        color: var(--brand-color-first);
-    }
-
-        .navigation-link:hover:after {
-            top: 0;
-            height: 100%;
-        }
-
 h2 {
     font-family: "Park Lane NF";
     font-size: 30px;

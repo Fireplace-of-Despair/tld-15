@@ -1,8 +1,13 @@
 ﻿@model NavigationLocal
 
-@foreach (var item in Model.Anchors ?? [])
+@if (Model.Anchors?.Any() == true)
 {
-    <a class="navigation-link" href="#@item.Key">
-        @item.Value
-    </a>
+    <div class="navigation-local-component-container">
+        @foreach (var item in Model.Anchors ?? [])
+        {
+            <a class="navigation-local-link" href="#@item.Key">
+                @item.Value
+            </a>
+        }
+    </div>
 }
