@@ -22,4 +22,4 @@ public sealed class EntitySocial : EntityBase<Guid>, IEntityStored
     {
         return Task.CompletedTask;
     }
-} 
+}
