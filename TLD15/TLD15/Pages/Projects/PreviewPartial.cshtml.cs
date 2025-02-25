@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Projects;
 
-public class PreviewPartialModel : PageModel
+public class PreviewPartialModel : PageModel, IPartial
 {
-    public static string Id => "preview_projects";
-    public string Anchor => Id;
-    public string Title => "Projects";
+    public static MetaPartialPublic MetaPublic => new()
+    {
+        Id = "preview_projects",
+        Title = "Projects",
+    };
 
     public List<AFeatureProjects.ResponsePreview> Data { get; set; } = [];
 

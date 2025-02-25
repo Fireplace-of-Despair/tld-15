@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Articles;
 
-public class PreviewArticlesPartialModel() : PageModel
+public class PreviewArticlesPartialModel() : PageModel, IPartial
 {
-    public static string Id => "preview_articles";
-    public string Anchor => Id;
-    public string Title => "Articles";
+    public static MetaPartialPublic MetaPublic => new()
+    {
+        Id = "preview_articles",
+        Title = "Articles",
+    };
 
     public List<AFeatureArticle.ResponsePreview> Data { get; set; } = [];
 
