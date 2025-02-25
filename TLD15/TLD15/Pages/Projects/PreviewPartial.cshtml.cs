@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Projects;
 
-public class PreviewPartialModel : PageModel, IPartial
+public class PreviewPartialModel : PageModel
 {
     public static string Id => "preview_projects";
     public string Anchor => Id;

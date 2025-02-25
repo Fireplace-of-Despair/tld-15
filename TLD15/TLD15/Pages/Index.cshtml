@@ -18,18 +18,18 @@
 
 @await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
 {
-    { TLD15.Pages.Introduction.PreviewIntroductionPartialModel.Id, "Introduction" },
-    { TLD15.Pages.Lore.PreviewLoreModel.Id, "Lore" },
+    // { TLD15.Pages.Introduction.PreviewIntroductionPartialModel.Id, "Introduction" },
+    { TLD15.Pages.Lore.PreviewLoreModel.MetaPublic.Id, TLD15.Pages.Lore.PreviewLoreModel.MetaPublic.Title },
     { TLD15.Pages.Articles.PreviewArticlesPartialModel.Id, TLD15.Pages.Articles.ReadModel.MetaPublic.Title },
     { TLD15.Pages.Projects.PreviewPartialModel.Id, TLD15.Pages.Projects.ReadModel.MetaPublic.Title },    
-    { TLD15.Pages.Social.PreviewSocialPartialModel.Id, "Social" },
-    { TLD15.Pages.Contacts.PreviewContactsPartialModel.Id, "Contacts" },
+    { TLD15.Pages.Social.PreviewSocialPartialModel.MetaPublic.Id, TLD15.Pages.Social.PreviewSocialPartialModel.MetaPublic.Title },
+    { TLD15.Pages.Contacts.PreviewContactsPartialModel.MetaPublic.Id, TLD15.Pages.Contacts.PreviewContactsPartialModel.MetaPublic.Title },
 })
 
-@{
+@* @{
     await Html.RenderPartialAsync("/Pages/Introduction/PreviewIntroductionPartial.cshtml",
         await TLD15.Pages.Introduction.PreviewIntroductionPartialModel.InitializeAsync(Model.Mediator));
-}
+} *@
 
 @{
     await Html.RenderPartialAsync("/Pages/Lore/PreviewLorePartial.cshtml",

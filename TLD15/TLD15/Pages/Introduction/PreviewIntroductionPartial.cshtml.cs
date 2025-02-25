@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Introduction;
 
-public class PreviewIntroductionPartialModel : PageModel, IPartial
+public class PreviewIntroductionPartialModel : PageModel
 {
     public static string Id => "preview_introduction";
     public string Anchor => Id;

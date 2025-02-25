@@ -6,12 +6,12 @@
 @if (Model.Data.Any())
 {
     <div class="component-container">
-        <h2 id="@Model.Anchor" class="component-title">@Model.Title</h2>
+        <h2 id="@PreviewSocialPartialModel.MetaPublic.Id" class="component-title">@PreviewSocialPartialModel.MetaPublic.Title</h2>
 
         <div class="social-container">
             @foreach (var link in @Model.Data)
             {
-                <a role="button" href="@link.Url">
+                <a href="@link.Url">
                     <img class="social-button" loading="lazy"
                          src="@IconHelper.GetIcon(link.Name)"
                          alt="@link.Name" aria-labelledby="@link.Name">

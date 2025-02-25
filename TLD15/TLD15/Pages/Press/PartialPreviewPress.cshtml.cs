@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Press;
 
-public class PartialPreviewPressModel : PageModel, IPartial
+public class PartialPreviewPressModel : PageModel
 {
     public static string Id => "preview_press";
     public string Anchor => Id;

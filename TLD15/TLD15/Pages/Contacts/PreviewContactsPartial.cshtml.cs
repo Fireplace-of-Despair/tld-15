@@ -9,30 +9,29 @@ namespace TLD15.Pages.Contacts;
 
 public class PreviewContactsPartialModel : PageModel, IPartial
 {
-    public static string Id => "preview_contacts";
-    public string Anchor => Id;
-    public string Title => "Contacts";
+    public static MetaPartialPublic MetaPublic => new()
+    {
+        Id = "preview_contacts",
+        Title = "Contacts",
+    };
 
     public List<AFeatureContacts.ResponsePreview> Data { get; set; } = [];
 
     public static async Task<PreviewContactsPartialModel> InitializeAsync(IMediator mediator)
     {
-        var contacts = await FeatureRunner.Run(async () =>
-        {
-            return await mediator.Send(new AFeatureContacts.RequestPreview());
-        });
+        var contacts = await FeatureRunner.Run(async () => await mediator.Send(new AFeatureContacts.RequestPreview()));
 
-        var result = new PreviewContactsPartialModel();
+        var model = new PreviewContactsPartialModel();
 
         if (contacts.Incident is not null)
         {
-            result.ModelState.AddModelError("Contacts", contacts.Incident.Description);
+            model.ModelState.AddModelError("Contacts", contacts.Incident.Description);
         }
         else
         {
-            result.Data = contacts.Data ?? [];
+            model.Data = contacts.Data ?? [];
         }
 
-        return result;
+        return model;
     }
 }
