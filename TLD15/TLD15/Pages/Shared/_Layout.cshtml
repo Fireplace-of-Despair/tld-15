@@ -70,14 +70,12 @@
 <body>
     @await Component.InvokeAsync(nameof(BrandHeader))
 
-    <div class="component-container">
     @await Component.InvokeAsync(nameof(NavigationGlobal), new Dictionary<string, string>()
     {
         { "/Index", "Index" },
         { "/Press/Read", "Press" },
         { "/Projects/Archive", "Archive" },
     })
-    </div>
 
     @await Component.InvokeAsync(nameof(NavigationAdmin))
 
