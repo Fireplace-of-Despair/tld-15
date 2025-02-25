@@ -1,4 +1,5 @@
 using ACherryPie.Feature;
+using ACherryPie.Pages;
 using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -12,14 +13,18 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Account;
 
-public class LoginFeature(
+public class LoginModel(
       IMediator mediator
-    , IConfiguration configuration) : PageModel
+    , IConfiguration configuration) : PageModel, IPagePublic
 {
-    public static string TitleStatic => "Login";
-    public string Title => TitleStatic;
+    public static MetaPagePublic MetaPublic => new()
+    {
+        Id = "login",
+        Title = "Login",
+        LocalUrl = "/Account/Login",
+    };
 
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
 
     [BindProperty]
     public AFeatureAccount.RequestLogin Model { get; set; } = new AFeatureAccount.RequestLogin();

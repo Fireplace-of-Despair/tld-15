@@ -1,15 +1,14 @@
 ﻿@page
 @using Common.Composition
 @using TLD15.Utils
-@model TLD15.Pages.Account.LoginFeature
+@model TLD15.Pages.Account.LoginModel
 @{
-    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Title}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {LoginModel.MetaPublic.Title}";
 
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.ApplicationHost}logo.png";
+    ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.Host}logo.png";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
-
 
 <form id="loginForm" method="post" class="component-container">
     <div class="login-container">

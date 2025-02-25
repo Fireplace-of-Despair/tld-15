@@ -11,12 +11,18 @@ using System.Threading.Tasks;
 
 namespace TLD15.Pages.Projects;
 
-public class ArchiveModel(IMediator mediator, IConfiguration configuration) : PageModel
+public class ArchiveModel(
+      IMediator mediator
+    , IConfiguration configuration) : PageModel, IPagePublic
 {
-    public static string Id => "preview_archive";
-    public string Anchor => Id;
-    public string Title => "Archive";
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public static MetaPagePublic MetaPublic => new()
+    {
+        Id = "archive",
+        Title = "Archive",
+        LocalUrl = "/Projects/Archive",
+    };
+
+    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
 
     public List<AFeatureProjects.ResponsePreview> Data { get; set; } = [];
 

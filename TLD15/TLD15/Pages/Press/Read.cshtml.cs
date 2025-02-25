@@ -1,3 +1,4 @@
+using ACherryPie.Pages;
 using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +11,16 @@ namespace TLD15.Pages.Press;
 
 public class ReadModel(
     IMediator mediator,
-    IConfiguration configuration) : PageModel
+    IConfiguration configuration) : PageModel, IPagePublic
 {
-    public static string TitleStatic => "Press";
-    public string Title => TitleStatic;
+    public static MetaPagePublic MetaPublic => new()
+    {
+        Id = "press",
+        Title = "Press",
+        LocalUrl = "/Press/Read",
+    };
 
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
 
     public required List<AFeaturePress.ResponsePreview> Data { get; set; }
 

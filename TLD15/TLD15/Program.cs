@@ -36,7 +36,7 @@ public static class Program
         });
         builder.Services.ConfigureApplicationCookie(options =>
         {
-            options.LoginPath = LoginFeature.TitleStatic;
+            options.LoginPath = LoginModel.MetaPublic.LocalUrl;
             options.LogoutPath = "/Logout";
         });
 

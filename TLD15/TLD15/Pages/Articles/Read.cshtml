@@ -1,4 +1,4 @@
-﻿@page "{idFriendly}"
+﻿@page "/articles/{idFriendly}"
 @using Common.Composition
 @using System.Globalization
 @using TLD15.Utils
@@ -8,7 +8,7 @@
     ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Model.Title}";
     ViewData[Globals.Page.Description] = Model.Model.SubTitle;
 
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
     ViewData[Globals.OpenGraph.Image] = Model.Model.PosterUrl;
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;

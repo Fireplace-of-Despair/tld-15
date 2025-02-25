@@ -1,21 +1,21 @@
-﻿@page
+﻿@page "/archive"
 @using Common.Composition
 @using System.Globalization
 @using TLD15.Utils
 @model TLD15.Pages.Projects.ArchiveModel
 
 @{
-    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Title}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {ArchiveModel.MetaPublic.Title}";
 
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.ApplicationHost}logo.png";
+    ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.Host}logo.png";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
 @if (Model.Data.Count > 0)
 {
     <div class="component-container">
-        <h2 id="@Model.Anchor" class="component-title">@Model.Title</h2>
+        <h2 class="component-title">@ArchiveModel.MetaPublic.Title</h2>
 
         <div class="projects-container">
             @foreach (var project in Model.Data)

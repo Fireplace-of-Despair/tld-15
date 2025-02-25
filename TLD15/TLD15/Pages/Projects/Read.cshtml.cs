@@ -1,3 +1,4 @@
+using ACherryPie.Pages;
 using Common.Composition;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,16 @@ namespace TLD15.Pages.Projects;
 
 public class ReadModel(
     IMediator mediator,
-    IConfiguration configuration) : PageModel
+    IConfiguration configuration) : PageModel, IPagePublic
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public static MetaPagePublic MetaPublic => new()
+    {
+        Id = "project",
+        Title = "Project",
+        LocalUrl = "/Projects/Read",
+    };
+
+    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
 
     public required AFeatureProjects.ResponseRead Model { get; set; }
 

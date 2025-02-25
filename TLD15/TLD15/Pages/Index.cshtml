@@ -8,14 +8,13 @@
 @model IndexModel;
 
 @{
-    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
+    ViewData[Globals.Page.Title] = $"{IndexModel.MetaPublic.Title} | {Globals.Brand.Slogan}";
     ViewData[Globals.Page.Description] = Globals.Brand.Description;
 
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.ApplicationHost}logo.png";
+    ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.Host}logo.png";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
-
 
 @await Component.InvokeAsync(nameof(NavigationLocal), new Dictionary<string, string>()
 {

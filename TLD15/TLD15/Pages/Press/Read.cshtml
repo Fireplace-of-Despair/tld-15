@@ -1,21 +1,21 @@
-﻿@page
+﻿@page "/Press"
 @using Common.Composition
 @using System.Globalization
 @using TLD15.Utils
 @model TLD15.Pages.Press.ReadModel
 
 @{
-    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Title}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {ReadModel.MetaPublic.Title}";
 
-    ViewData[Globals.OpenGraph.Url] = Model.ApplicationHost.TrimLast('/') + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.ApplicationHost}/logo.png";
+    ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.OpenGraph.Image] = $"{Model.Host}/logo.png";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
 }
 
 @if (Model.Data.Count > 0)
 {
     <div class="component-container">
-        <h1 class="component-title">@Model.Title</h1>
+        <h1 class="component-title">@ReadModel.MetaPublic.Title</h1>
 
         <div class="projects-container">
             @foreach (var project in Model.Data)
