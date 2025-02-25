@@ -15,7 +15,7 @@ public class ReadModel(
     public static MetaPagePublic MetaPublic => new()
     {
         Id = "project",
-        Title = "Project",
+        Title = "Projects",
         LocalUrl = "/Projects/Read",
     };
 
