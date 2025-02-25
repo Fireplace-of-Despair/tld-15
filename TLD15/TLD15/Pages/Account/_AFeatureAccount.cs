@@ -21,7 +21,7 @@ public sealed class AFeatureAccount
     public static class CacheKey
     {
         public static string LoginAttempt => "account-failed-{0}";
-        public static int LoginAttemptMax => 5;
+        public static int LoginAttemptMax => 2;
     }
 
 
