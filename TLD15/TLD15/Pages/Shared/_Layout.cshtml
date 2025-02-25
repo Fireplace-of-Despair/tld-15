@@ -76,9 +76,9 @@
 
     @await Component.InvokeAsync(nameof(NavigationGlobal), new Dictionary<string, string>()
     {
-        { "/Index", "Index" },
-        { Press.ReadModel.MetaPublic.LocalUrl, "Press" },
-        { "/Projects/Archive", "Archive" },
+        { IndexModel.MetaPublic.LocalUrl, Globals.Brand.Index },
+        { Press.ReadModel.MetaPublic.LocalUrl, Press.ReadModel.MetaPublic.Title },
+        { Projects.ArchiveModel.MetaPublic.LocalUrl, Projects.ArchiveModel.MetaPublic.Title },
     })
 
     @await Component.InvokeAsync(nameof(NavigationAdmin))
