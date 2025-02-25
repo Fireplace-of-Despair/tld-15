@@ -47,13 +47,10 @@
         await TLD15.Pages.Lore.PreviewLoreModel.InitializeAsync(Model.Mediator));
 }
 
-
 @{
     await Html.RenderPartialAsync("/Pages/Social/PreviewSocialPartial.cshtml",
         await TLD15.Pages.Social.PreviewSocialPartialModel.InitializeAsync(Model.Mediator));
 }
-
-
 
 @{
     await Html.RenderPartialAsync("/Pages/Contacts/PreviewContactsPartial.cshtml",
