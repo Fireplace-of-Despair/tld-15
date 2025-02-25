@@ -1,3 +1,4 @@
+using Common.Composition;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using System.Threading.Tasks;
 using TLD15.Composition;
+using TLD15.Pages.Account;
 
 namespace TLD15;
 
@@ -19,7 +21,7 @@ public static class Program
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+        builder.Services.AddAntiforgery(o => o.HeaderName = Globals.Security.XSRFTOKEN);
         builder.Services.AddAuthentication(
             CookieAuthenticationDefaults.AuthenticationScheme
             ).AddCookie();
@@ -34,7 +36,7 @@ public static class Program
         });
         builder.Services.ConfigureApplicationCookie(options =>
         {
-            options.LoginPath = "/Login";
+            options.LoginPath = LoginFeature.PageName;
             options.LogoutPath = "/Logout";
         });
 

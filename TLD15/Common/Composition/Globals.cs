@@ -37,6 +37,7 @@ public static class Globals
 
     public static class Security
     {
+        public static string XSRFTOKEN => "XSRF-TOKEN";
         public static class Admin
         {
             public static string IdString => "Composition:Accounts:Admin";

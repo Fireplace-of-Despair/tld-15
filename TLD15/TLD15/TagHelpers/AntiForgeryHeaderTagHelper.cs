@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Antiforgery;
+﻿using Common.Composition;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -26,7 +27,7 @@ public class AntiForgeryHeaderTagHelper(IAntiforgery antiforgery) : TagHelper
             
             var token = antiforgery.GetAndStoreTokens(ViewContext!.HttpContext).RequestToken;
             var currentHeaderValue = output.Attributes["hx-headers"]?.Value.ToString();
-            var newHeaderValue = $"\"XSRF-TOKEN\": \"{token}\"";
+            var newHeaderValue = $"\"{Globals.Security.XSRFTOKEN}\": \"{token}\"";
 
             if (string.IsNullOrEmpty(currentHeaderValue))
             {
