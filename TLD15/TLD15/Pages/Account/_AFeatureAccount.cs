@@ -47,7 +47,7 @@ public sealed class AFeatureAccount
     {
         public async Task<ResponseId<Guid>> Handle(RequestEmptyLogin request, CancellationToken cancellationToken)
         {
-            var saId = configuration.GetSection(Globals.Security.Admin.IdString).Get<Guid>();
+            var saId = configuration.GetSection(Globals.Configuration.IdAdmin).Get<Guid>();
             var database = client.GetDatabase(EntityAccount.Database);
             var collection = database.GetCollection<EntityAccount>(EntityAccount.Collection);
 

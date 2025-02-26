@@ -19,7 +19,7 @@ public class ReadModel(
         LocalUrl = "/Projects/Read",
     };
 
-    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     public required AFeatureProjects.ResponseRead Model { get; set; }
 

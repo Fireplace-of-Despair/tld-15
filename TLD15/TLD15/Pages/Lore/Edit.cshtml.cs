@@ -23,7 +23,7 @@ public class EditLoreModel(IMediator mediator,
     IWebHostEnvironment webHostEnvironment,
     IHashingService hashingService) : PageModel, IPageAdmin
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     public static MetaData MetaData => new()
     {

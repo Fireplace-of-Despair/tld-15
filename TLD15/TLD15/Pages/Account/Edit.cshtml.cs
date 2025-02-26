@@ -16,7 +16,7 @@ public sealed class EditModel(
     IMediator mediator,
     IConfiguration configuration) : PageModel, IPageAdmin
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
     public List<AFeatureAccount.RequestEdit> Data { get; set; } = [];
 
     public static MetaData MetaData => new()

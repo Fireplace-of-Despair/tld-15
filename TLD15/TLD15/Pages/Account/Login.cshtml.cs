@@ -24,7 +24,7 @@ public class LoginModel(
         LocalUrl = "/Account/Login",
     };
 
-    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     [BindProperty]
     public AFeatureAccount.RequestLogin Model { get; set; } = new AFeatureAccount.RequestLogin();

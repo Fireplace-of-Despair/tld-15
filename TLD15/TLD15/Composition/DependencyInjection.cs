@@ -31,7 +31,7 @@ public static class DependencyInjection
 
     public static async Task<WebApplicationBuilder> ConfigureStorage(this WebApplicationBuilder builder)
     {
-        var connectionMongo = builder.Configuration.GetSection(Globals.Storage.Mongo).Get<string>()!;
+        var connectionMongo = builder.Configuration.GetSection(Globals.Configuration.Mongo).Get<string>()!;
 
         builder.Services.AddSingleton<IMongoClient>(new MongoClient(connectionMongo));
 

@@ -30,18 +30,9 @@ public static class Globals
         };
     }
 
-    public static class Storage
-    {
-        public static string Mongo => "Storage:Mongo";
-    }
-
     public static class Security
     {
         public static string XSRFTOKEN => "XSRF-TOKEN";
-        public static class Admin
-        {
-            public static string IdString => "Composition:Accounts:Admin";
-        }
     }
 
     public static class Page
@@ -49,6 +40,7 @@ public static class Globals
         public static string Title => "title";
         public static string Description => "description";
     }
+
     public static class Controls
     {
         public static string Manage => "Manage";
@@ -85,7 +77,6 @@ public static class Globals
 
         public static string TypeWebSite => "website";
         public static string TypeArticle => "article";
-
         public static string ArticleAuthor => "article:author";
     }
 
@@ -93,6 +84,12 @@ public static class Globals
     {
         public static string DateFormat => "yyyy/MM/dd";
         public static string Locale => "en";
+    }
+
+    public static class Configuration
+    {
+        public static string IdAdmin => "Composition:Accounts:Admin";
         public static string ApplicationHost => "Application:Host";
+        public static string Mongo => "Storage:Mongo";
     }
 }

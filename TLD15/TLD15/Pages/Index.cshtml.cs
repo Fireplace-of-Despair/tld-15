@@ -17,6 +17,6 @@ public sealed class IndexModel(
         LocalUrl = "/",
     };
 
-    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
     public IMediator Mediator => mediator;
 }

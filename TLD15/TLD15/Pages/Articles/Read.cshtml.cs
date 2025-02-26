@@ -19,7 +19,7 @@ public sealed class ReadModel(
         LocalUrl = "/Articles/Read",
     };
 
-    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     [BindProperty]
     public required AFeatureArticle.ResponseRead Model { get; set; }

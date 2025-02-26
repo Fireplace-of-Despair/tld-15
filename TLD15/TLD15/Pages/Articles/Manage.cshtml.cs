@@ -16,7 +16,7 @@ public class ManageArticlesModel(
     IMediator mediator,
     IConfiguration configuration) : PageModel, IPageAdmin
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
     public static MetaData MetaData => new()
     {
         Id = "Articles",

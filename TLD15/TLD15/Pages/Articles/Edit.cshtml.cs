@@ -24,7 +24,7 @@ public class EditArticleModel(IMediator mediator,
     IConfiguration configuration) : PageModel
 {
     public static string FeatureName => "Edit Article";
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     [BindProperty]
     public AFeatureArticle.ResponseRead Model { get; set; } = new();

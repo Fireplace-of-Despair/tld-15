@@ -20,7 +20,7 @@ public class ReadModel(
         LocalUrl = "/Press/Read",
     };
 
-    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     public required List<AFeaturePress.ResponsePreview> Data { get; set; }
 

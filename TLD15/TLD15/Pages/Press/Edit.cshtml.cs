@@ -24,7 +24,7 @@ public class EditModel(IMediator mediator,
     IConfiguration configuration) : PageModel
 {
     public static string FeatureName => "Edit Press";
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     public static MetaData MetaData => new()
     {

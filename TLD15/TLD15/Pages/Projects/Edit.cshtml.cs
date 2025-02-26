@@ -24,7 +24,7 @@ public sealed class EditModel(IMediator mediator,
     IConfiguration configuration) : PageModel
 {
     public static string FeatureName => "Edit Project";
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     [BindProperty]
     public AFeatureProjects.ResponseRead Model { get; set; } = new();

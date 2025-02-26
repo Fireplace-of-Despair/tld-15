@@ -22,7 +22,7 @@ public class ArchiveModel(
         LocalUrl = "/Projects/Archive",
     };
 
-    public string Host => configuration.GetSection(Globals.Settings.ApplicationHost).Value!;
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
     public List<AFeatureProjects.ResponsePreview> Data { get; set; } = [];
 
