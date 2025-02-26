@@ -1,3 +1,4 @@
+using ACherryPie.Feature;
 using ACherryPie.Pages;
 using Common.Composition;
 using MediatR;
@@ -21,13 +22,21 @@ public sealed class ReadModel(
 
     public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
-    [BindProperty]
-    public required AFeatureArticle.ResponseRead Model { get; set; }
+    public required AFeatureArticle.ResponseRead Model { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync(string idFriendly)
     {
-        Model = await mediator.Send(new AFeatureArticle.RequestRead { IdFriendly = idFriendly, Id = null });
-        
+        var result = await FeatureRunner.Run(async () =>
+            await mediator.Send(new AFeatureArticle.RequestRead { IdFriendly = idFriendly, Id = null })
+        );
+
+        if (result.Incident != null)
+        {
+            ModelState.AddModelError(string.Empty, result.Incident.Description);
+            return Page();
+        }
+
+        Model = result.Data!;
         return Page();
     }
 }

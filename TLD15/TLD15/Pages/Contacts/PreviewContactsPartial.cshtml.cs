@@ -25,7 +25,7 @@ public class PreviewContactsPartialModel : PageModel, IPartial
 
         if (contacts.Incident is not null)
         {
-            model.ModelState.AddModelError("Contacts", contacts.Incident.Description);
+            model.ModelState.AddModelError(string.Empty, contacts.Incident.Description);
         }
         else
         {

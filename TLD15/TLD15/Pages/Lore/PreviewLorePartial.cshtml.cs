@@ -14,17 +14,16 @@ public sealed class PreviewLoreModel : PageModel, IPartial
         Title = "Lore",
     };
 
-    public AFeatureLore.ResponseRead? Data { get; set; }
+    public AFeatureLore.ResponseRead? Data { get; set; } = new();
 
     public static async Task<PreviewLoreModel> InitializeAsync(IMediator mediator)
     {
         var lore = await FeatureRunner.Run(async () => await mediator.Send(new AFeatureLore.RequestRead()));
-
         var model = new PreviewLoreModel();
 
         if (lore.Incident is not null)
         {
-            model.ModelState.AddModelError("Lore", lore.Incident.Description);
+            model.ModelState.AddModelError(string.Empty, lore.Incident.Description);
         }
         else
         {

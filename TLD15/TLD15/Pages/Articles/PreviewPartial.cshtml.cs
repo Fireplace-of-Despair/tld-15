@@ -19,16 +19,13 @@ public class PreviewArticlesPartialModel : PageModel, IPartial
 
     public static async Task<PreviewArticlesPartialModel> InitializeAsync(IMediator mediator)
     {
-        var articles = await FeatureRunner.Run(async () =>
-        {
-            return await mediator.Send(new AFeatureArticle.RequestPreview());
-        });
+        var articles = await FeatureRunner.Run(async () => await mediator.Send(new AFeatureArticle.RequestPreview()));
 
         var result = new PreviewArticlesPartialModel();
 
         if (articles.Incident is not null)
         {
-            result.ModelState.AddModelError("Articles", articles.Incident.Description);
+            result.ModelState.AddModelError(string.Empty, articles.Incident.Description);
         }
         else
         {

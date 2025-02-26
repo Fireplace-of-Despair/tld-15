@@ -14,6 +14,20 @@
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
 }
 
+@if (!ModelState.IsValid)
+{
+    <article>
+        <div class="article-container">
+            @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    </article>
+
+    return;
+}
+
 <style>
     .article-container {
         margin-left: 5%;

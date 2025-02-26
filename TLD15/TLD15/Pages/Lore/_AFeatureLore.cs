@@ -12,16 +12,16 @@ public sealed class AFeatureLore
 {
     public sealed class ResponseRead : IRequest<ResponseId<Guid>>
     {
-        public required Guid? Id { get; set; }
+        public Guid? Id { get; set; }
 
-        public required string PosterUrl { get; set; } = string.Empty;
-        public required string PosterAlt { get; set; } = string.Empty;
-        public required string Content { get; set; } = string.Empty;
-        public required string ContentHtml { get; set; } = string.Empty;
+        public string PosterUrl { get; set; } = string.Empty;
+        public string PosterAlt { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public string ContentHtml { get; set; } = string.Empty;
 
-        public required DateTime CreatedAt { get; set; }
-        public required DateTime UpdatedAt { get; set; }
-        public required long Version { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public long Version { get; set; }
     }
 
     public sealed class RequestRead : IRequest<ResponseRead?>;

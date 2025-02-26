@@ -34,7 +34,7 @@ public class PreviewPartialModel : PageModel, IPartial
 
         if (articles.Incident is not null)
         {
-            result.ModelState.AddModelError("Projects", articles.Incident.Description);
+            result.ModelState.AddModelError(string.Empty, articles.Incident.Description);
         }
         else
         {

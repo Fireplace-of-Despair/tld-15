@@ -3,6 +3,22 @@
 @using TLD15.Utils
 @model TLD15.Pages.Projects.PreviewPartialModel
 
+@if (!Model.ModelState.IsValid)
+{
+    <div class="component-container">
+        <h2 id="@PreviewPartialModel.MetaPublic.Id" class="component-title">@PreviewPartialModel.MetaPublic.Title</h2>
+
+        <div class="projects-container">
+            @foreach (var error in Model.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    </div>
+
+    return;
+}
+
 @if (Model.Data.Count > 0)
 {
     <div class="component-container">

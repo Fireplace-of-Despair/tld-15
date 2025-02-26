@@ -14,7 +14,7 @@ public sealed class IndexModel(
     {
         Id = "index",
         Title = Globals.Brand.Company,
-        LocalUrl = "/",
+        LocalUrl = "/Index",
     };
 
     public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;

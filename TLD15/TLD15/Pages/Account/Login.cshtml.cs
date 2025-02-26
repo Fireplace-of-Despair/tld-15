@@ -55,7 +55,11 @@ public class LoginModel(
         {
             var result = await FeatureRunner.Run(async() =>
             {
-                await mediator.Send(new AFeatureAccount.RequestEmptyLogin{ Login = Model.Login, Password = Model.Password });
+                await mediator.Send(new AFeatureAccount.RequestEmptyLogin
+                {
+                    Login = Model.Login,
+                    Password = Model.Password
+                });
 
                 await mediator.Send(Model);
 
