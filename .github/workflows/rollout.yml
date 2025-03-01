@@ -1,0 +1,79 @@
+name: "Deploy"
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  # Use the same ssh-agent socket value across all jobs
+  # Useful when a GH action is using SSH behind-the-scenes
+  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+
+jobs:
+  roll-out:
+    runs-on:  ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Build Backend
+        run: |
+          mkdir rollout
+          cd backend
+          docker build -t tld-15 .
+          docker tag tld-15 tld-15:latest
+          docker save -o tld-15.tar tld-15:latest
+          mv tld-15.tar ../rollout/tld-15.tar
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete
+          path: /rollout
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.DEPLOY_TLD15 }}
+          remote_port: ${{ secrets.DEPLOY_PORT }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_TLD15_KEY }}
+          remote_key_pass: ${{ secrets.DEPLOY_TLD15_KEY_PASS }}
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.DEPLOY_USER }}
+          SSH_KEY: ${{ secrets.DEPLOY_TLD15_KEY }}
+          SSH_HOST: ${{ secrets.DEPLOY_TLD15 }}
+
+      - name: Setup SSH passphrase
+        env:
+          SSH_PASSPHRASE: ${{secrets.DEPLOY_TLD15_KEY_PASS}}
+          SSH_PRIVATE_KEY: ${{secrets.DEPLOY_TLD15_KEY}}
+        run: |
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+            echo 'echo $SSH_PASSPHRASE' > ~/.ssh_askpass && chmod +x ~/.ssh_askpass
+            echo "$SSH_PRIVATE_KEY" | tr -d '\r' | DISPLAY=None SSH_ASKPASS=~/.ssh_askpass ssh-add - >/dev/null
+
+      - name: Stop all
+        run: ssh staging 'sudo docker stop $(sudo docker ps -a -q)'
+
+      - name: Delete tld-15
+        run: ssh staging 'sudo docker rm /tld-15 && sudo docker rmi tld-15'
+
+      - name: Import tld-15
+        run: ssh staging 'cd /uploads/rollout && sudo docker load --input tld-15.tar'
+
+      - name: Start
+        run: ssh staging 'cd /config && sudo docker compose up -d'
+      - name: Cleanup
+        run: ssh staging 'rm -rf /uploads/rollout'
