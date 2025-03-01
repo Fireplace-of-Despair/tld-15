@@ -27,6 +27,9 @@ RUN apk add --no-cache \
     icu-data-full \
     icu-libs
 
+ENV TZ UTC
+RUN apk --no-cache add tzdata
+
 WORKDIR /app
 COPY --from=build /app/out ./
 
