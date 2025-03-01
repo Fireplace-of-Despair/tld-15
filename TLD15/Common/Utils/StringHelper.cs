@@ -44,4 +44,15 @@ public static class StringHelper
 
         return truncatedText.ToString();
     }
+
+    public static string TrimLast(this string text, char c)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return text;
+        }
+
+        var lastSlash = text.LastIndexOf(c);
+        return (lastSlash > -1) ? text[..lastSlash] : text;
+    }
 }
