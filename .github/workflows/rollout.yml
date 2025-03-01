@@ -20,7 +20,7 @@ jobs:
       - name: Build Backend
         run: |
           mkdir rollout
-          cd backend
+          cd TLD15
           docker build -t tld-15 .
           docker tag tld-15 tld-15:latest
           docker save -o tld-15.tar tld-15:latest
