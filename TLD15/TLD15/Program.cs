@@ -39,13 +39,17 @@ public static class Program
             options.LoginPath = LoginModel.MetaPublic.LocalUrl;
             options.LogoutPath = "/Logout";
         });
-
+        builder.Services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;
+        });
 
         builder.ConfigureServices();
         await builder.ConfigureStorage();
 
         var app = builder.Build();
         app.UseWebOptimizer();
+        app.UseResponseCompression();
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
