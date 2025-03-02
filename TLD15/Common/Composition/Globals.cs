@@ -18,15 +18,16 @@ public static class Globals
         public static Dictionary<string, string> Divisions => new()
         {
             ["FOD"] = "Fireplace of Despair",
-            ["EOD"] = "Eclipsed Optics Division",
-            ["QSD"] = "Quiet Stylographs Division",
-            ["TLD"] = "Tamed Logic Division",
-            ["DSD"] = "Double Standards Division",
-            ["VHD"] = "Void Harmonization Division",
-            ["SSD"] = "Stellar Sky Division",
-            ["SLD"] = "Stellar Logistics Division",
-            ["OED"] = "Obscure Esoteric Division",
             ["ACD"] = "Ashen Chronicles Division",
+            ["DSD"] = "Double Standards Division",
+            ["FLD"] = "Fractured Lens Division",
+            ["IRD"] = "Inkwell Reverie Division",
+            ["OCD"] = "Omnia Constructs Division",
+            ["OED"] = "Obscure Esoteric Division",
+            ["SLD"] = "Stellar Logistics Division",
+            ["SSD"] = "Stellar Sky Division",
+            ["TLD"] = "Tamed Logic Division",
+            ["VHD"] = "Void Harmonization Division",
         };
     }
 
