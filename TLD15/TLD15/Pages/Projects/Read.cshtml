@@ -6,7 +6,7 @@
 @model TLD15.Pages.Projects.ReadModel
 
 @{
-    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {ReadModel.MetaPublic.Title}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Model.Model.Title}";
     ViewData[Globals.Page.Description] = Model.Model.SubTitle;
 
     ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
