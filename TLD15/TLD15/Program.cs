@@ -1,11 +1,13 @@
 using Common.Composition;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using System;
 using System.Threading.Tasks;
 using TLD15.Composition;
 using TLD15.Pages.Account;
@@ -36,7 +38,13 @@ public static class Program
         });
         builder.Services.ConfigureApplicationCookie(options =>
         {
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.Name = "TLD15";
+
             options.LoginPath = LoginModel.MetaPublic.LocalUrl;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            options.SlidingExpiration = true;
             options.LogoutPath = "/Logout";
         });
         builder.Services.AddResponseCompression(options =>
