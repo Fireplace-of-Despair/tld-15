@@ -3,16 +3,13 @@ body {
     color: var(--brand-color-third);
     font-family: Georgia, serif;
 
-    margin: 0;
-
-    	display: flex;
+    display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
 html {
     font-size: 23px;
-    line-height: 1.2;
 }
 
 .component-container {
@@ -41,7 +38,6 @@ h2 {
     font-family: "Park Lane NF";
     font-size: 30px;
     padding: 0;
-    background: var(--brand-color-first);
     margin-top: 0;
     margin-bottom: 5px;
 }
