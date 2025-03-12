@@ -2,24 +2,30 @@ body {
     background-color: var(--color-background);
     color: var(--brand-color-third);
     font-family: Georgia, serif;
-    height: 100%;
+
     margin: 0;
+
+    	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 html {
     font-size: 23px;
-    height: 100%;
-    margin: 0;
+    line-height: 1.2;
 }
 
 .component-container {
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: 15px;
+    min-width: 90%;
+    max-width: 90%;
     margin-top: 15px;
+    padding-top: 10px;
     text-align: center;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .component-title {

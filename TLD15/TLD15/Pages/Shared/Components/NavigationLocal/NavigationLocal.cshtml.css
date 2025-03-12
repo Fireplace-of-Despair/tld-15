@@ -1,9 +1,7 @@
 ﻿.navigation-local-component-container {
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: 15px;
+    min-width: 90%;
     margin-top: 15px;
-    text-align: center;
+    padding-top: 10px;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);
     display: flex;
@@ -11,10 +9,12 @@
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 10px;
 }
 
 ::deep .navigation-local-link {
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
     padding: 5px 10px 5px 10px;
     font-weight: 80;
     background: transparent;

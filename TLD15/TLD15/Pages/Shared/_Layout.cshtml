@@ -83,9 +83,8 @@
 
     @await Component.InvokeAsync(nameof(NavigationAdmin))
 
-    <main role="main" class="container">
-        @RenderBody()
-    </main>
+    
+    @RenderBody()
 
     @await Component.InvokeAsync(nameof(CommonScrollToTop))
     @await Component.InvokeAsync(nameof(BrandFooter))
