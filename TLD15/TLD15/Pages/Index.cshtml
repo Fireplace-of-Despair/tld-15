@@ -16,6 +16,8 @@
     ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
     ViewData[Globals.OpenGraph.Image] = $"{Model.Host}logo.png";
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
+
+    ViewData[Globals.Meta.LastModified] = new DateTime(2025, 03, 20, 0, 0, 0, DateTimeKind.Utc).ToString("yyyy-MM-dd");
 }
 
 @await Component.InvokeAsync(nameof(NavigationLocal), new List<MetaPartialPublic>()

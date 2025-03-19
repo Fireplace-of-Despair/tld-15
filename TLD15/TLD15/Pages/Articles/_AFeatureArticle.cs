@@ -71,6 +71,7 @@ public sealed class AFeatureArticle
         public string Content { get; set; } = string.Empty;
         public string ContentHtml { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public long Version { get; set; }
 
         public string[] GetContentHtmlSplitByHR()
@@ -107,6 +108,7 @@ public sealed class AFeatureArticle
                 Content = document.Content,
                 ContentHtml = document.ContentHtml,
                 CreatedAt = document.CreatedAt,
+                UpdatedAt = document.UpdatedAt,
                 Version = document.Version
             };
         }

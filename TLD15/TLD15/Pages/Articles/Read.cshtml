@@ -13,6 +13,8 @@
     ViewData[Globals.OpenGraph.Image] = Model.Model.PosterUrl;
     ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
     ViewData[Globals.OpenGraph.ArticleAuthor] = Globals.Brand.Author;
+
+    ViewData[Globals.Meta.LastModified] = Model.Model.UpdatedAt.ToString("yyyy-MM-dd");
 }
 
 <style>

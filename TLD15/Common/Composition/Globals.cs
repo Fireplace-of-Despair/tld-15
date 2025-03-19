@@ -64,6 +64,7 @@ public static class Globals
         public static string Subtitle => "subtitle";
         public static string PageName => "page name";
         public static string Description => "description";
+        public static string LastModified => "last-modified";
     }
 
     public static class OpenGraph
