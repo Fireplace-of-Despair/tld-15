@@ -15,7 +15,7 @@ using TLD15.Composition;
 namespace TLD15.Pages.Contacts;
 
 [Authorize]
-public class EditModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPageAdmin
+public class EditModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPagePrivate
 {
     public static MetaPage Meta => new()
     {

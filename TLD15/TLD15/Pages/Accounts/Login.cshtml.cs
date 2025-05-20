@@ -79,7 +79,6 @@ public class LoginModel(
             ModelState.AddModelError("Model", ModelState.ErrorCount.ToString());
             return Page();
         }
-
         var result = await FeatureRunner.Run(async () =>
         {
             await OnEmptyDatabase(Model);

@@ -20,7 +20,7 @@ namespace TLD15.Pages.Accounts;
 public sealed class EditModel(
     DataContextIdentity contextIdentity
     , IHashingService hashingService
-    , IConfiguration configuration) : PageModel, IPageAdmin
+    , IConfiguration configuration) : PageModel, IPagePrivate
 {
     public List<RequestEdit> Data { get; set; } = [];
 

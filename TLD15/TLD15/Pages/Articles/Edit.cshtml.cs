@@ -16,7 +16,7 @@ using TLD15.Composition;
 namespace TLD15.Pages.Articles;
 
 [Authorize]
-public class EditModel : PageModel, IPageAdmin
+public class EditModel : PageModel, IPagePrivate
 {
     private readonly IConfiguration configuration;
     private readonly DataContextBusiness contextBusiness;

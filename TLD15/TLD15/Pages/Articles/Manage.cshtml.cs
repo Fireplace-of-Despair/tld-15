@@ -17,7 +17,7 @@ namespace TLD15.Pages.Articles;
 [Authorize]
 public class ManageModel(
     DataContextBusiness contextBusiness
-    ,IConfiguration configuration) : PageModel, IPageAdmin
+    ,IConfiguration configuration) : PageModel, IPagePrivate
 {
     public static MetaPage Meta => new()
     {

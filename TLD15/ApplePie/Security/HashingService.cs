@@ -104,5 +104,4 @@ public sealed class HashingService(IConfiguration configuration) : IHashingServi
 
         return plainTextWithPepper;
     }
-
 }

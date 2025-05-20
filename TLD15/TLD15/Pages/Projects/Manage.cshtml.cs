@@ -14,7 +14,7 @@ using TLD15.Composition;
 namespace TLD15.Pages.Projects;
 
 [Authorize]
-public class ManageModel : PageModel, IPageAdmin
+public class ManageModel : PageModel, IPagePrivate
 {
     public static MetaPage Meta => new()
     {

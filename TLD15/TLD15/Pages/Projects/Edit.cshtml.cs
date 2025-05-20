@@ -16,7 +16,7 @@ using TLD15.Composition;
 namespace TLD15.Pages.Projects;
 
 [Authorize]
-public sealed class EditModel : PageModel, IPageAdmin
+public sealed class EditModel : PageModel, IPagePrivate
 {
     private readonly IConfiguration configuration;
     private readonly DataContextBusiness contextBusiness;

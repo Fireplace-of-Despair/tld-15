@@ -1,6 +1,6 @@
 ﻿namespace ApplePie.Requests;
 
-public abstract class BaseRequestId<T>
+public abstract record BaseRequestId<T>
 {
     public required T Id { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿namespace ApplePie.Responses;
 
-public class ResponseId<T> : BaseResponseId<T>
+public record ResponseId<T> : BaseResponseId<T>
 {
 }

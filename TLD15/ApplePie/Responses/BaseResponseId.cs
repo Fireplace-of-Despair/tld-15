@@ -1,6 +1,6 @@
 ﻿namespace ApplePie.Responses;
 
-public abstract class BaseResponseId<T>
+public abstract record BaseResponseId<T>
 {
     public required T Id { get; set; }
 }
