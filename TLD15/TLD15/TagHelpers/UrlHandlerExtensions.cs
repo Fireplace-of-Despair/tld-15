@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Routing;
 
 namespace TLD15.TagHelpers;
 
+/// <summary> Extension methods for generating URLs with a specific handler </summary>
 public static class UrlHandlerExtensions
 {
+    /// <summary> Generates a URL for a specific handler with optional route values </summary>
     public static string Handler(this IUrlHelper urlHelper, string handler, object? values = null)
     {
         // Convert the values object to a dictionary

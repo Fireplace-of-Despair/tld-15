@@ -1,132 +1,32 @@
 ﻿@page
-@Html.AntiForgeryToken()
-@using Common.Composition
 @using System.Globalization
-@model TLD15.Pages.Lore.EditLoreModel
+@using TLD15.Composition
+
+@model TLD15.Pages.Lore.EditModel
+
 @{
-    ViewData[Globals.Page.Title] = $"EditFeature.FeatureName | {Globals.Brand.Title}";
+    ViewData[Globals.Page.Title] = $"{EditModel.Meta.Title} | {Globals.Brand.Title}";
 }
 
-<script src="~/js/showdown/showdown-2.1.0.min.js"></script>
-<script src="~/js/jquery/jquery-3.7.1.min.js"></script>
-
+<script src="~/js/jquery.min.js"></script>
 <div class="component-container">
-    <div class="tabs">
-        <button class="tab-button tab-active" id="tab1" onclick="switchTab('tab1', 'content-tab1')">Edit</button>
-        <button class="tab-button" id="tab2" onclick="switchTab('tab2', 'content-tab2')">Preview</button>
-    </div>
-
     <div class="tab-panel tab-panel-active" id="content-tab1">
         <form id="#main-form" class="article-edit" method="post">
-            <input type="hidden" asp-for="@Model.Model!.Id" />
-            <input type="hidden" asp-for="@Model.Model!.Version" />
+            <input type="hidden" asp-for="@Model.Data.Version" />
 
-            <input id="posterUrl" type="text" asp-for="@Model.Model!.PosterUrl" placeholder="PosterUrl">
-            <input id="posterAlt" type="text" asp-for="@Model.Model!.PosterAlt" placeholder="PosterAlt">
+            <input id="id" type="text" asp-for="@Model.Data.Id" placeholder="Id">
 
-            <input id="content-html" type="hidden" asp-for="@Model.Model!.ContentHtml" />
-            <textarea id="content" asp-for="@Model.Model!.Content" placeholder="Content" cols="40" rows="5"></textarea>
+            <textarea id="content" asp-for="@Model.Data.Data" placeholder="Content" cols="40" rows="5"></textarea>
         </form>
-
-        <form id="form" class="article-edit" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-            <h2>Uploads</h2>
-            <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
-        </form>
-
-        <div class="image-container">
-        </div>
     </div>
 
-    <div class="tab-panel" id="content-tab2">
-        <div class="lore-content">
-            <div class="lore-content-image">
-                <img id="preview-poster" alt="Poster preview" />
-            </div>
-            <div id="preview-content-html" class="lore-content-text">
-            </div>
-        </div>
-
-
-        <div id="preview-content-html"></div>
-    </div>
-
-    <span asp-validation-for="Model" class="text-danger"></span>
+    <span asp-validation-for="@Model.Data" class="text-danger"></span>
     <button onclick="submitForm()">@Globals.Controls.Save</button>
 </div>
 
 <script>
-    function uploadFiles(inputId) {
-        var input = document.getElementById(inputId);
-        var files = input.files;
-        var formData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append("files", files[i]);
-        }
-
-        $.ajax(
-            {
-                url: "/Lore/Edit?handler=Images",
-                data: formData,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                    $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                processData: false,
-                contentType: false,
-                type: "POST",
-                success: function (data) {
-                    data.forEach(function(item){
-                        $(".image-container").append("<div class=\"image-container-content\"> <img src=\"" + item + "\"/> <i>"+item+"<i/></div>");
-                });
-                }
-            });
-    }
-
-    const converter = new showdown.Converter();
-
-    function onTitleChange(e)
-    {
-        $("#id-friendly").val(e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^\w\s]/g, "-"));
-    }
-
     function submitForm() {
-        createHtml();
-        document.getElementById("#main-form").submit();
+        var form = document.getElementById("#main-form");
+        form.submit();
     }
-
-    function createHtml() {
-        var html = converter.makeHtml($("#content").val());
-
-        $("#preview-poster").attr("src", $("#posterUrl").val() || "/images/placeholder/article.png");
-        $("#preview-title").html($("#title").val());
-        $("#preview-subtitle").html($("#subtitle").val());
-        $("#preview-division-code").html($("#division-code").val());
-        $("#content-html").val(html);
-
-        // Optimize string concatenation by using an array
-        var things = [];
-        var articles = html.split(/<hr\s*\/?>/);
-
-        articles.forEach(function(item) {
-            things.push("<div class=\"article-container\">" + item + "</div>");
-        });
-
-
-        $("#preview-content-html").html(things.join(""));
-    }
-
-    function switchTab(tabId, tabContentId) {
-        $(".tab-button").removeClass("tab-active");
-        $(".tab-panel").removeClass("tab-panel-active");
-
-        $("#" + tabId).addClass("tab-active");
-        $("#" + tabContentId).addClass("tab-panel-active");
-
-        if(tabId == "tab2") {
-            createHtml();
-        }
-    }
-
-    switchTab("tab1", "content-tab1");
 </script>

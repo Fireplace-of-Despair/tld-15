@@ -1,61 +1,40 @@
 ﻿@page
-@using ACherryPie.Pages
-@using Common.Composition
-@using Common.Utils
-@using TLD15.Pages.Shared.Components.BrandHeader
-@using TLD15.Pages.Shared.Components.NavigationAdmin
-@using TLD15.Pages.Shared.Components.NavigationGlobal
-@using TLD15.Pages.Shared.Components.NavigationLocal
-@using TLD15.Utils
+@using Composition;
+@using TLD15.Helpers
 @model IndexModel;
 
 @{
-    ViewData[Globals.Page.Title] = $"{IndexModel.MetaPublic.Title} | {Globals.Brand.Slogan}";
+    ViewData[Globals.Page.Title] = $"{IndexModel.Meta.Title} | {Globals.Brand.Slogan}";
     ViewData[Globals.Page.Description] = Globals.Brand.Description;
 
-    ViewData[Globals.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
-    ViewData[Globals.OpenGraph.Image] = $"{Model.Host}logo.png";
-    ViewData[Globals.OpenGraph.Locale] = Globals.Settings.Locale;
+    ViewData[Globals.Page.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;
+    ViewData[Globals.Page.OpenGraph.Image] = $"{Model.Host}logo.png";
+    ViewData[Globals.Page.OpenGraph.Locale] = Globals.Settings.Locale;
 
-    ViewData[Globals.Meta.LastModified] = new DateTime(2025, 03, 20, 0, 0, 0, DateTimeKind.Utc).ToString("yyyy-MM-dd");
-}
-
-@await Component.InvokeAsync(nameof(NavigationLocal), new List<MetaPartialPublic>()
-{
-    // { TLD15.Pages.Introduction.PreviewIntroductionPartialModel.Id, "Introduction" },
-    { TLD15.Pages.Lore.PreviewLoreModel.MetaPublic },
-    { TLD15.Pages.Articles.PreviewArticlesPartialModel.MetaPublic},
-    { TLD15.Pages.Projects.PreviewPartialModel.MetaPublic },
-    { TLD15.Pages.Social.PreviewSocialPartialModel.MetaPublic },
-    { TLD15.Pages.Contacts.PreviewContactsPartialModel.MetaPublic },
-})
-
-@* @{
-    await Html.RenderPartialAsync("/Pages/Introduction/PreviewIntroductionPartial.cshtml",
-        await TLD15.Pages.Introduction.PreviewIntroductionPartialModel.InitializeAsync(Model.Mediator));
-} *@
-
-@{
-    await Html.RenderPartialAsync("/Pages/Lore/PreviewLorePartial.cshtml",
-        await TLD15.Pages.Lore.PreviewLoreModel.InitializeAsync(Model.Mediator));
+    ViewData[Globals.Page.Meta.LastModified] = new DateTime(2025, 05, 20, 0, 0, 0, DateTimeKind.Utc).ToString("yyyy-MM-dd");
 }
 
 @{
-    await Html.RenderPartialAsync("/Pages/Articles/PreviewPartial.cshtml",
-        await TLD15.Pages.Articles.PreviewArticlesPartialModel.InitializeAsync(Model.Mediator));
+    await Html.RenderPartialAsync(TLD15.Pages.Lore.PreviewModel.Meta.Path,
+        await TLD15.Pages.Lore.PreviewModel.InitializeAsync(Model.ContextBusiness));
 }
 
 @{
-    await Html.RenderPartialAsync("/Pages/Projects/PreviewPartial.cshtml",
-        await TLD15.Pages.Projects.PreviewPartialModel.InitializeAsync(Model.Mediator));
+    await Html.RenderPartialAsync(TLD15.Pages.Articles.PreviewModel.Meta.Path,
+        await TLD15.Pages.Articles.PreviewModel.InitializeAsync(Model.ContextBusiness));
 }
 
 @{
-    await Html.RenderPartialAsync("/Pages/Social/PreviewSocialPartial.cshtml",
-        await TLD15.Pages.Social.PreviewSocialPartialModel.InitializeAsync(Model.Mediator));
+    await Html.RenderPartialAsync(TLD15.Pages.Projects.PreviewModel.Meta.Path,
+        await TLD15.Pages.Projects.PreviewModel.InitializeAsync(Model.ContextBusiness));
 }
 
 @{
-    await Html.RenderPartialAsync("/Pages/Contacts/PreviewContactsPartial.cshtml",
-        await TLD15.Pages.Contacts.PreviewContactsPartialModel.InitializeAsync(Model.Mediator));
+    await Html.RenderPartialAsync(TLD15.Pages.Social.PreviewModel.Meta.Path,
+        await TLD15.Pages.Social.PreviewModel.InitializeAsync(Model.ContextBusiness));
+}
+
+@{
+    await Html.RenderPartialAsync(TLD15.Pages.Contacts.PreviewModel.Meta.Path,
+        await TLD15.Pages.Contacts.PreviewModel.InitializeAsync(Model.ContextBusiness));
 }

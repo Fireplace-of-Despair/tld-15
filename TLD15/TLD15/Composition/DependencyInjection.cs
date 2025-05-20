@@ -1,27 +1,37 @@
-﻿using ACherryPie.Security;
-using Common.Composition;
-using Infrastructure.Entities;
+﻿using ApplePie.Security;
+using Infrastructure;
+using Infrastructure.Migrations;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+using Serilog;
+using System.IO;
 
 namespace TLD15.Composition;
 
 public static class DependencyInjection
 {
+    public static void ConfigureLogging()
+    {
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+    }
+
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddWebOptimizer(pipeline =>
-        {
-            pipeline.MinifyCssFiles();
-            pipeline.MinifyJsFiles();
-            pipeline.MinifyHtmlFiles();
-        });
+        //builder.Services.AddWebOptimizer(pipeline =>
+        //{
+        //    pipeline.MinifyCssFiles();
+        //    pipeline.MinifyJsFiles();
+        //    pipeline.MinifyHtmlFiles();
+        //});
 
         builder.Services.AddMemoryCache();
         builder.Services.AddScoped<IHashingService, HashingService>();
@@ -29,35 +39,15 @@ public static class DependencyInjection
         return builder;
     }
 
-    public static async Task<WebApplicationBuilder> ConfigureStorage(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder ConfigureStorage(this WebApplicationBuilder builder)
     {
-        var connectionMongo = builder.Configuration.GetSection(Globals.Configuration.Mongo).Get<string>()!;
+        var connectionString = builder.Configuration.GetSection(Globals.Configuration.Database).Get<string>()!;
 
-        builder.Services.AddSingleton<IMongoClient>(new MongoClient(connectionMongo));
+        builder.Services.AddDbContextPool<DataContextIdentity>(options => options.UseNpgsql(connectionString + ";MaxPoolSize=1"));
+        builder.Services.AddDbContextPool<DataContextReference>(options => options.UseNpgsql(connectionString + ";MaxPoolSize=1"));
+        builder.Services.AddDbContextPool<DataContextBusiness>(options => options.UseNpgsql(connectionString + ";MaxPoolSize=1"));
 
-        var types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes())
-            .Where(p =>
-                typeof(IEntityStored).IsAssignableFrom(p)
-                && p.IsClass);
-
-        using (var client = new MongoClient(connectionMongo))
-        {
-            foreach (var type in types)
-            {
-                var method = type.GetMethod("CreateIndexesAsync", BindingFlags.Public | BindingFlags.Static);
-
-                if (method != null)
-                {
-                    await (Task)method.Invoke(null, [client])!;
-                }
-                else
-                {
-                    throw new InvalidOperationException($"The type {type.FullName} does not have a static CreateIndexesAsync method.");
-                }
-            }
-        }
-
+        Migrator.Up(connectionString);
         return builder;
     }
 }

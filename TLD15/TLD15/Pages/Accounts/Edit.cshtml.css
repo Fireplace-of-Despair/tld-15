@@ -1,0 +1,10 @@
+﻿.wide-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid var(--brand-color-third);
+    padding: 5px;
+    text-align: left;
+}

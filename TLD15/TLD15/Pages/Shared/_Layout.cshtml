@@ -1,4 +1,4 @@
-﻿@using Common.Composition
+﻿@using TLD15.Composition
 @using TLD15.Pages.Shared.Components.BrandFooter
 @using TLD15.Pages.Shared.Components.BrandHeader
 @using TLD15.Pages.Shared.Components.CommonScrollToTop
@@ -7,22 +7,21 @@
 
 <!DOCTYPE html>
 <html lang="@Globals.Settings.Locale">
-<head prefix="og: https://ogp.me/ns#">
-
+<head>
     <!-- Meta Tags -->
     <meta charset="utf-8">
 
-    <meta name="@Globals.Meta.Language" content="@Globals.Settings.Locale">
-    <meta name="@Globals.Meta.Author" content="@Globals.Brand.Author">
-    <meta name="@Globals.Meta.Designer" content="@Globals.Brand.Designer">
-    <meta name="@Globals.Meta.Publisher" content="@Globals.Brand.Company">
-    <meta name="@Globals.Meta.Subtitle" content="@Globals.Brand.Slogan">
-    <meta name="@Globals.Meta.PageName" content="@ViewData[Globals.Page.Title]">
+    <meta name="@Globals.Page.Meta.Language" content="@Globals.Settings.Locale">
+    <meta name="@Globals.Page.Meta.Author" content="@Globals.Brand.Author">
+    <meta name="@Globals.Page.Meta.Designer" content="@Globals.Brand.Designer">
+    <meta name="@Globals.Page.Meta.Publisher" content="@Globals.Brand.Company">
+    <meta name="@Globals.Page.Meta.Subtitle" content="@Globals.Brand.Slogan">
+    <meta name="@Globals.Page.Meta.PageName" content="@ViewData[Globals.Page.Title]">
 
-    <meta http-equiv="@Globals.Meta.LastModified" content="@ViewData[Globals.Meta.LastModified]" />
+    <meta http-equiv="@Globals.Page.Meta.LastModified" content="@ViewData[Globals.Page.Meta.LastModified]" />
 
     <!-- Search Engine Optimization Meta Tags -->
-    <meta name="@Globals.Meta.Description" content="@ViewData[Globals.Page.Description]">
+    <meta name="@Globals.Page.Meta.Description" content="@ViewData[Globals.Page.Description]">
     <meta name="keywords" content="@Html.Raw(Globals.Brand.Keywords)">
     <meta name="copyright" content="@Globals.Brand.Title @Globals.Brand.Author">
     <meta name="revisit-after" content="7 days">
@@ -31,25 +30,25 @@
     <meta name="coverage" content="Worldwide">
     <meta name="distribution" content="Global">
     <meta name="rating" content="General">
-    <meta name="url" content="@ViewData[Globals.OpenGraph.Url]">
-    <meta name="identifier-URL" content="@ViewData[Globals.OpenGraph.Url]">
+    <meta name="url" content="@ViewData[Globals.Page.OpenGraph.Url]">
+    <meta name="identifier-URL" content="@ViewData[Globals.Page.OpenGraph.Url]">
 
     <!-- Open Graph -->
-    <meta property="@Globals.OpenGraph.Title" content="@ViewData[Globals.Page.Title]">
-    <meta property="@Globals.OpenGraph.Description" content="@ViewData[Globals.Page.Description]">
-    <meta property="@Globals.OpenGraph.Url" content="@ViewData[Globals.OpenGraph.Url]">
-    <meta property="@Globals.OpenGraph.Image" content="@ViewData[Globals.OpenGraph.Image]">
-    <meta property="@Globals.OpenGraph.Locale" content="@Globals.Settings.Locale">
-    <meta property="@Globals.OpenGraph.SiteName" content="@Globals.Brand.Title">
-    <meta property="@Globals.OpenGraph.Type" content="website">
-    <meta property="@Globals.OpenGraph.ArticleAuthor" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
+    <meta property="@Globals.Page.OpenGraph.Title" content="@ViewData[Globals.Page.Title]">
+    <meta property="@Globals.Page.OpenGraph.Description" content="@ViewData[Globals.Page.Description]">
+    <meta property="@Globals.Page.OpenGraph.Url" content="@ViewData[Globals.Page.OpenGraph.Url]">
+    <meta property="@Globals.Page.OpenGraph.Image" content="@ViewData[Globals.Page.OpenGraph.Image]">
+    <meta property="@Globals.Page.OpenGraph.Locale" content="@Globals.Settings.Locale">
+    <meta property="@Globals.Page.OpenGraph.SiteName" content="@Globals.Brand.Title">
+    <meta property="@Globals.Page.OpenGraph.Type" content="website">
+    <meta property="@Globals.Page.OpenGraph.ArticleAuthor" content="@ViewData[Globals.Page.OpenGraph.ArticleAuthor]">
 
     <!-- twitter cards-->
     <meta name="twitter:card" content="@ViewData[Globals.Page.Description]">
-    <meta name="twitter:url" content="@ViewData[Globals.OpenGraph.Url]">
+    <meta name="twitter:url" content="@ViewData[Globals.Page.OpenGraph.Url]">
     <meta name="twitter:title" content="@ViewData[Globals.Page.Title]">
     <meta name="twitter:description" content="@ViewData[Globals.Page.Description]">
-    <meta name="twitter:creator" content="@ViewData[Globals.OpenGraph.ArticleAuthor]">
+    <meta name="twitter:creator" content="@ViewData[Globals.Page.OpenGraph.ArticleAuthor]">
     <meta name="twitter:card" content="summary">
 
     <!-- mobile meta tags -->
@@ -70,26 +69,17 @@
     <link rel="stylesheet" href="~/TLD15.styles.css" asp-append-version="true">
 
     <!-- System -->
-    <link rel="canonical" href="@ViewData[Globals.OpenGraph.Url]" />
+    <link rel="canonical" href="@ViewData[Globals.Page.OpenGraph.Url]" />
 </head>
 <body>
     @await Component.InvokeAsync(nameof(BrandHeader))
-
-    @await Component.InvokeAsync(nameof(NavigationGlobal), new Dictionary<string, string>()
-    {
-        { IndexModel.MetaPublic.LocalUrl, Globals.Brand.Index },
-        { Press.ReadModel.MetaPublic.LocalUrl, Press.ReadModel.MetaPublic.Title },
-        { Projects.ArchiveModel.MetaPublic.LocalUrl, Projects.ArchiveModel.MetaPublic.Title },
-    })
-
+    @await Component.InvokeAsync(nameof(NavigationGlobal))
     @await Component.InvokeAsync(nameof(NavigationAdmin))
 
-    
     @RenderBody()
 
     @await Component.InvokeAsync(nameof(CommonScrollToTop))
     @await Component.InvokeAsync(nameof(BrandFooter))
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,13 +1,8 @@
 ﻿@model NavigationGlobal
 
-@if (Model.Links?.Any() == true)
-{
-    <div class="navigation-global-component-container">
-        @foreach (var item in Model.Links ?? [])
-        {
-            <a class="navigation-global-link @(ViewContext.RouteData.Values["page"]!.ToString() == item.Key ? "active" : "")"
-               asp-page="@item.Key"
-               rel="canonical">@item.Value</a>
-        }
-    </div>
-}
+<div class="navigation-global-component-container">
+@*     <a class="navigation-global-link 
+        @(ViewContext.RouteData.Values["page"]!.ToString() == item.Key ? "active" : "")"
+       asp-page="@item.Key"
+       rel="canonical">@item.Value</a> *@
+</div>

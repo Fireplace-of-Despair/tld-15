@@ -1,101 +1,11 @@
-﻿@page "{id?}"
-@Html.AntiForgeryToken()
-@using Common.Composition
+﻿@page
 @using System.Globalization
+@using TLD15.Composition
 @model TLD15.Pages.Projects.EditModel
 @{
-    ViewData[Globals.Page.Title] = $"EditArticleModel.FeatureName | {Globals.Brand.Title}";
+    ViewData[Globals.Page.Title] = $"{EditModel.Meta.Title} | {Globals.Brand.Title}";
 }
-
-<script src="~/js/showdown/showdown-2.1.0.min.js"></script>
-<script src="~/js/jquery/jquery-3.7.1.min.js"></script>
-
-<style>
-    .article-container {
-        margin-left: 5%;
-        margin-right: 5%;
-        padding: 15px;
-        margin-top: 15px;
-        text-align: center;
-        align-content: center;
-        background-color: var(--brand-color-first);
-        padding-bottom: 20px;
-    }
-
-    .article-container-poster-division {
-        position: absolute;
-        top: -1px;
-        left: -1px;
-        background-color: var(--color-background);
-        color: var(--brand-color-third);
-        border: 1px solid var(--brand-color-third);
-        width: 70px;
-        padding: 5px;
-        height: 20px;
-        font-size: 20px;
-        font-weight: 600;
-        text-align: center;
-    }
-
-    .article-container-poster-date {
-        position: absolute;
-        top: -1px;
-        right: -1px;
-        background-color: var(--color-background);
-        color: var(--brand-color-third);
-        border: 1px solid var(--brand-color-third);
-        width: 115px;
-        padding: 5px;
-        height: 20px;
-        font-size: 17px;
-        text-align: center;
-    }
-
-
-    .article-container-poster-container {
-        border: 1px solid var(--brand-color-third);
-        position: relative;
-        width: 100%;
-        height: 500px;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .article-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: grayscale(100%);
-        transition: filter 0.3s ease;
-    }
-
-        .article-container img:hover {
-            filter: grayscale(0%);
-        }
-
-    .article-container-poster-text-overlay {
-        position: absolute;
-        text-align: center;
-        color: var(--brand-color-third);
-        z-index: 1;
-    }
-
-    .article-container h1 {
-        font-size: 50px;
-        margin: 0;
-        padding: 10px;
-        background: var(--brand-color-first);
-    }
-
-    .article-container h2 {
-        font-size: 30px;
-        padding: 10px;
-        background: var(--brand-color-first);
-        margin-top: 10px;
-    }
-</style>
+<script src="~/js/jquery.min.js"></script>
 
 <div class="component-container">
     <div class="tabs">
@@ -105,48 +15,21 @@
 
     <div class="tab-panel tab-panel-active" id="content-tab1">
         <form class="article-edit" id="#main-form" method="post">
-            <input type="hidden" asp-for="@Model.Model.Id" />
-            <input type="hidden" asp-for="@Model.Model.Version" />
+            <input type="hidden" asp-for="@Model.Data.Version" />
 
-            <input id="id-friendly" type="text" asp-for="@Model.Model.IdFriendly" placeholder="Friendly Id">
-            <input id="title" type="text" asp-for="@Model.Model.Title" placeholder="Title">
-            <input id="subtitle" type="text" asp-for="@Model.Model.SubTitle" placeholder="SubTitle">
+            <input id="id" type="text" asp-for="@Model.Data.Id" placeholder="Id">
+            <input id="title" type="text" asp-for="@Model.Data.Title" placeholder="Title">
+            <input id="subtitle" type="text" asp-for="@Model.Data.SubTitle" placeholder="SubTitle">
 
-            <input id="posterUrl" type="text" asp-for="@Model.Model.PosterUrl" placeholder="PosterUrl">
-            <input id="posterAlt" type="text" asp-for="@Model.Model.PosterAlt" placeholder="PosterAlt">
+            <input id="posterUrl" type="text" asp-for="@Model.Data.PosterUrl" placeholder="PosterUrl">
+            <input id="posterAlt" type="text" asp-for="@Model.Data.PosterAlt" placeholder="PosterAlt">
 
-            <select id="division-code" asp-for="@Model.Model.DivisionCode" asp-items="@Model.Divisions"></select>
+            <select id="division-code" asp-for="@Model.Data.DivisionCode" asp-items="@Model.Divisions"></select>
 
-            <input id="content-html" type="hidden" asp-for="@Model.Model.ContentHtml" />
-            <textarea id="content" asp-for="@Model.Model.Content" placeholder="Content" cols="40" rows="5"></textarea>
-
-            <div id="links-container">
-                @for (int i = 0; i < Model.Links.Count; i++)
-                {
-                    <div class="link-item">
-                        <input type="text" name="Links[@i].Key" value="@Model.Links.ElementAt(i).Key" placeholder="Key" class="form-control link-key" />
-                        <input type="text" name="Links[@i].Value" value="@Model.Links.ElementAt(i).Value" placeholder="Value" class="form-control link-value" />
-                        <button type="button" class="remove-link btn btn-danger">Remove</button>
-                    </div>
-                }
-            </div>
-
-            <button type="button" id="add-link" class="btn btn-primary">Add Link</button>
-
-            <button type="button" id="add-link" class="btn btn-primary">Add Link</button>
-            <button type="submit" class="btn btn-success">Save Links</button>
-
-
-
+            <textarea id="content" asp-for="@Model.Data.ContentHtml" placeholder="Content" cols="40" rows="5"></textarea>
+            
+            <textarea id="links" asp-for="@Model.Data.Links" placeholder="" cols="40" rows="5"></textarea>
         </form>
-
-        <form id="form" class="article-edit" name="form" action="/uploader" enctype="multipart/form-data" method="post">
-            <h2>Uploads</h2>
-            <input id="files" name="files" type="file" size="1" multiple onchange="uploadFiles('files');" />
-        </form>
-
-        <div class="image-container">
-        </div>
     </div>
 
     <div class="tab-panel" id="content-tab2">
@@ -167,70 +50,12 @@
         <div id="preview-content-html"></div>
     </div>
 
-    <span asp-validation-for="Model" class="text-danger"></span>
-    <button onclick="submitForm()">
-        @(Model.Model.Id == null ? Globals.Controls.Create : Globals.Controls.Save)
-    </button>
+    <span asp-validation-for="Data" class="text-danger"></span>
+    <button onclick="submitForm()">@Globals.Controls.Save</button>
 </div>
 
 <script>
-        $(document).ready(function() {
-            var linkIndex = @Model.Links.Count
-
-            // Add new link
-            $('#add-link').click(function() {
-                const newLinkItem = $('<div class="link-item">')
-                    .append('<input type="text" name="Links[' + linkIndex + '].Key" placeholder="Key" class="form-control link-key" />')
-                    .append('<input type="text" name="Links[' + linkIndex + '].Value" placeholder="Value" class="form-control link-value" />')
-                    .append('<button type="button" class="remove-link btn btn-danger">Remove</button>');
-                $('#links-container').append(newLinkItem);
-                linkIndex++; // Increment the index for the next new field
-            });
-
-            // Remove link item
-            $('#links-container').on('click', '.remove-link', function() {
-                $(this).closest('.link-item').remove();
-            });
-        });
-
-    function uploadFiles(inputId) {
-        var input = document.getElementById(inputId);
-        var files = input.files;
-        var formData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append("files", files[i]);
-        }
-
-        $.ajax(
-            {
-                url: "/Projects/Edit?handler=Images",
-                data: formData,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                    $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                processData: false,
-                contentType: false,
-                type: "POST",
-                success: function (data) {
-                    data.forEach(function(item){
-                        $(".image-container").append("<div class=\"image-container-content\"> <img src=\"" + item + "\"/> <i>"+item+"<i/></div>");
-                });
-                }
-            });
-    }
-
-    const converter = new showdown.Converter();
-
-    function submitForm() {
-        createHtml();
-        document.getElementById("#main-form").submit();
-    }
-
     function createHtml() {
-        var html = converter.makeHtml($("#content").val());
-
         $("#preview-poster").attr("src", $("#posterUrl").val() || "/images/placeholder/article.png");
         $("#preview-title").html($("#title").val());
         $("#preview-subtitle").html($("#subtitle").val());
@@ -239,7 +64,7 @@
 
         // Optimize string concatenation by using an array
         var things = [];
-        var articles = html.split(/<hr\s*\/?>/);
+        var articles = $("#content").val().split(/<hr\s*\/?>/);
 
         articles.forEach(function(item) {
             things.push("<div class=\"article-container\">" + item + "</div>");
@@ -262,4 +87,8 @@
     }
 
     switchTab("tab1", "content-tab1");
+
+    function submitForm() {
+        document.getElementById("#main-form").submit();
+    }
 </script>

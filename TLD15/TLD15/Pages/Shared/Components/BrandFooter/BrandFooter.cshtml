@@ -1,12 +1,14 @@
-﻿<footer>
+﻿@using TLD15.Composition
+@using TLD15.Pages.Accounts
+<footer>
     <div class="footer-copiright">
-        @DateTime.UtcNow.Year © @Common.Composition.Globals.Brand.Title
+        @DateTime.UtcNow.Year © @Globals.Brand.Title
     </div>
-    
+
     <div>
         @if (User?.Identity?.IsAuthenticated == false)
         {
-            <a href="\Account\Login">
+            <a href="@LoginModel.Meta.LocalUrl">
                 <img loading="lazy" class="footer-image-link"
                      height="30" width="30"
                      src="\images\icons\key-icon.svg"

@@ -1,8 +1,8 @@
-﻿using Common.Composition;
-using Microsoft.AspNetCore.Antiforgery;
+﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using TLD15.Composition;
 
 namespace TLD15.TagHelpers;
 
@@ -21,24 +21,22 @@ public class AntiForgeryHeaderTagHelper(IAntiforgery antiforgery) : TagHelper
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        if (AntiForgery)
-        {
-            //X-Requested-With XMLHttpRequest
-            
-            var token = antiforgery.GetAndStoreTokens(ViewContext!.HttpContext).RequestToken;
-            var currentHeaderValue = output.Attributes["hx-headers"]?.Value.ToString();
-            var newHeaderValue = $"\"{Globals.Security.XSRFTOKEN}\": \"{token}\"";
+        if (!AntiForgery) { return; }
 
-            if (string.IsNullOrEmpty(currentHeaderValue))
-            {
-                output.Attributes.SetAttribute("hx-headers", newHeaderValue);
-            }
-            else
-            {
-                // Append the anti-forgery token to existing hx-headers
-                newHeaderValue = $"{currentHeaderValue}, {newHeaderValue}";
-                output.Attributes.SetAttribute("hx-headers", newHeaderValue);
-            }
+        //X-Requested-With XMLHttpRequest
+        var token = antiforgery.GetAndStoreTokens(ViewContext!.HttpContext).RequestToken;
+        var currentHeaderValue = output.Attributes["hx-headers"]?.Value.ToString();
+        var newHeaderValue = $"\"{Globals.Security.XSRFTOKEN}\": \"{token}\"";
+
+        if (string.IsNullOrEmpty(currentHeaderValue))
+        {
+            output.Attributes.SetAttribute("hx-headers", newHeaderValue);
+        }
+        else
+        {
+            // Append the anti-forgery token to existing hx-headers
+            newHeaderValue = $"{currentHeaderValue}, {newHeaderValue}";
+            output.Attributes.SetAttribute("hx-headers", newHeaderValue);
         }
     }
 }

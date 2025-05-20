@@ -1,51 +1,103 @@
-using ACherryPie.Feature;
-using ACherryPie.Incidents;
-using ACherryPie.Security;
-using Common.Composition;
-using MediatR;
+using ApplePie.Incidents;
+using ApplePie.Pages;
+using Infrastructure;
+using Infrastructure.Models.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using TLD15.Composition;
 
 namespace TLD15.Pages.Articles;
 
 [Authorize]
-public class EditArticleModel(IMediator mediator,
-    IWebHostEnvironment webHostEnvironment,
-    IHashingService hashingService,
-    IConfiguration configuration) : PageModel
+public class EditModel : PageModel, IPageAdmin
 {
-    public static string FeatureName => "Edit Article";
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
+    private readonly IConfiguration configuration;
+    private readonly DataContextBusiness contextBusiness;
+
+    public EditModel(DataContextBusiness contextBusiness, DataContextReference contextReference, IConfiguration configuration)
+    {
+        this.configuration = configuration;
+        this.contextBusiness = contextBusiness;
+
+        var tmp = contextReference.Divisions
+            .Include(x => x.Translations)
+            .Select(x => new
+            {
+                x.Id,
+                x.Translations
+                .First(t => t.LanguageId == Globals.Settings.Locale).Name
+            }).ToList();
+        Divisions = new SelectList(tmp, "Id", "Name");
+    }
+
+
+    public static MetaPage Meta => new()
+    {
+        Id = "articles-edit",
+        Title = "Edit Article",
+        LocalUrl = "/articles/edit",
+    };
+
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
+
+    public sealed class ResponseRead
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string SubTitle { get; set; } = string.Empty;
+        public string PosterUrl { get; set; } = string.Empty;
+        public string PosterAlt { get; set; } = string.Empty;
+        public string DivisionCode { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public string ContentHtml { get; set; } = string.Empty;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
+        public long Version { get; set; }
+    }
 
     [BindProperty]
-    public AFeatureArticle.ResponseRead Model { get; set; } = new();
+    public ResponseRead Model { get; set; } = new();
 
-    public SelectList Divisions { get; set; } = new SelectList(Globals.Brand.Divisions, "Key", "Value");
+    public SelectList? Divisions { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(Guid? id)
+    public async Task<IActionResult> OnGetAsync(string? id)
     {
         if (id == null)
         {
             return Page();
         }
 
-        var result = await FeatureRunner.Run(async () => await mediator.Send(new AFeatureArticle.RequestRead { Id = id.Value, IdFriendly = null }));
-        if (result.Incident != null)
-        {
-            ModelState.AddModelError("Model", result.Incident.Description);
-            return Page();
-        }
+        var result = await contextBusiness
+            .Projects
+            .Include(x => x.Translations)
+            .Where(x => x.Id == id)
+            .Select(x => new ResponseRead
+            {
+                Id = x.Id,
+                Title = x.Translations
+                    .First(t => t.LanguageId == Globals.Settings.Locale).Title,
+                SubTitle = x.Translations
+                    .First(t => t.LanguageId == Globals.Settings.Locale).Subtitle,
+                PosterUrl = x.PosterUrl,
+                PosterAlt = x.Translations
+                    .First(t => t.LanguageId == Globals.Settings.Locale).PosterAlt,
+                DivisionCode = x.DivisionId,
+                ContentHtml = x.Translations
+                    .First(t => t.LanguageId == Globals.Settings.Locale).ContentHtml,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt,
+                Version = x.Version
+            })
+            .FirstAsync();
 
-        Model = result.Data!;
+        Model = result;
         return Page();
     }
 
@@ -57,33 +109,37 @@ public class EditArticleModel(IMediator mediator,
             return Page();
         }
 
-        var result = await FeatureRunner.Run(async () => await mediator.Send(Model));
-        if (result.Incident != null)
+        var item = await contextBusiness.Articles
+            .Include(x => x.Translations)
+            .FirstOrDefaultAsync();
+
+        if (item == null)
         {
-            ModelState.AddModelError("Model", result.Incident.Description);
-            return Page();
+            item = new Article { Id = Model.Id };
+            item.Translations =
+            [
+                new ArticleTranslation
+                {
+                    Id = Guid.NewGuid(),
+                    ArticleId = item.Id,
+                    LanguageId = Globals.Settings.Locale
+                },
+            ];
+            await contextBusiness.AddAsync(item);
         }
 
-        return RedirectToPage(@"/Articles/Edit", new { id = result.Data!.Id });
-    }
+        item.DivisionId = Model.DivisionCode;
+        item.PosterUrl = Model.PosterUrl;
 
-    public async Task<IActionResult> OnPostImages(IList<IFormFile> files)
-    {
-        List<string> urls = [];
+        var defaultTranslation = item.Translations.First(x => x.LanguageId == Globals.Settings.Locale);
 
-        foreach (var file in files)
-        {
-            var hash = hashingService.Hash(file);
-            var extension = Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(webHostEnvironment.WebRootPath, "files", hash + extension);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+        defaultTranslation.Title = Model.Title;
+        defaultTranslation.Subtitle = Model.SubTitle;
+        defaultTranslation.PosterAlt = Model.PosterAlt;
+        defaultTranslation.ContentHtml = Model.ContentHtml;
 
-            urls.Add($"{ApplicationHost}files/{hash}{extension}");
-        }
+        await contextBusiness.SaveChangesAsync();
 
-        return new ObjectResult(urls);
+        return RedirectToPage(@"/Articles/Edit", new { id = item.Id });
     }
 }

@@ -20,10 +20,10 @@ body {
     background-color: var(--color-background);
     color: var(--brand-color-third);
     font-family: Georgia, serif;
-
     display: flex;
-	flex-direction: column;
-	align-items: center;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 20px);
 }
 
 html {
@@ -35,6 +35,7 @@ html {
     max-width: 90%;
     margin-top: 15px;
     padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);

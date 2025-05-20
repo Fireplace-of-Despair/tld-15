@@ -1,16 +1,17 @@
-using ACherryPie.Pages;
-using Common.Composition;
-using MediatR;
+using ApplePie.Pages;
+using Infrastructure;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using TLD15.Composition;
 
 namespace TLD15.Pages;
 
-public sealed class IndexModel(
-    IMediator mediator,
-    IConfiguration configuration) : PageModel, IPagePublic
+public class IndexModel(
+      IConfiguration configuration
+    , DataContextBusiness contextBusiness
+    ) : PageModel, IPagePublic
 {
-    public static MetaPagePublic MetaPublic => new()
+    public static MetaPage Meta => new()
     {
         Id = "index",
         Title = Globals.Brand.Company,
@@ -18,5 +19,6 @@ public sealed class IndexModel(
     };
 
     public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
-    public IMediator Mediator => mediator;
+
+    public DataContextBusiness ContextBusiness => contextBusiness;
 }

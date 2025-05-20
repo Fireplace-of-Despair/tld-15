@@ -1,90 +1,106 @@
-using ACherryPie.Feature;
-using ACherryPie.Incidents;
-using ACherryPie.Pages;
-using ACherryPie.Security;
-using Common.Composition;
-using MediatR;
+using ApplePie.Incidents;
+using ApplePie.Pages;
+using Infrastructure;
+using Infrastructure.Models.Business;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using TLD15.Composition;
 
 namespace TLD15.Pages.Lore;
 
 [Authorize]
-public class EditLoreModel(IMediator mediator,
-    IConfiguration configuration,
-    IWebHostEnvironment webHostEnvironment,
-    IHashingService hashingService) : PageModel, IPageAdmin
+public class EditModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPageAdmin
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
-
-    public static MetaData MetaData => new()
+    public static MetaPage Meta => new()
     {
-        Id = "Lore",
-        LocalUrl = "/lore/edit"
+        Id = "lore-edit",
+        Title = "Lore",
+        LocalUrl = "/lore/edit",
     };
 
-    [BindProperty]
-    public AFeatureLore.ResponseRead? Model { get; set; }
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
 
-    public async Task OnGetAsync()
+    public sealed class EditData
     {
-        var model = await mediator.Send(new AFeatureLore.RequestRead());
-        Model = model ?? new AFeatureLore.ResponseRead
-            {
-                Content = string.Empty,
-                Id = null,
-                ContentHtml = string.Empty,
-                CreatedAt = DateTime.UtcNow,
-                PosterAlt = string.Empty,
-                PosterUrl = string.Empty,
-                UpdatedAt = DateTime.Now,
-                Version = 0
-            };
+        public string Id { get; set; } = string.Empty;
+        public string Data { get; set; } = string.Empty;
+        public long Version { get; set; }
     }
+
+    [BindProperty]
+    public EditData Data { get; set; } = new EditData();
+
+    public async Task<IActionResult> OnGetAsync()
+    {
+        var lore = await contextBusiness.Contents
+            .AsNoTracking()
+            .Include(x => x.Translations)
+            .Select(x => new
+            {
+                Id = x.Id,
+                x.Translations.First(x => x.LanguageId == Globals.Settings.Locale).Data,
+                x.Version,
+            })
+            .FirstOrDefaultAsync(x => x.Id == Globals.Content.Lore.Id);
+
+        if (string.IsNullOrEmpty(lore?.Data))
+        {
+            Data = new EditData
+            {
+                Id = Globals.Content.Lore.Id,
+                Version = 0,
+                Data = string.Empty
+            };
+        }
+        else
+        {
+            Data = new EditData
+            {
+                Id = lore.Id,
+                Version = lore.Version,
+                Data = lore.Data
+            };
+        }
+
+        return Page();
+    }
+
 
     public async Task<IActionResult> OnPostAsync()
     {
+        var locale = Globals.Settings.Locale;
+
         if (!ModelState.IsValid)
         {
             ModelState.AddModelError("Model", IncidentCode.General.GetDescription());
             return Page();
         }
 
-        var result = await FeatureRunner.Run(async () => await mediator.Send(Model!));
-        if (result.Incident != null)
+        var item = await contextBusiness.Contents
+            .Include(x => x.Translations)
+            .FirstAsync(x => x.Id == Globals.Content.Lore.Id);
+
+        var translation = item.Translations.FirstOrDefault(x => x.LanguageId == locale);
+        if (translation == null)
         {
-            ModelState.AddModelError("Model", result.Incident.Description);
-            return Page();
-        }
-
-        return RedirectToPage("/Lore/Edit");
-    }
-
-    public async Task<IActionResult> OnPostImages(IList<IFormFile> files)
-    {
-        List<string> urls = [];
-
-        foreach (var file in files)
-        {
-            var hash = hashingService.Hash(file);
-            var extension = Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(webHostEnvironment.WebRootPath, "files", hash + extension);
-            await using (var stream = new FileStream(filePath, FileMode.Create))
+            translation = new ContentTranslation
             {
-                await file.CopyToAsync(stream);
-            }
-
-            urls.Add($"{ApplicationHost}files/{hash}{extension}");
+                Id = Guid.NewGuid(),
+                ContentId = item.Id,
+                LanguageId = locale,
+            };
+            await contextBusiness.AddAsync(translation);
         }
+        translation.Data = Data.Data;
 
-        return new ObjectResult(urls);
+        await contextBusiness.SaveChangesAsync();
+
+        return Page();
     }
 }

@@ -1,80 +1,106 @@
-using ACherryPie.Pages;
-using Common.Composition;
-using MediatR;
+using ApplePie.Incidents;
+using ApplePie.Pages;
+using Infrastructure;
+using Infrastructure.Models.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TLD15.Composition;
 
 namespace TLD15.Pages.Contacts;
 
 [Authorize]
-public class EditContactsModel(
-    IMediator mediator,
-    IConfiguration configuration) : PageModel, IPageAdmin
+public class EditModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPageAdmin
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
-    public List<AFeatureContacts.RequestEdit> Data { get; set; } = [];
-
-    public static MetaData MetaData => new()
+    public static MetaPage Meta => new()
     {
-        Id = "Contacts",
-        LocalUrl = "/contacts/edit"
+        Id = "contacts-edit",
+        Title = "Contacts",
+        LocalUrl = "/contacts/edit",
     };
 
-    public async Task OnGet()
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
+
+    public sealed class EditData
     {
-        Data = await mediator.Send(new AFeatureContacts.RequestView { Id = null });
+        public string Id { get; set; } = string.Empty;
+        public string Data { get; set; } = string.Empty;
+        public long Version { get; set; }
     }
 
-    public async Task<IActionResult> OnGetItem(Guid id)
+    [BindProperty]
+    public EditData Data { get; set; } = new EditData();
+
+    public async Task<IActionResult> OnGetAsync()
     {
-        var result = await mediator.Send(new AFeatureContacts.RequestView { Id = id });
-        var item = result[0];
-        
-        return Partial("_TableRow", item);
-    }
-    public async Task<IActionResult> OnGetEditItem(Guid id)
-    {
-        var result = await mediator.Send(new AFeatureContacts.RequestView { Id = id });
-        var item = result[0];
-        return Partial("_TableRowForm", item);
-    }
+        var contacts = await contextBusiness.Contents
+            .AsNoTracking()
+            .Include(x => x.Translations)
+            .Select(x => new
+            {
+                Id = x.Id,
+                x.Translations.First(x => x.LanguageId == Globals.Settings.Locale).Data,
+                x.Version,
+            })
+            .FirstOrDefaultAsync(x => x.Id == Globals.Content.Contacts.Id);
 
-    public async Task<IActionResult> OnPutItem(AFeatureContacts.RequestEdit contact)
-    {
-        await mediator.Send(contact);
-
-        return Partial("_TableRow", contact);
-    }
-
-    public async Task<IActionResult> OnDeleteItem(Guid id)
-    {
-        await mediator.Send(new AFeatureContacts.RequestDelete { Id = id } );
-
-        return new OkResult();
-    }
-
-    public async Task<IActionResult> OnPostItem(AFeatureContacts.RequestEdit contact)
-    {
-        await mediator.Send(contact);
-
-        return new OkResult();
-    }
-
-    public IActionResult OnGetModal()
-    {
-        return Partial("_ModalPartial", new AFeatureContacts.RequestEdit()
+        if (string.IsNullOrEmpty(contacts?.Data))
         {
-            Id = null,
-            Name = "NEW",
-            CreatedAt = DateTime.Now,            
-            UpdatedAt = DateTime.Now,
-            Url = string.Empty,
-            Version = 0
-        });
+            Data = new EditData
+            {
+                Id = Globals.Content.Contacts.Id,
+                Version = 0,
+                Data = Globals.Content.Contacts.Serialize(Globals.Content.Contacts.GetDefault())
+            };
+        }
+        else
+        {
+            Data = new EditData
+            {
+                Id = contacts.Id,
+                Version = contacts.Version,
+                Data = contacts.Data
+            };
+        }
+
+        return Page();
+    }
+
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var locale = Globals.Settings.Locale;
+
+        if (!ModelState.IsValid)
+        {
+            ModelState.AddModelError("Model", IncidentCode.General.GetDescription());
+            return Page();
+        }
+
+        var item = await contextBusiness.Contents
+            .Include(x => x.Translations)
+            .FirstAsync(x => x.Id == Globals.Content.Contacts.Id);
+
+        var translation = item.Translations.FirstOrDefault(x => x.LanguageId == locale);
+        if (translation == null)
+        {
+            translation = new ContentTranslation
+            {
+                Id = Guid.NewGuid(),
+                ContentId = item.Id,
+                LanguageId = locale,
+            };
+            await contextBusiness.AddAsync(translation);
+        }
+        translation.Data = Data.Data;
+
+        await contextBusiness.SaveChangesAsync();
+
+        return Page();
     }
 }

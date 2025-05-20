@@ -1,12 +1,12 @@
 ﻿@page
-@using Common.Composition
 @using System.Globalization
-
+@using TLD15.Composition
 @model TLD15.Pages.Projects.ManageModel
 
-<script src="~/js/jquery/jquery-3.7.1.min.js"></script>
+<script src="~/js/jquery.min.js"></script>
+
 <script>
-    function deleteProject(id) {
+    function deleteArticle(id) {
         $.ajax({
             method: 'POST',
             url: "/?handler=Delete&id="+id,
@@ -43,7 +43,7 @@
                         }
                     </a>
                     <div class="article-image-overlay-division"
-                         data-tooltip="@Globals.Brand.Divisions[article.Division]">
+                         data-tooltip="@article.DivisionName">
                         @article.Division.ToUpper()
                     </div>
 
@@ -61,10 +61,6 @@
                 </div>
 
                 <div class="button-container">
-                    <form method="get" asp-page="/Projects/Edit" asp-route-id="@article.Id">
-                        <button type="submit"> @(article.Id == null ? Globals.Controls.Create : Globals.Controls.Edit) </button>
-                    </form>
-
                     @if (article.Id != null)
                     {
                         <form method="post" asp-page-handler="Delete">

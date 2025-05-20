@@ -7,14 +7,15 @@
     display: flex;
     align-items: stretch;
 }
+
     ::deep .image-container-content i {
         vertical-align: middle;
         line-height: 150px;
     }
 
-    .tabs {
-        display: flex;
-    }
+.tabs {
+    display: flex;
+}
 
 /* Individual tab buttons */
 .tab-button {
@@ -42,6 +43,7 @@
 .tab-button:hover {
     background-color: var(--brand-color-third);
 }
+
 ::deep .article-edit {
     display: flex;
     flex-direction: column;

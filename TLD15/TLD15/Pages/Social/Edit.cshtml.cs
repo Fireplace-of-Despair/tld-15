@@ -1,79 +1,106 @@
-using ACherryPie.Pages;
-using Common.Composition;
-using MediatR;
+using ApplePie.Incidents;
+using ApplePie.Pages;
+using Infrastructure;
+using Infrastructure.Models.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TLD15.Composition;
 
 namespace TLD15.Pages.Social;
 
 [Authorize]
-public class EditModel(IMediator mediator,
-    IConfiguration configuration) : PageModel, IPageAdmin
+public class EditModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPageAdmin
 {
-    public readonly string ApplicationHost = configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
-    public List<ASocialFeature.RequestEdit> Data { get; set; } = [];
-
-    public static MetaData MetaData => new()
+    public static MetaPage Meta => new()
     {
-        Id = "Social",
-        LocalUrl = "/social/edit"
+        Id = "social-edit",
+        Title = "Social",
+        LocalUrl = "/social/edit",
     };
 
-    public async Task OnGet()
+    public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
+
+    public sealed class EditData
     {
-        Data = await mediator.Send(new ASocialFeature.RequestView { Id = null });
+        public string Id { get; set; } = string.Empty;
+        public string Data { get; set; } = string.Empty;
+        public long Version { get; set; }
     }
 
-    public async Task<IActionResult> OnGetItem(Guid id)
+    [BindProperty]
+    public EditData Data { get; set; } = new EditData();
+
+    public async Task<IActionResult> OnGetAsync()
     {
-        var result = await mediator.Send(new ASocialFeature.RequestView { Id = id });
-        var item = result[0];
-        
-        return Partial("_TableRow", item);
-    }
-    public async Task<IActionResult> OnGetEditItem(Guid id)
-    {
-        var result = await mediator.Send(new ASocialFeature.RequestView { Id = id });
-        var item = result[0];
-        return Partial("_TableRowForm", item);
-    }
+        var social = await contextBusiness.Contents
+            .AsNoTracking()
+            .Include(x => x.Translations)
+            .Select(x => new
+            {
+                Id = x.Id,
+                x.Translations.First(x => x.LanguageId == Globals.Settings.Locale).Data,
+                x.Version,
+            })
+            .FirstOrDefaultAsync(x => x.Id == Globals.Content.Social.Id);
 
-    public async Task<IActionResult> OnPutItem(ASocialFeature.RequestEdit contact)
-    {
-        await mediator.Send(contact);
-
-        return Partial("_TableRow", contact);
-    }
-
-    public async Task<IActionResult> OnDeleteItem(Guid id)
-    {
-        await mediator.Send(new ASocialFeature.RequestDelete { Id = id } );
-
-        return new OkResult();
-    }
-
-    public async Task<IActionResult> OnPostItem(ASocialFeature.RequestEdit contact)
-    {
-        await mediator.Send(contact);
-
-        return new OkResult();
-    }
-
-    public IActionResult OnGetModal()
-    {
-        return Partial("_ModalPartial", new ASocialFeature.RequestEdit()
+        if (string.IsNullOrEmpty(social?.Data))
         {
-            Id = null,
-            Name = "NEW",
-            CreatedAt = DateTime.Now,            
-            UpdatedAt = DateTime.Now,
-            Url = string.Empty,
-            Version = 0
-        });
+            Data = new EditData
+            {
+                Id = Globals.Content.Social.Id,
+                Version = 0,
+                Data = Globals.Content.Social.Serialize(Globals.Content.Social.GetDefault())
+            };
+        }
+        else
+        {
+            Data = new EditData
+            {
+                Id = social.Id,
+                Version = social.Version,
+                Data = social.Data
+            };
+        }
+
+        return Page();
+    }
+
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var locale = Globals.Settings.Locale;
+
+        if (!ModelState.IsValid)
+        {
+            ModelState.AddModelError("Model", IncidentCode.General.GetDescription());
+            return Page();
+        }
+
+        var item = await contextBusiness.Contents
+            .Include(x => x.Translations)
+            .FirstAsync(x => x.Id == Globals.Content.Social.Id);
+
+        var translation = item.Translations.FirstOrDefault(x => x.LanguageId == locale);
+        if (translation == null)
+        {
+            translation = new ContentTranslation
+            {
+                Id = Guid.NewGuid(),
+                ContentId = item.Id,
+                LanguageId = locale,
+            };
+            await contextBusiness.AddAsync(translation);
+        }
+        translation.Data = Data.Data;
+
+        await contextBusiness.SaveChangesAsync();
+
+        return Page();
     }
 }

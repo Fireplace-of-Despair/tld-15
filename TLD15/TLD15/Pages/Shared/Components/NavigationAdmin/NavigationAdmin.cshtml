@@ -4,11 +4,23 @@
 @if (User?.Identity?.IsAuthenticated == true)
 {
     <div class="navigation-admin-container">
-        @foreach (var item in Model.Urls ?? [])
-        {
-            <a class="navigation-admin-link" href="@item.Value">
-                @item.Key
-            </a>
-        }
+        <a class="navigation-admin-link" href="@TLD15.Pages.Articles.ManageModel.Meta.LocalUrl">
+            @TLD15.Pages.Articles.ManageModel.Meta.Title
+        </a>
+        <a class="navigation-admin-link" href="@TLD15.Pages.Projects.ManageModel.Meta.LocalUrl">
+            @TLD15.Pages.Projects.ManageModel.Meta.Title
+        </a>
+        <a class="navigation-admin-link" href="@TLD15.Pages.Lore.EditModel.Meta.LocalUrl">
+            @TLD15.Pages.Lore.EditModel.Meta.Title
+        </a>
+        <a class="navigation-admin-link" href="@TLD15.Pages.Social.EditModel.Meta.LocalUrl">
+            @TLD15.Pages.Social.EditModel.Meta.Title
+        </a>
+        <a class="navigation-admin-link" href="@TLD15.Pages.Contacts.EditModel.Meta.LocalUrl">
+            @TLD15.Pages.Contacts.EditModel.Meta.Title
+        </a>
+        <a class="navigation-admin-link" href="@TLD15.Pages.Accounts.EditModel.Meta.LocalUrl">
+            @TLD15.Pages.Accounts.EditModel.Meta.Title
+        </a>
     </div>
 }

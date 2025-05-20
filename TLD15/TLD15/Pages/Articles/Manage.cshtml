@@ -1,10 +1,10 @@
 ﻿@page
-@using Common.Composition
 @using System.Globalization
+@using TLD15.Composition
 
-@model TLD15.Pages.Articles.ManageArticlesModel
+@model TLD15.Pages.Articles.ManageModel
 
-<script src="~/js/jquery/jquery-3.7.1.min.js"></script>
+<script src="~/js/jquery.min.js"></script>
 
 <script>
     function deleteArticle(id) {
@@ -24,7 +24,6 @@
             }
         });
     };
-
 </script>
 
 <div class="manage-container">
@@ -45,8 +44,8 @@
                         }
                     </a>
                     <div class="article-image-overlay-division"
-                         data-tooltip="@Globals.Brand.Divisions[article.Division]">
-                        @article.Division.ToUpper()
+                         data-tooltip="@article.DivisionName">
+                        @article.DivisionId.ToUpper()
                     </div>
 
                     <div class="article-image-overlay-date">
@@ -63,11 +62,8 @@
                 </div>
 
                 <div class="button-container">
-                    <form method="get" asp-page="/Articles/Edit" asp-route-id="@article.Id">
-                        <button type="submit"> @(article.Id == null ? Globals.Controls.Create : Globals.Controls.Edit) </button>
-                    </form>
-
-                    @if (article.Id != null) {
+                    @if (article.Id != null)
+                    {
                         <form method="post" asp-page-handler="Delete">
                             <input type="hidden" name="id" value="@article.Id" />
                             <button type="submit">@Globals.Controls.Delete</button>
