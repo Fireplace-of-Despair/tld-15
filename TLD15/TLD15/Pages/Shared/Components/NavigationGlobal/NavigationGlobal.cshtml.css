@@ -9,7 +9,6 @@
 ::deep .navigation-global-link {
     display: inline-block;
     padding: 5px 10px;
-    border: 1px solid var(--brand-color-first);
     font-weight: 80;
     color: var(--brand-color-third);
     background: transparent;

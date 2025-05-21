@@ -4,7 +4,7 @@
 @model IndexModel;
 
 @{
-    ViewData[Globals.Page.Title] = $"{IndexModel.Meta.Title} | {Globals.Brand.Slogan}";
+    ViewData[Globals.Page.Title] = $"{Globals.Brand.Title} | {Globals.Brand.Slogan}";
     ViewData[Globals.Page.Description] = Globals.Brand.Description;
 
     ViewData[Globals.Page.OpenGraph.Url] = Model.Host.TrimLast('/') + ViewContext.HttpContext.Request.Path;

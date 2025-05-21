@@ -2,7 +2,6 @@
 using Infrastructure.Composition;
 using Infrastructure.Helpers;
 using System;
-using System.Data;
 
 namespace Infrastructure.Migrations.Versions;
 
@@ -13,7 +12,7 @@ public sealed class M200001010300InitBusiness : Migration
     {
         Create.Schema(SchemaName.Business);
 
-        //Content----------------------------------------------
+// Content----------------------------------------------
         Create.Table("content")
             .InSchema(SchemaName.Business)
             .WithColumn("id").AsString().PrimaryKey()
@@ -44,7 +43,9 @@ CREATE UNIQUE INDEX UX_content_translation
     ON {SchemaName.Business}.content_translation (content_id, language_id);
 ");
         this.AttachUpdateTrigger("content_translation", SchemaName.Business);
+// ----------------------------------------------
 
+// Default Content-------------------------------
         Insert.IntoTable("content")
             .InSchema(SchemaName.Business)
             .Row(new
@@ -72,9 +73,18 @@ CREATE UNIQUE INDEX UX_content_translation
                 updated_at = DateTimeOffset.UtcNow,
                 version = 0
             });
+        Insert.IntoTable("content")
+            .InSchema(SchemaName.Business)
+            .Row(new
+            {
+                id = "press",
+                created_at = DateTimeOffset.UtcNow,
+                updated_at = DateTimeOffset.UtcNow,
+                version = 0
+            });
+        // ----------------------------------------------
 
-        //------------------------------------------------------
-        
+        // Project----------------------------------------------
         Execute.Sql(@$"
     CREATE TABLE business.project (
         id VARCHAR(100) PRIMARY KEY,
@@ -90,6 +100,7 @@ CREATE UNIQUE INDEX UX_content_translation
     );
 ");
         this.AttachUpdateTrigger("project", SchemaName.Business);
+
         Execute.Sql(@$"
     CREATE TABLE business.project_translation (
         id UUID PRIMARY KEY,
@@ -110,12 +121,11 @@ CREATE UNIQUE INDEX UX_content_translation
     CREATE UNIQUE INDEX UX_project_translation
         ON business.project_translation (project_id, language_id);
 ");
-
-
         this.AttachUpdateTrigger("project_translation", SchemaName.Business);
 
-        // ------------------------------------------------------------------
+// ------------------------------------------------------------------
 
+// Article----------------------------------------------
         Execute.Sql(@$"
     CREATE TABLE business.article (
         id VARCHAR(100) PRIMARY KEY,
@@ -131,6 +141,7 @@ CREATE UNIQUE INDEX UX_content_translation
     );
 ");
         this.AttachUpdateTrigger("article", SchemaName.Business);
+
         Execute.Sql(@$"
     CREATE TABLE business.article_translation (
         id UUID PRIMARY KEY,
@@ -151,6 +162,9 @@ CREATE UNIQUE INDEX UX_content_translation
     CREATE UNIQUE INDEX UX_article_translation
         ON business.article_translation (article_id, language_id);
 ");
+        this.AttachUpdateTrigger("article_translation", SchemaName.Business);
+// ----------------------------------------------
+
     }
 
     public override void Down()

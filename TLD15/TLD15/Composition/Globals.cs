@@ -126,6 +126,7 @@ public static class Globals
                 };
             }
         }
+
         public static class Contacts
         {
             public static string Id => "contacts";
@@ -158,6 +159,42 @@ public static class Globals
                     { "github_", "%url%" },
                     { "amazon_en", "%url%" },
                 };
+            }
+        }
+
+        public static class Press
+        {
+            public static string Id => "press";
+            public static string Title => "Press";
+
+            public sealed record PressModel
+            {
+                public string Title { get; set; } = string.Empty;
+                public string Subtitle { get; set; } = string.Empty;
+
+                public string PosterUrl { get; set; } = string.Empty;
+                public string PosterAlt { get; set; } = string.Empty;
+                public DateTimeOffset PublishedAt { get; set; }
+            }
+
+            private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+
+            public static string Serialize(List<PressModel> data)
+            {
+                return JsonSerializer.Serialize(data, jsonSerializerOptions);
+            }
+
+            public static List<PressModel> Deserialize(string? text)
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    return [];
+                }
+
+                return JsonSerializer.Deserialize<List<PressModel>>(text!, jsonSerializerOptions) ?? [];
             }
         }
     }

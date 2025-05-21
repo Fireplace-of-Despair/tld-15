@@ -9,6 +9,6 @@ public class NavigationAdmin : ViewComponent
 
     public IViewComponentResult Invoke()
     {
-        return View(GetType().Name, new NavigationAdmin());
+        return View("NavigationAdmin", new NavigationAdmin());
     }
 }

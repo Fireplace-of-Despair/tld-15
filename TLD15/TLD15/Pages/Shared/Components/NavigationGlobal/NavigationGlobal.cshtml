@@ -1,8 +1,14 @@
-﻿@model NavigationGlobal
+﻿@using TLD15.Pages.Shared.Components.NavigationGlobal
+@model NavigationGlobal
 
 <div class="navigation-global-component-container">
-@*     <a class="navigation-global-link 
-        @(ViewContext.RouteData.Values["page"]!.ToString() == item.Key ? "active" : "")"
-       asp-page="@item.Key"
-       rel="canonical">@item.Value</a> *@
+    <a class="navigation-global-link 
+       @(ViewContext.RouteData.Values["page"]!.ToString() == IndexModel.Meta.LocalUrl ? "active" : "")"
+       asp-page="@IndexModel.Meta.LocalUrl"
+       rel="canonical">@IndexModel.Meta.Title</a>
+
+    <a class="navigation-global-link
+       @(ViewContext.RouteData.Values["page"]!.ToString() == Press.ReadModel.Meta.LocalUrl ? "active" : "")"
+       asp-page="@Press.ReadModel.Meta.LocalUrl"
+       rel="canonical">@Press.ReadModel.Meta.Title</a>
 </div>

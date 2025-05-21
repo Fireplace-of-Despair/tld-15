@@ -14,7 +14,7 @@ public class IndexModel(
     public static MetaPage Meta => new()
     {
         Id = "index",
-        Title = Globals.Brand.Company,
+        Title = "Home",
         LocalUrl = "/Index",
     };
 

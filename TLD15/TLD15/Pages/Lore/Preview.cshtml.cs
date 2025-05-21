@@ -30,7 +30,7 @@ public class PreviewModel : PageModel, IPartial
             var data = await contextBusiness
                 .Contents
                 .AsNoTracking()
-                .Where(contextBusiness => contextBusiness.Id == Globals.Content.Lore.Id)
+                .Where(x => x.Id == Globals.Content.Lore.Id)
                 .Select(x => new
                 {
                     x.Id,
