@@ -52,9 +52,6 @@ public static class Program
         builder.ConfigureServices();
         builder.ConfigureOptimizations();
 
-        // Add framework services.
-        builder.Services.AddControllersWithViews();
-
         var app = builder.Build();
 
         app.UseResponseCompression();
