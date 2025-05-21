@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using TLD15.Composition;
 using TLD15.Pages.Accounts;
+using WebMarkupMin.AspNetCoreLatest;
 
 namespace TLD15;
 
@@ -31,7 +32,9 @@ public static class Program
         builder.Services.AddRouting(options =>
         {
             options.LowercaseUrls = true;
+            options.LowercaseQueryStrings = true;
         });
+
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.Cookie.SameSite = SameSiteMode.Strict;
@@ -43,23 +46,26 @@ public static class Program
             options.SlidingExpiration = true;
             options.LogoutPath = "/Logout";
         });
-        //builder.Services.AddResponseCompression(options =>
-        //{
-        //    options.EnableForHttps = true;
-        //});
+        builder.Services.AddResponseCompression();
 
         builder.ConfigureStorage();
         builder.ConfigureServices();
+        builder.ConfigureOptimizations();
+
+        // Add framework services.
+        builder.Services.AddControllersWithViews();
 
         var app = builder.Build();
-        //app.UseWebOptimizer();
-        //app.UseResponseCompression();
+
+        app.UseResponseCompression();
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
         }
+
+        app.UseWebMarkupMin();
 
         app.UseStaticFiles();
         app.UseRouting();
