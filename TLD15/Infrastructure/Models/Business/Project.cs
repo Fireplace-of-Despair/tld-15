@@ -24,6 +24,7 @@ public sealed class Project : BaseModel
     [Column("links")]
     public string Links { get; set; } = string.Empty;
 
+    [ForeignKey(nameof(DivisionId))]
     public Division Division { get; set; } = null!;
 
     public ICollection<ProjectTranslation> Translations { get; set; } = [];

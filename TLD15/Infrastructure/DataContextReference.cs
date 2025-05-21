@@ -14,5 +14,8 @@ public sealed class DataContextReference(DbContextOptions<DataContextReference> 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema(SchemaName.Reference);
+
+        modelBuilder.Entity<DivisionTranslation>()
+            .HasIndex(at => new { at.DivisionId, at.LanguageId });
     }
 }

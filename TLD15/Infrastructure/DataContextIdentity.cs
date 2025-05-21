@@ -1,7 +1,6 @@
 ﻿using Infrastructure.Composition;
 using Infrastructure.Models.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
 
 namespace Infrastructure;
 /// <summary> Database context for identity-related operations. </summary>

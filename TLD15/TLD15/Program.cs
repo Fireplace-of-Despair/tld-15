@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,7 +18,6 @@ public static class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
         builder.Services.AddAntiforgery(o => o.HeaderName = Globals.Security.XSRFTOKEN);
         builder.Services.AddAuthentication
         (
@@ -63,7 +62,6 @@ public static class Program
         }
 
         app.UseStaticFiles();
-
         app.UseRouting();
 
         app.UseAuthentication();

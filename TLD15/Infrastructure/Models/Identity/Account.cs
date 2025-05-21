@@ -12,11 +12,14 @@ public sealed class Account : BaseModel
     public required Guid Id { get; set; }
 
     [Column("login")]
+    [Required]
     public string Login { get; set; } = string.Empty;
 
     [Column("password_hash")]
+    [Required]
     public string Password { get; set; } = string.Empty;
 
     [Column("password_salt")]
+    [Required]
     public string Salt { get; set; } = string.Empty;
 }

@@ -18,5 +18,17 @@ public sealed class DataContextBusiness(DbContextOptions<DataContextBusiness> op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema(SchemaName.Business);
+
+        modelBuilder.Entity<ContentTranslation>()
+            .HasIndex(ct => new { ct.ContentId, ct.LanguageId });
+
+        modelBuilder.Entity<ArticleTranslation>()
+            .HasIndex(at => new { at.ArticleId, at.LanguageId });
+
+        modelBuilder.Entity<ProjectTranslation>()
+            .HasIndex(at => new { at.ProjectId, at.LanguageId });
+
+        modelBuilder.Entity<Project>()
+            .HasIndex(p => p.DivisionId);
     }
 }
