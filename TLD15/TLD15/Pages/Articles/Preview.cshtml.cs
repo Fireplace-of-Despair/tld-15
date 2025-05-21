@@ -21,7 +21,7 @@ public class PreviewModel : PageModel, IPartial
         Path = "/Pages/Articles/Preview.cshtml",
     };
 
-    public sealed class PreviewData
+    public sealed record PreviewData
     {
         public required string? Id { get; set; }
         public string DivisionId { get; set; } = string.Empty;
