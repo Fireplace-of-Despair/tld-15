@@ -1,4 +1,5 @@
 ﻿@page
+@using ApplePie.Pages
 @using Composition;
 @using TLD15.Helpers
 @model IndexModel;
@@ -13,6 +14,14 @@
 
     ViewData[Globals.Page.Meta.LastModified] = new DateTime(2025, 05, 20, 0, 0, 0, DateTimeKind.Utc).ToString("yyyy-MM-dd");
 }
+@await Component.InvokeAsync("NavigationLocal", new List<MetaPartial>()
+{
+    { TLD15.Pages.Lore.PreviewModel.Meta },
+    { TLD15.Pages.Articles.PreviewModel.Meta },
+    { TLD15.Pages.Projects.PreviewModel.Meta },
+    { TLD15.Pages.Social.PreviewModel.Meta },
+    { TLD15.Pages.Contacts.PreviewModel.Meta },
+})
 
 @{
     await Html.RenderPartialAsync(TLD15.Pages.Lore.PreviewModel.Meta.Path,

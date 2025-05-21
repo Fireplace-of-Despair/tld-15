@@ -6,11 +6,11 @@ namespace TLD15.Pages.Shared.Components.NavigationLocal;
 
 public class NavigationLocal : ViewComponent
 {
-    public List<MetaPage> Metas { get; set; } = [];
+    public List<MetaPartial> Metas { get; set; } = [];
 
-    public IViewComponentResult Invoke(List<MetaPage> metas)
+    public IViewComponentResult Invoke(List<MetaPartial> metas)
     {
-        return View(GetType().Name, new NavigationLocal
+        return View("NavigationLocal", new NavigationLocal
         {
             Metas = metas,
         });
