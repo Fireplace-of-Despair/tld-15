@@ -6,6 +6,7 @@
     <ImplicitUsings>disabled</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <StartupObject>TLD15.Program</StartupObject>
+    <ErrorReport>none</ErrorReport>
   </PropertyGroup>
 
   <ItemGroup>

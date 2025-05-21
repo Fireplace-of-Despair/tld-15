@@ -146,5 +146,4 @@ public class LoginModel(
             throw new IncidentException(IncidentCode.LoginFailed);
         }
     }
-
 }

@@ -1,4 +1,5 @@
 ﻿using ApplePie.Incidents;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -65,10 +66,12 @@ public static class FeatureRunner
         }
         catch (IncidentException ex)
         {
+            Log.Error(ex, "An incident occurred: {Incident}", ex.Code.GetDescription());
             return Result<T>.Failure(ex.Code);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Log.Error(ex, "An error occurred: {Error}", ex.Message);
             return Result<T>.Failure(IncidentCode.General);
         }
     }
