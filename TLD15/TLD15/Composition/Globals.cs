@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace TLD15.Composition;
 
@@ -174,6 +175,7 @@ public static class Globals
 
                 public string PosterUrl { get; set; } = string.Empty;
                 public string PosterAlt { get; set; } = string.Empty;
+                public string Url { get; set; } = string.Empty;
                 public DateTimeOffset PublishedAt { get; set; }
             }
 
@@ -195,6 +197,24 @@ public static class Globals
                 }
 
                 return JsonSerializer.Deserialize<List<PressModel>>(text!, jsonSerializerOptions) ?? [];
+            }
+
+            public static string GetDefault()
+            {
+                var data = new List<PressModel>()
+                {
+                    new()
+                    {
+                        Title = "Title",
+                        Subtitle = "Subtitle",
+                        PosterUrl = "/images/press/1.jpg",
+                        PosterAlt = "Poster 1",
+                        Url = "https://example.com",
+                        PublishedAt = DateTimeOffset.UtcNow,
+                    },
+                };
+
+                return Serialize(data);
             }
         }
     }

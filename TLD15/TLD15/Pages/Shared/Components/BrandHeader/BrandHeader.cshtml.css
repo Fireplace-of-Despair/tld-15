@@ -2,7 +2,7 @@
     font-family: "Park Lane NF";
     padding-bottom: 5px;
     align-self: center;
-    min-width: 90%;
+    min-width: 100%;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);
     display: flex;

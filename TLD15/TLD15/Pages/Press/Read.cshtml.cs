@@ -71,6 +71,7 @@ public class ReadModel(DataContextBusiness contextBusiness,
                 PosterUrl = x.PosterUrl,
                 PosterAlt = x.PosterAlt,
                 PublishedAt = x.PublishedAt,
+                Url = x.Url,
             });
         }
 

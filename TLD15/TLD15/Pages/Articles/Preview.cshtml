@@ -18,7 +18,7 @@
             {
                 <div id="@article.Id" class="article-card">
                     <div class="article-image-container">
-                        <a asp-page="/Articles/Read" asp-route-idFriendly="@article.Id" rel="canonical">
+                        <a asp-page="@Articles.ReadModel.Meta.LocalUrl" asp-route-id="@article.Id" rel="canonical">
                             @if (string.IsNullOrEmpty(article.PosterUrl))
                             {
                                 <img class="article-image" loading="lazy"
@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <a asp-page="/Articles/Read" asp-route-idFriendly="@article.Id"
+                    <a asp-page="/Articles/Read" asp-route-id="@article.Id"
                        class="article-title" rel="canonical">
                         <b>@article.Title</b>
                     </a>

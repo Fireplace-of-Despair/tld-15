@@ -108,11 +108,11 @@ public sealed class EditModel : PageModel, IPagePrivate
 
         var item = await contextBusiness.Projects
             .Include(x => x.Translations)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(x => x.Id == Data.Id);
 
         if (item == null)
         {
-            item = new Project { Id = Data.Id };
+            item = new Project { Id = Data.Id.ToLower() };
             item.Translations =
             [
                 new ProjectTranslation

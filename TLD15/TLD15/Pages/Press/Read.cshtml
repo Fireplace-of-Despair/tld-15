@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/press"
 @using System.Globalization
 @using TLD15.Composition
 @using TLD15.Helpers
@@ -29,7 +29,7 @@
                     <div class="article-image-container">
                         <a href="@item.Url" target="_blank" rel="external">
                             <img class="article-image" loading="lazy"
-                                 src="/images/placeholder/article.png"
+                                 src="@item.PosterUrl"
                                  alt="@item.PosterAlt"
                                  aria-labelledby="@item.PosterAlt">
                         </a>

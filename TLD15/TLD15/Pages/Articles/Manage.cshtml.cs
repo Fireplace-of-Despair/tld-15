@@ -48,7 +48,7 @@ public class ManageModel(
     public async Task<IActionResult> OnGetAsync()
     {
         var locale = Globals.Settings.Locale;
-        var result = await contextBusiness.Projects
+        var result = await contextBusiness.Articles
             .Include(x => x.Translations)
             .Include(x => x.Division).ThenInclude(x => x!.Translations)
             .OrderBy(x => x.CreatedAt)
@@ -74,14 +74,17 @@ public class ManageModel(
             CreatedAt = DateTime.UtcNow,
         });
 
-        Data = result;
+        Data = result.OrderByDescending(x => x.CreatedAt).ToList();
         return Page();
     }
 
-    //public async Task<IActionResult> OnPostDelete(string id)
-    //{
-    //    await mediator.Send(new FeatureArticle.RequestDelete { Id = id });
+    public async Task<IActionResult> OnPostDelete(string id)
+    {
+        var result = await contextBusiness.Articles.FirstAsync(x => x.Id == id);
 
-    //    return RedirectToPage();
-    //}
+        contextBusiness.Articles.Remove(result);
+        await contextBusiness.SaveChangesAsync();
+
+        return RedirectToPage();
+    }
 }

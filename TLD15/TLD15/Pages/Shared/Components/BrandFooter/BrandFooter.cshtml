@@ -8,7 +8,7 @@
     <div>
         @if (User?.Identity?.IsAuthenticated == false)
         {
-            <a href="@LoginModel.Meta.LocalUrl">
+            <a asp-page="@LoginModel.Meta.LocalUrl">
                 <img loading="lazy" class="footer-image-link"
                      height="30" width="30"
                      src="\images\icons\key-icon.svg"

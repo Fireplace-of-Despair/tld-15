@@ -18,10 +18,9 @@
 
 <style>
     .component-container {
-        min-width: 90%;
-        max-width: 90%;
-        margin-top: 15px;
-        padding-top: 10px;
+        min-width: 85%;
+        max-width: 85%;
+        padding-top: 5px;
         background-color: var(--brand-color-first);
         color: var(--brand-color-third);
         display: flex;
@@ -37,6 +36,10 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+    }
+
+    .component-content p {
+        display: block;
     }
 
     .component-title {
@@ -247,12 +250,6 @@
         </div>
     </div>
 
-@*     @foreach (var item in Model.Model.GetContentHtmlSplitByHR())
-    { *@
-        <div class="component-container">
-            <section class="component-content">
-            @Html.Raw(Model.Data.ContentHtml)
-            </section>
-        </div>
-@*     } *@
+    @Html.Raw(Model.Data.ContentHtml)
+
 </article>

@@ -47,6 +47,7 @@ public class PreviewModel : PageModel, IPartial
                 .Include(x => x.Translations)
                 .Include(x => x.Division).ThenInclude(x => x.Translations)
                 .Where(x => x.DivisionId != Globals.Brand.Divisions.ACD)
+                .OrderByDescending(x => x.CreatedAt)
                 .Select(x => new PreviewData
                 {
                     Id = x.Id,

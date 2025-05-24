@@ -72,8 +72,9 @@ public sealed class PreviewModel : PageModel, IPartial
         }
         if (projects.Data != null)
         {
-            result.Data = projects.Data
-                .ConvertAll(x => new PreviewData
+            result.Data = [.. projects.Data
+                .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new PreviewData
                 {
                     Id = x.Id,
                     DivisionId = x.DivisionId,
@@ -84,7 +85,7 @@ public sealed class PreviewModel : PageModel, IPartial
                     PosterAlt = x.PosterAlt,
                     CreatedAt = x.CreatedAt,
                     Links = Project.LinksToDictionary(x.Links),
-                });
+                })];
         }
 
         return result;

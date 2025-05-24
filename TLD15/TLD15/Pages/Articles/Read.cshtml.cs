@@ -62,7 +62,7 @@ public sealed class ReadModel(
                 UpdatedAt = x.UpdatedAt,
                 Version = x.Version
             })
-            .FirstAsync(x => x.Id == id);
+            .FirstAsync(x => x.Id == id.ToLower());
 
         Data = result;
         return Page();

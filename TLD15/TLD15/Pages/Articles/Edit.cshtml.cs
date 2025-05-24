@@ -75,7 +75,7 @@ public class EditModel : PageModel, IPagePrivate
         }
 
         var result = await contextBusiness
-            .Projects
+            .Articles
             .Include(x => x.Translations)
             .Where(x => x.Id == id)
             .Select(x => new ResponseRead
@@ -111,11 +111,11 @@ public class EditModel : PageModel, IPagePrivate
 
         var item = await contextBusiness.Articles
             .Include(x => x.Translations)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(x => x.Id == Model.Id);
 
         if (item == null)
         {
-            item = new Article { Id = Model.Id };
+            item = new Article { Id = Model.Id.ToLower() };
             item.Translations =
             [
                 new ArticleTranslation

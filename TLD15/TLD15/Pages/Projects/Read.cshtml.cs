@@ -48,7 +48,7 @@ public class ReadModel(
 
         var item = await contextBusiness.Projects
             .Include(x => x.Translations)
-            .Where(x => x.Id == id)
+            .Where(x => x.Id == id.ToLower())
             .Select(x => new
             {
                 Id = x.Id,

@@ -1,7 +1,6 @@
 ﻿footer {
     height: 35px;
-    width: 90%;
-    min-width: 90%;
+    min-width: 100%;
     margin-top: 15px;
     background-color: var(--brand-color-first);
     color: var(--brand-color-third);

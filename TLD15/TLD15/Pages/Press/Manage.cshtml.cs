@@ -12,16 +12,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using TLD15.Composition;
 
-namespace TLD15.Pages.Lore;
+namespace TLD15.Pages.Press;
 
 [Authorize]
-public class EditModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPagePrivate
+public class ManageModel(DataContextBusiness contextBusiness, IConfiguration configuration) : PageModel, IPagePrivate
 {
     public static MetaPage Meta => new()
     {
-        Id = "lore-edit",
-        Title = "Lore",
-        LocalUrl = "/lore/edit",
+        Id = "press-manage",
+        Title = "Press",
+        LocalUrl = "/press/manage",
     };
 
     public string Host => configuration.GetSection(Globals.Configuration.ApplicationHost).Value!;
@@ -36,6 +36,7 @@ public class EditModel(DataContextBusiness contextBusiness, IConfiguration confi
     [BindProperty]
     public EditData Data { get; set; } = new EditData();
 
+
     public async Task<IActionResult> OnGetAsync()
     {
         var lore = await contextBusiness.Contents
@@ -47,15 +48,15 @@ public class EditModel(DataContextBusiness contextBusiness, IConfiguration confi
                 x.Translations.First(x => x.LanguageId == Globals.Settings.Locale).Data,
                 x.Version,
             })
-            .FirstOrDefaultAsync(x => x.Id == Globals.Content.Lore.Id);
+            .FirstOrDefaultAsync(x => x.Id == Globals.Content.Press.Id);
 
         if (string.IsNullOrEmpty(lore?.Data))
         {
             Data = new EditData
             {
-                Id = Globals.Content.Lore.Id,
+                Id = Globals.Content.Press.Id,
                 Version = 0,
-                Data = string.Empty
+                Data = Globals.Content.Press.GetDefault()
             };
         }
         else
@@ -83,7 +84,7 @@ public class EditModel(DataContextBusiness contextBusiness, IConfiguration confi
 
         var item = await contextBusiness.Contents
             .Include(x => x.Translations)
-            .FirstAsync(x => x.Id == Globals.Content.Lore.Id);
+            .FirstAsync(x => x.Id == Globals.Content.Press.Id);
 
         var translation = item.Translations.FirstOrDefault(x => x.LanguageId == locale);
         if (translation == null)

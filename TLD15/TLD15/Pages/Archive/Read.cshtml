@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/archive"
 @using System.Globalization
 @using TLD15.Composition
 @using TLD15.Helpers
@@ -18,6 +18,8 @@
     <h1 id="@ReadModel.Meta.Id" class="component-title">@ReadModel.Meta.Title</h1>
 </div>
 
+@{if (Model.Articles.Any())
+{
 <div class="component-container">
     <h2 id="@ReadModel.Meta.Id" class="component-title">@TLD15.Pages.Articles.PreviewModel.Meta.Title</h2>
     <div class="articles-container">
@@ -25,7 +27,7 @@
         {
             <div id="@article.Id" class="article-card">
                 <div class="article-image-container">
-                    <a asp-page="/Articles/Read" asp-route-idFriendly="@article.Id" rel="canonical">
+                    <a asp-page="/Articles/Read" asp-route-id="@article.Id" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))
                         {
                             <img class="article-image" loading="lazy"
@@ -51,7 +53,7 @@
                     </div>
                 </div>
 
-                <a asp-page="/Articles/Read" asp-route-idFriendly="@article.Id"
+                <a asp-page="/Articles/Read" asp-route-id="@article.Id"
                    class="article-title" rel="canonical">
                     <b>@article.Title</b>
                 </a>
@@ -63,7 +65,10 @@
         }
     </div>
 </div>
+}}
 
+@{if (Model.Projects.Any())
+    {
 <div class="component-container">
     <h2 id="@ReadModel.Meta.Id" class="component-title">@TLD15.Pages.Projects.PreviewModel.Meta.Title</h2>
     <div class="articles-container">
@@ -71,7 +76,7 @@
         {
             <div id="@article.Id" class="article-card">
                 <div class="article-image-container">
-                    <a asp-page="/Projects/Read" asp-route-idFriendly="@article.Id" rel="canonical">
+                    <a asp-page="/Projects/Read" asp-route-id="@article.Id" rel="canonical">
                         @if (string.IsNullOrEmpty(article.PosterUrl))
                         {
                             <img class="article-image" loading="lazy"
@@ -96,9 +101,8 @@
                         @article.CreatedAt.ToString(Globals.Settings.DateFormat, CultureInfo.InvariantCulture)
                     </div>
                 </div>
-
-                <a asp-page="/Projects/Read" asp-route-idFriendly="@article.Id"
-                   class="article-title" rel="canonical">
+                <a asp-page="/Projects/Read" asp-route-id="@article.Id" rel="canonical"
+                   class="article-title">
                     <b>@article.Title</b>
                 </a>
 
@@ -125,3 +129,4 @@
         }
     </div>
 </div>
+}}

@@ -1,3 +1,5 @@
+using ApplePie.Feature;
+using ApplePie.Incidents;
 using ApplePie.Pages;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -53,33 +55,48 @@ public class ManageModel : PageModel, IPagePrivate
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var locale = Globals.Settings.Locale;
-        var result = await contextBusiness.Projects
-            .Include(x => x.Translations)
-            .Include(x => x.Division).ThenInclude(x => x!.Translations)
-            .OrderBy(x => x.CreatedAt)
-            .Select(x => new Preview
-            {
-                Id = x.Id,
-                Title = x.Translations.First(tr => tr.LanguageId == locale).Title,
-                Subtitle = x.Translations.First(tr => tr.LanguageId == locale).Subtitle,
-                PosterUrl = x.PosterUrl,
-                PosterAlt = x.Translations.First(tr => tr.LanguageId == locale).PosterAlt,
-                Division = x.DivisionId,
-                DivisionName = x.Division!.Translations.First(tr => tr.LanguageId == locale).Name,
-                CreatedAt = x.CreatedAt,
-            })
-            .ToListAsync();
-
-        result.Add(new Preview
+        var projects = await FeatureRunner.Run(async () =>
         {
-            Id = null,
-            Title = "NEW",
-            Division = "FOD",
-            DivisionName = "FOD",
-            CreatedAt = DateTime.UtcNow,
+            var locale = Globals.Settings.Locale;
+            return await contextBusiness.Projects
+                .Include(x => x.Translations)
+                .Include(x => x.Division).ThenInclude(x => x!.Translations)
+                .OrderByDescending(x => x.CreatedAt)
+                .Select(x => new Preview
+                {
+                    Id = x.Id,
+                    Title = x.Translations.First(tr => tr.LanguageId == locale).Title,
+                    Subtitle = x.Translations.First(tr => tr.LanguageId == locale).Subtitle,
+                    PosterUrl = x.PosterUrl,
+                    PosterAlt = x.Translations.First(tr => tr.LanguageId == locale).PosterAlt,
+                    Division = x.DivisionId,
+                    DivisionName = x.Division!.Translations.First(tr => tr.LanguageId == locale).Name,
+                    CreatedAt = x.CreatedAt,
+                })
+                .ToListAsync();
         });
-        this.Data = result;
+
+
+        if (projects.Incident != null)
+        {
+            ModelState.AddModelError(Meta.Id, projects.Incident.Value.GetDescription());
+        }
+        if (projects.Data != null)
+        {
+            projects.Data.Add(new Preview
+            {
+                Id = null,
+                Title = "NEW",
+                Division = "FOD",
+                DivisionName = "FOD",
+                CreatedAt = DateTime.UtcNow,
+            });
+
+            Data = [..
+                projects.Data
+                    .OrderByDescending(x => x.CreatedAt)
+            ];
+        }
 
         return Page();
     }
