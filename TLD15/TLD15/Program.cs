@@ -29,6 +29,7 @@ public static class Program
 
         // Add services to the container.
         builder.Services.AddRazorPages();
+        builder.Services.AddControllersWithViews();
         builder.Services.AddRouting(options =>
         {
             options.LowercaseUrls = true;
@@ -69,6 +70,14 @@ public static class Program
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "RssController",
+            pattern: "{controller=RssController}/{action=rss}");
+
+        app.MapControllerRoute(
+            name: "PingController",
+            pattern: "{controller=PingController}/{action=ping}");
 
         app.MapRazorPages();
 

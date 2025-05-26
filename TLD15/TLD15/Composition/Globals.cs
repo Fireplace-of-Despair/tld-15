@@ -14,7 +14,7 @@ public static class Globals
         public static string Title => "Fireplace Of Despair";
         public static string Company => "Fireplace Of Despair";
         public static string Slogan => "Suffering builds";
-        public static string Description => "“Fireplace of Despair” is a creation of Master Stan “Chief” Shevtsov. The place where suffering builds. You know where I am going with it.";
+        public static string Description => "“Fireplace of Despair” is a creation of Stan “Chief” Shevtsov. The place where suffering builds. You know where I am going with it.";
         public static string Keywords => "Master Stan, Fireplace of Despair, Shevtsov Stan, Chief, スタン, シェフツォフ, スタニスラフ";
 
         public static class Divisions

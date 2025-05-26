@@ -15,6 +15,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.5" />
     <PackageReference Include="WebMarkupMin.AspNetCoreLatest" Version="2.19.0" />
   </ItemGroup>
 
