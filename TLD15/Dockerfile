@@ -3,8 +3,7 @@ WORKDIR /app
 
 WORKDIR /src
 COPY ["TLD15/TLD15.csproj", "./TLD15/"]
-COPY ["ACherryPie/ACherryPie.csproj", "./ACherryPie/"]
-COPY ["Common/Common.csproj", "./Common/"]
+COPY ["ApplePie/ApplePie.csproj", "./ApplePie/"]
 COPY ["Infrastructure/Infrastructure.csproj", "./Infrastructure/"]
 
 RUN dotnet restore "TLD15/TLD15.csproj"
