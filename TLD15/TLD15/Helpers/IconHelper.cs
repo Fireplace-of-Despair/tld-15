@@ -35,6 +35,7 @@ public static class IconHelper
             "steam" => "/images/icons/steam.svg",
             "telegram" => "/images/icons/telegram.svg",
             "youtube" => "/images/icons/youtube.svg",
+            "rss" => "/images/icons/rss.svg",
 
             _ => "/images/icons/default.svg",
         };
