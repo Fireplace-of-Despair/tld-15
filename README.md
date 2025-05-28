@@ -1,6 +1,8 @@
 # TLD-15
-Basic personal website.
+## Personal Website
 
-# Tech
-- [Razor Pages](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/)
-- [.Net 9.0](https://dotnet.microsoft.com/download)
+A personal website built with [C#](https://learn.microsoft.com/en-us/dotnet/csharp/), [.Net Core](https://dotnet.microsoft.com/en-us/download) [Razor Pages](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/), [Entity Framework](https://learn.microsoft.com/en-us/ef/) and using [PostgreSQL](https://www.postgresql.org/) as database.
+
+This website serves as a portfolio to showcase projects, articles and display contact information.
+
+It also supports RSS feeds for article updates.
